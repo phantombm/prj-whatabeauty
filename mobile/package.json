@@ -1,0 +1,30 @@
+{
+  "name": "prj-react-native-seed",
+  "version": "0.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "expo": "^18.0.4",
+    "prop-types": "^15.5.10",
+    "react": "16.0.0-alpha.12",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-18.0.1.tar.gz",
+    "react-native-app-intro": "^1.1.5",
+    "react-native-drawer": "^2.3.0",
+    "react-native-global-props": "^1.1.1",
+    "react-native-meteor": "1.0.6",
+    "react-native-router-flux": "^3.41.0",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.2",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "jest": "^20.0.4",
+    "jest-expo": "^18.0.0",
+    "react-test-renderer": "16.0.0-alpha.12"
+  }
+}

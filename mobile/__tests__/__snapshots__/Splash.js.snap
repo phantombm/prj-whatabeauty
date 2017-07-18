@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 7,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <Image
+      source={1}
+      style={
+        Object {
+          "opacity": 0,
+          "transform": Array [
+            Object {
+              "translateY": 30,
+            },
+          ],
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "flex": 3,
+      }
+    }
+  />
+</View>
+`;
