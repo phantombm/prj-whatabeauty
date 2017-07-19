@@ -1,15 +1,26 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
+import { Constants } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import { Actions } from 'react-native-router-flux'
 import Meteor, { createContainer } from 'react-native-meteor';
+import PropTypes from 'prop-types';
 
 import Header from '../components/Header';
 
 class Links extends Component {
+  static propTypes = {
+    isLinksReady: PropTypes.bool.isRequired,
+    links: PropTypes.array.isRequired
+  };
+
+  keyExtractor = (item) => {
+    return item._id;
+  };
+
   renderItem = ({ item }) => {
     return (
-      <View key={ item._id } style={{ marginTop: 15, marginLeft: 15 }}>
+      <View key={item._id} style={{ marginTop: 15, marginLeft: 15 }}>
         <View>
           <Text>{ item.title }</Text>
         </View>
@@ -23,26 +34,15 @@ class Links extends Component {
     );
   };
 
-  keyExtractor = (item) => {
-    return item._id;
-  };
-
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <View style={{ height: Constants.statusBarHeight }} />
         <View style={{ flex: 1 }}>
-          <Header
-            title="ToDoList"
-            onPressIcon={ Actions.pop }
-            icon={ <Ionicons name="md-arrow-back" size={ 32 } /> }
-          />
+          <Header title="links" onPressIcon={Actions.pop} icon={<Ionicons name="md-arrow-back" size={32} />} />
         </View>
         <View style={{ flex: 10 }}>
-          { this.props.isLinksReady && <FlatList
-            data={ this.props.links }
-            renderItem={ this.renderItem }
-            keyExtractor={this.keyExtractor}
-          /> }
+          { this.props.isLinksReady && <FlatList data={this.props.links} renderItem={this.renderItem} keyExtractor={this.keyExtractor} /> }
         </View>
       </View>
     );

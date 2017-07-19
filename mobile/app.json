@@ -8,11 +8,11 @@
     "primaryColor": "#ffffff",
     "icon": "./assets/images/app_icon.png",
     "notification": {
-      "icon": "./assets/images/app_icon.png",
+      "icon": "./assets/images/splash.png",
       "color": "#ffffff"
     },
     "loading": {
-      "icon": "./assets/images/app_icon.png",
+      "icon": "./assets/images/splash.png",
       "hideExponentText": true
     },
     "packagerOpts": {

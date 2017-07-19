@@ -163,22 +163,58 @@ findingPassword
 
 ### DB Schema
 
-#### users
+#### users.profile collection
 ```
 {
-  email: [
-    {
-      email: String,
-      verified: Boolean
-    }
-  ],
-  password: String,
-  profile: {
-    name: String,
-    cellPhoneNumber: String,
-    addresses: [String],
-    isSsam: Boolean,
-    
+  name: String,
+  cellPhoneNumber: String,
+  addresses: [addressSchema],
+  servicesOfUser: [servicesOfUserSchema],
+  isAdministrator: Boolean,
+  isSsam: Boolean,
+  region: String,
+  career: Number
+}
+```
+
+#### address schema
+```
+{
+  address: String,
+  detail: String
+}
+```
+
+#### servicesOfUser schema
+```
+{
+  ssam: ssamSchema,
+  service: serviceDefinitionsSchema,
+  relatedServices: [serviceDefinitionsSchema],
+  quantity: Number,
+  price: Number,
+  address: addressSchema,
+  progress: {
+    type: String,
+    allowedValues: [
+      'not paid',
+      'reserved',
+      'refunded',
+      'completed'
+    ]
   }
+}
+```
+
+#### serviceDefinitions collection / schema
+```
+{
+  type: String,
+  name: String,
+  detail: String,
+  imageUrl: String,
+  galleryImageUrls: [String],
+  price: Number,
+  relatedService: [serviceDefinitionsSchema]
 }
 ```

@@ -5,16 +5,16 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default class Header extends Component {
   static propTypes = {
-    onPressIcon: PropTypes.func,
+    onPressIcon: PropTypes.func.isRequired,
     icon: PropTypes.element,
-    title: PropTypes.string
+    title: PropTypes.string.isRequired
   };
 
   static defaultProps = {
-    icon: <Ionicons name="md-menu" size={ 32 } />
+    icon: <Ionicons name="md-menu" size={32} />
   };
 
-  // TODO: this 'add' method is for testing jest unit test
+  // TODO: this 'add' method is for jest unit test
   add = (a, b) => {
     return a + b;
   };
@@ -23,22 +23,14 @@ export default class Header extends Component {
     return (
       <View style={{ flex: 1, flexDirection: 'row' }}>
         <View style={{ flex: 1 }}>
-          <TouchableWithoutFeedback onPress={ this.props.onPressIcon }>
-            <View style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>{ this.props.icon }</View>
+          <TouchableWithoutFeedback onPress={this.props.onPressIcon}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>{ this.props.icon }</View>
           </TouchableWithoutFeedback>
         </View>
-        <View style={{
-          flex: 4,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}>
+        <View style={{ flex: 4, alignItems: 'center', justifyContent: 'center' }}>
           <Text>{ this.props.title }</Text>
         </View>
-        <View style={{ flex: 1 }}></View>
+        <View style={{ flex: 1 }} />
       </View>
     );
   }

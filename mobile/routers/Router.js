@@ -10,30 +10,12 @@ export default class _Router extends Component {
     return (
       <Router>
         <Scene key="root">
-          <Scene
-            key="tutorialRouter"
-            initial
-            hideNavBar
-          >
-            <Scene
-              key="tutorial"
-              component={ Tutorial }
-              title="tutorial"
-            />
+          <Scene key="tutorialRouter" initial hideNavBar>
+            <Scene key="tutorial" component={Tutorial} title="tutorial" />
           </Scene>
           <Scene key="mainRouter" hideNavBar>
-            <Scene
-              key="main"
-              component={ Main }
-              title="main"
-              panHandlers={ null }
-            />
-            <Scene
-              key="links"
-              component={ Links }
-              title="Links"
-              panHandlers={ null }
-            />
+            <Scene key="main" component={Main} title="main" panHandlers={null} />
+            <Scene key="links" component={Links} title="Links" panHandlers={null} />
           </Scene>
         </Scene>
       </Router>

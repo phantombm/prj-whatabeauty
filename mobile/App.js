@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import Meteor from 'react-native-meteor';
-import { Constants, Asset, Font } from 'expo';
+import { Asset, Font } from 'expo';
 import { setCustomText, setCustomTextInput } from 'react-native-global-props';
 
 import Splash from './scenes/Splash';
@@ -29,14 +29,14 @@ export default class Application extends Component {
             isApplicationReady: true
           });
 
-          this.refs.splash.disappearSpalshImage();
+          this.splashRef.disappearSpalshImage();
         }
       }, 500);
     }, 2000); // TODO: minimum loading time
 
     // TODO: assets to preload
     const assets = [
-      require('./assets/images/tutorial_prototype.png')
+      require('./assets/images/tutorial_1.png')
     ];
 
     for (let asset of assets) {
@@ -44,14 +44,9 @@ export default class Application extends Component {
     }
 
     // TODO: global initializations
-    await Font.loadAsync({
-      'spoqa_han_sans_regular': require('./assets/fonts/spoqa_han_sans/spoqa_han_sans_regular.ttf'),
-      'Arial': require('./assets/fonts/spoqa_han_sans/spoqa_han_sans_regular.ttf')
-    });
-
     setCustomText({
       style: {
-        fontFamily: 'spoqa_han_sans_regular'
+        fontFamily: Platform.OS == 'ios' ? 'Apple SD Gothic Neo' : 'sans-serif'
       }
     });
 
@@ -59,7 +54,7 @@ export default class Application extends Component {
       underlineColorAndroid: 'transparent'
     });
 
-    // TODO: set ddp server ip
+    // TODO: ddp server ip
     Meteor.connect('ws://192.168.0.36:3000/websocket');
 
     this.setState({
@@ -77,16 +72,13 @@ export default class Application extends Component {
   render() {
     if (!this.state.isLoadingAssetsDone || !this.state.isApplicationReady || this.state.isSplashImageDisappearing || !this.state.isSplashImageDisappeared) {
       return (
-        <Splash ref="splash" endLoading={ this.endLoading }/>
+        <Splash ref={(ref) => { this.splashRef = ref; }} endLoading={this.endLoading} />
       );
     }
 
     return (
       <View style={{ flex: 1 }}>
-        <View style={{ height: Constants.statusBarHeight }}></View>
-        <View style={{ flex: 1 }}>
-          <Router />
-        </View>
+        <Router />
       </View>
     );
   }

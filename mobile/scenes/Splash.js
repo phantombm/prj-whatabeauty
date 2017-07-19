@@ -1,20 +1,11 @@
 import React, { Component } from 'react';
-import { View, Image, Animated } from 'react-native';
+import { View, Animated } from 'react-native';
 import PropTypes from 'prop-types';
 
 export default class Splash extends Component {
   static propTypes = {
-    endLoading: PropTypes.func
+    endLoading: PropTypes.func.isRequired
   };
-
-  animatedValue = new Animated.Value(0);
-
-  animatedOpacity = new Animated.Value(0);
-
-  animatedTranslateY = this.animatedValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [30, 0]
-  });
 
   componentDidMount() {
     setTimeout(() => {
@@ -37,6 +28,15 @@ export default class Splash extends Component {
     }, 500);
   }
 
+  animatedValue = new Animated.Value(0);
+
+  animatedOpacity = new Animated.Value(0);
+
+  animatedTranslateY = this.animatedValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: [30, 0]
+  });
+
   disappearSpalshImage = () => {
     Animated.timing(
       this.animatedOpacity,
@@ -54,14 +54,10 @@ export default class Splash extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <View style={{
-          flex: 7,
-          alignItems: 'center',
-          justifyContent: 'center'
-        }} >
-          <Animated.Image source={ require('../assets/images/splash_image.png') } style={{ opacity: this.animatedOpacity, transform: [{ translateY: this.animatedTranslateY }] }} />
+        <View style={{ flex: 7, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fd614d' }}>
+          <Animated.Image source={require('../assets/images/splash.png')} style={{ opacity: this.animatedOpacity, transform: [{ translateY: this.animatedTranslateY }] }} />
         </View>
-        <View style={{ flex: 3 }} />
+        <View style={{ flex: 3, backgroundColor: '#fd614d' }} />
       </View>
     );
   }
