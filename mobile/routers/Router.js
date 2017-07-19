@@ -3,7 +3,8 @@ import { Router, Scene } from 'react-native-router-flux';
 
 import Main from '../scenes/Main';
 import Links from '../scenes/Links';
-import Tutorial from '../scenes/Tutorial';
+// import Tutorial from '../scenes/Tutorial';
+import Tutorial2 from '../scenes/Tutorial2';
 
 export default class _Router extends Component {
   render() {
@@ -11,7 +12,7 @@ export default class _Router extends Component {
       <Router>
         <Scene key="root">
           <Scene key="tutorialRouter" initial hideNavBar>
-            <Scene key="tutorial" component={Tutorial} title="tutorial" />
+            <Scene key="tutorial" component={Tutorial2} title="tutorial" />
           </Scene>
           <Scene key="mainRouter" hideNavBar>
             <Scene key="main" component={Main} title="main" panHandlers={null} />
