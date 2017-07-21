@@ -1,72 +1,54 @@
 import React, { Component } from 'react';
 import { StyleSheet, Image, View, Text } from 'react-native';
-import AppIntro from 'react-native-app-intro';
 import { Actions } from 'react-native-router-flux'
 
-const styles = StyleSheet.create({
-  slide: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#9dd6eb',
-    padding: 15
+import Tutorial from '../components/Tutorial';
+
+const styleSheet = StyleSheet.create({
+  title: {
+    fontSize: 18,
+    color: '#3c4f5e'
   },
-  text: {
-    color: '#000000',
-    fontSize: 30,
-    fontWeight: 'bold'
-  },
+  description: {
+    fontSize: 12,
+    color: '#3c4f5e',
+    textAlign: 'center',
+    lineHeight: 19
+  }
 });
 
-export default class Tutorial extends Component {
+export default class _Tutorial extends Component {
   render() {
     return (
-      <AppIntro onDoneBtnClick={Actions.mainRouter} onSkipBtnClick={Actions.mainRouter} doneBtnLabel="완료" skipBtnLabel="건너뛰기">
-        <View style={[styles.slide, { backgroundColor: '#fd614d' }]}>
-          <View level={10}>
-            <Image source={require('../assets/images/tutorial_1.png')} />
-          </View>
-          <View level={10}>
-            <Text style={styles.text}>Page 1</Text>
-          </View>
-          <View level={15}>
-            <Text style={styles.text}>Page 1</Text>
-          </View>
+      <Tutorial onClickSkip={Actions.mainRouter}>
+        <View>
+          <Image source={require('../assets/images/tutorial_1.png')} />
+          <Text style={styleSheet.title}>찾아가는 서비스</Text>
+          <Text style={styleSheet.description}>
+            아름답고싶은것은 본능입니다.{'\n'}
+            편안한 장소, 원하는 시간에{'\n'}
+            찾아가는 뷰티서비스를 만나보세요.
+          </Text>
         </View>
-        <View style={[styles.slide, { backgroundColor: '#fd614d' }]}>
-          <View level={-10}>
-            <Image source={require('../assets/images/tutorial_1.png')} />
-          </View>
-          <View level={5}>
-            <Text style={styles.text}>Page 2</Text>
-          </View>
-          <View level={20}>
-            <Text style={styles.text}>Page 2</Text>
-          </View>
+        <View>
+          <Image source={require('../assets/images/tutorial_2.png')} />
+          <Text style={styleSheet.title}>특별해지고 싶은 날</Text>
+          <Text style={styleSheet.description}>
+            아름답고싶은것은 본능입니다.{'\n'}
+            편안한 장소, 원하는 시간에{'\n'}
+            찾아가는 뷰티서비스를 만나보세요.
+          </Text>
         </View>
-        <View style={[styles.slide, { backgroundColor: '#fd614d' }]}>
-          <View level={8}>
-            <Image source={require('../assets/images/tutorial_1.png')} />
-          </View>
-          <View level={0}>
-            <Text style={styles.text}>Page 3</Text>
-          </View>
-          <View level={-10}>
-            <Text style={styles.text}>Page 3</Text>
-          </View>
+        <View>
+          <Image source={require('../assets/images/tutorial_3.png')} />
+          <Text style={styleSheet.title}>전문가의 손길</Text>
+          <Text style={styleSheet.description}>
+            아름답고싶은것은 본능입니다.{'\n'}
+            편안한 장소, 원하는 시간에{'\n'}
+            찾아가는 뷰티서비스를 만나보세요.
+          </Text>
         </View>
-        <View style={[styles.slide, { backgroundColor: '#fd614d' }]}>
-          <View level={5}>
-            <Image source={require('../assets/images/tutorial_1.png')} />
-          </View>
-          <View level={10}>
-            <Text style={styles.text}>Page 4</Text>
-          </View>
-          <View level={15}>
-            <Text style={styles.text}>Page 4</Text>
-          </View>
-        </View>
-      </AppIntro>
+      </Tutorial>
     );
   }
 }

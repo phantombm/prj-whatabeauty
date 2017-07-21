@@ -36,7 +36,9 @@ export default class Application extends Component {
 
     // TODO: assets to preload
     const assets = [
-      require('./assets/images/tutorial_1.png')
+      require('./assets/images/tutorial_1.png'),
+      require('./assets/images/tutorial_2.png'),
+      require('./assets/images/tutorial_3.png')
     ];
 
     for (let asset of assets) {
