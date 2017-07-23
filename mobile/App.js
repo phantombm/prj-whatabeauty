@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { View, Platform } from 'react-native';
 import Meteor from 'react-native-meteor';
-import { Asset, Font } from 'expo';
+import { Asset } from 'expo';
 import { setCustomText, setCustomTextInput } from 'react-native-global-props';
 
 import Splash from './scenes/Splash';
 import Router from './routers/Router';
+import './initialization/initialization';
 
 export default class Application extends Component {
   state = {
@@ -55,6 +56,8 @@ export default class Application extends Component {
     setCustomTextInput({
       underlineColorAndroid: 'transparent'
     });
+
+    require('./initialization/initialization');
 
     // TODO: ddp server ip
     Meteor.connect('ws://192.168.0.36:3000/websocket');

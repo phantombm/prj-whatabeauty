@@ -1,36 +1,54 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableWithoutFeedback } from 'react-native';
 import PropTypes from 'prop-types';
-import { Ionicons } from '@expo/vector-icons';
 
 export default class Header extends Component {
   static propTypes = {
-    onPressIcon: PropTypes.func.isRequired,
-    icon: PropTypes.element,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string,
+    titleColor: PropTypes.string,
+    leftIcon: PropTypes.element,
+    onPressLeftIcon: PropTypes.func,
+    rightIcon: PropTypes.element,
+    onPressRightIcon: PropTypes.func,
+    backgroundColor: PropTypes.string
   };
 
   static defaultProps = {
-    icon: <Ionicons name="md-menu" size={32} />
-  };
-
-  // TODO: this 'add' method is for jest unit test
-  add = (a, b) => {
-    return a + b;
+    title: '',
+    titleColor: '#000000',
+    leftIcon: null,
+    onPressLeftIcon: null,
+    rightIcon: null,
+    onPressRightIcon: null,
+    backgroundColor: '#ffffff'
   };
 
   render() {
     return (
-      <View style={{ flex: 1, flexDirection: 'row' }}>
+      <View style={{ flex: 1, flexDirection: 'row', backgroundColor: this.props.backgroundColor }}>
         <View style={{ flex: 1 }}>
-          <TouchableWithoutFeedback onPress={this.props.onPressIcon}>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>{ this.props.icon }</View>
-          </TouchableWithoutFeedback>
+          { this.props.leftIcon &&
+            <TouchableWithoutFeedback onPress={this.props.onPressLeftIcon}>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                { this.props.leftIcon }
+              </View>
+            </TouchableWithoutFeedback>
+          }
         </View>
         <View style={{ flex: 4, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>{ this.props.title }</Text>
+          <Text style={{ fontSize: 18, color: this.props.titleColor }}>
+            { this.props.title }
+          </Text>
         </View>
-        <View style={{ flex: 1 }} />
+        <View style={{ flex: 1 }}>
+          { this.props.rightIcon &&
+            <TouchableWithoutFeedback onPress={this.props.onPressRightIcon}>
+              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                { this.props.rightIcon }
+              </View>
+            </TouchableWithoutFeedback>
+          }
+        </View>
       </View>
     );
   }

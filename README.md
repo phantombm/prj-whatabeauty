@@ -50,90 +50,91 @@ export default class MyComponent extends Compoent {
 ### Router Keys
 ```
 tutorial
-signIn:
-  signInWithEmail:
-    verificationForCellPhoneNumberWithSms(repeated)
-    enteringName(repeated)
+signIn
+  signInWithEmail
   signInWithKakaotalk:
-    verificationForCellPhoneNumberWithSms(repeated)
-    enteringName(repeated)
+    verificationForCellPhoneNumberWithSms(repeated)(:type)
+    enteringName(repeated)(:type)
   signInWithFacebook:
-    verificationForCellPhoneNumberWithSms(repeated)
-    enteringName(repeated)
+    verificationForCellPhoneNumberWithSms(repeated)(:type)
+    enteringName(repeated)(:type)
   signInWithGoogle:
-    verificationForCellPhoneNumberWithSms(repeated)
-    enteringName(repeated)
-  drawerMenu:
-    main:
-      reservations(virtual):
-        reservationDetail:
-          writingReview
-      reservationsOfSsam(virtual):
-        reservationDetailOfSsam:
-          updatingDateTime
-      serviceTypes(virtual):
-        services:
-          serviceDetail:
-            selectingServiceQuantity
-            reserving:
-              selectingServiceQuantity(repeated)
-              selectingAddress:
-                addingAddress(virtual):
-                  enteringAddress
-                  enteringAddressDetail
-              selectingDateTime
-              writingRequest
-            ssamsAvailable:
-              ssamDetail:
-                ssamPortfolio(holded)
-            reservationSummary
-            payment
-      brands(virtual):
-        brandDetail:
-          chat(repeated)
-      chat
-    reservationHistory:
-      reservationDetail(repeated):
-        writingReview(repeated)
-    notices
-    faqs
-    sharingWithFriends
-    settings:
-      terms
-      privacyStatement
-    account:
-      updatingInformation
-      updatingAddress(virtual):
-        enteringAddressDetail(repeated)
-        enteringAddress(repeated)
-      addingAddress(virtual):
-        enteringAddress(repeated)
-        enteringAddressDetail(repeated)
-      changingPassword
-      deletingAccount
-    applyingForSsam:
-      chat(repeated)
-    menuForSsam:
-      noticesForSsam
-      belonging(holded)
-      ssamInformation:
-        ssamPortfolio(hold, repeated)
-        complainingReview
-        updatingSsamInformation
-      reservationHistoryOfSsam:
-        reservationDetailOfSsam(repeated):
-          updatingDateTime(repeated)
-      balancingMoney:
-        balancingMoneyDetail
-        standardTableForBalancingMoney
-        updatingBankAccount
-      schedule
-  notifications
+    verificationForCellPhoneNumberWithSms(repeated)(:type)
+    enteringName(repeated)(:type)
 signUp(virtual):
-  verificationForCellPhoneNumberWithSms
-  enteringEmailAndPassword
-  enteringName
-findingPassword
+  verificationForCellPhoneNumberWithSms(:type)
+  enteringEmailAndPassword(:type, :cellphoneNumber)
+  enteringName(:type, :cellphoneNumber, :email, :password)
+recoveringPassword
+main
+  reservations(virtual)
+    reservation(:id)
+      writingReview(:id)
+  reservationsOfSsam(virtual)
+    reservationOfSsam(:id)
+      changingDateTime(:id)
+  serviceTypes(virtual)
+    services(:id)
+      service(:id)
+        selectingServiceQuantity(:id)
+          reserving(:id, :quantity)
+            selectingServiceQuantity(repeated)
+            selectingAddress
+              addingAddress(virtual)
+                enteringAddress
+                enteringAddressDetail
+            selectingDateTime
+            writingRequest
+            
+            ssams
+              ssam(:id)
+                portfolio(:id)
+                
+                reservationSummary
+                payment
+  brands(virtual)
+    brand(:id)
+      chat(repeated)
+  chat
+  reservations
+    reservation(repeated)(:id)
+      writingReview(repeated)
+  notices
+    notice(:id)
+  faqs
+  sharing
+  settings
+    terms
+    privacyStatement
+  account
+    updatingInformation
+    updateAddress(virtual)
+      enteringAddress(repeated)
+        enteringAddressDetail(repeated)
+    addingAddress(virtual)
+      enteringAddress(repeated)
+        enteringAddressDetail(repeated)
+    changingPassword
+    deletingAccount
+  applyingForSsam
+    chat(repeated)
+  menuForSsam
+    noticesForSsam
+      notice(repeated)(:id)
+    belonging
+    ssamInformation
+    portfolio(repeated)
+    complainingReview
+    updatingSsamInformation
+    reservationsOfSsam
+      reservationOfSsam(repeated)(:id)
+        changingDateTime(repeated)
+    balancingMoney:
+      balancingMoneyDetail
+      standardTableForBalancingMoney
+      updatingBankAccount
+    schedule
+  notifications
 ```
 
 ### Routing Table For Administrator App
@@ -185,7 +186,7 @@ findingPassword
 }
 ```
 
-#### servicesOfUser schema
+#### services schema
 ```
 {
   ssam: ssamSchema,
