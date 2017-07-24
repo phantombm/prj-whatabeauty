@@ -12,7 +12,7 @@ export default class Main extends Component {
       <Drawer ref={(ref) => { this.drawerRef = ref; }}>
         <View style={{ flex: 1 }}>
           <View style={{ height: Constants.statusBarHeight }} />
-          <View style={{ flex: 48 }}>
+          <View style={{ flex: 1 }}>
             <Header
               title="main"
               leftIcon={<Ionicons name="ios-menu" color="#1d1d1b" size={32} />}
@@ -20,7 +20,7 @@ export default class Main extends Component {
               rightIcon={<SimpleLineIcons name="bell" color="#1d1d1b" size={26} />}
             />
           </View>
-          <View style={{ flex: 500 }}>
+          <View style={{ flex: 10 }}>
 
           </View>
         </View>

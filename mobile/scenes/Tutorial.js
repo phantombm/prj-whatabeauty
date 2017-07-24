@@ -7,11 +7,13 @@ import Tutorial from '../components/Tutorial';
 const styleSheet = StyleSheet.create({
   title: {
     fontSize: 18,
-    color: '#3c4f5e'
+    color: '#3c4f5e',
+    backgroundColor: 'transparent'
   },
   description: {
     fontSize: 12,
     color: '#3c4f5e',
+    backgroundColor: 'transparent',
     textAlign: 'center',
     lineHeight: 19
   }

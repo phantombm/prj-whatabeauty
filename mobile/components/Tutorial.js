@@ -6,33 +6,19 @@ import PropTypes from 'prop-types';
 export default class Tutorial extends Component {
   static propTypes = {
     children: PropTypes.array.isRequired,
-    backgroundColor: PropTypes.string.isRequired,
-    onPressSkip: PropTypes.func.isRequired
+    backgroundColor: PropTypes.string,
+    onPressSkip: PropTypes.func
+  };
+
+  static defaultProps = {
+    backgroundColor: '#c5c5c5',
+    onPressSkip: () => {}
   };
 
   state = {
     pageCount: this.props.children.length,
     width: Dimensions.get('window').width,
     isLastPage: false
-  };
-
-  onScrollScrollView = () => {
-    const animatedValue = this.animatedValue.__getValue();
-
-    if (/\./.test(animatedValue + '')) {
-      return;
-    }
-
-    if (animatedValue == this.state.pageCount - 1) {
-      this.setState({
-        isLastPage: true
-      });
-    }
-    else {
-      this.setState({
-        isLastPage: false
-      });
-    }
   };
 
   animatedScrollX = new Animated.Value(0);
@@ -76,6 +62,7 @@ export default class Tutorial extends Component {
     });
 
     return (
+
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         { page.props.children[0] }
         <Animated.View style={{ position: 'absolute', transform: [{ translateX: animatedPageTitleTranslateX }, { translateY: 75 }] }}>
@@ -108,13 +95,32 @@ export default class Tutorial extends Component {
     );
   };
 
+  onScrollScrollView = (event) => {
+    const animatedValue = this.animatedValue.__getValue();
+
+    if (/\./.test(animatedValue + '')) {
+      return;
+    }
+
+    if (animatedValue == this.state.pageCount - 1) {
+      this.setState({
+        isLastPage: true
+      });
+    }
+    else {
+      this.setState({
+        isLastPage: false
+      });
+    }
+  };
+
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: this.props.backgroundColor }}>
         <View style={{ height: Constants.statusBarHeight }} />
         <View style={{ flex: 1, paddingVertical: 30 }}>
           <View style={{ flex: 450 }}>
-            <ScrollView showsHorizontalScrollIndicator={false} horizontal pagingEnabled onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: this.animatedScrollX } } }], { listener: this.onScrollScrollView })}>
+            <ScrollView showsHorizontalScrollIndicator={false} horizontal pagingEnabled onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: this.animatedScrollX } } }], { listener: this.onScrollScrollView })} scrollEventThrottle={1}>
               { this.renderPages() }
             </ScrollView>
           </View>

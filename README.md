@@ -47,22 +47,54 @@ export default class MyComponent extends Compoent {
 }
 ```
 
+### Components
+#### Header
+##### propTypes
+- title: PropTypes.string
+- titleColor: PropTypes.string
+- leftIcon: PropTypes.element
+- onPressLeftIcon: PropTypes.func
+- rightIcon: PropTypes.element
+- onPressRightIcon: PropTypes.func
+- backgroundColor: PropTypes.string
+
+##### defaultProps
+- title: ''
+- titleColor: '#000000'
+- leftIcon: null
+- onPressLeftIcon: null
+- rightIcon: null
+- onPressRightIcon: null
+- backgroundColor: '#ffffff'
+
+#### Button
+##### propTypes
+- children: PropTypes.element.isRequired
+- onPress: PropTypes.func.isRequired
+- buttonStyle: PropTypes.object
+- textStyle: PropTypes.object
+
+##### defaultProps
+- buttonStyle: {}
+- textStyle: {}
+
+
 ### Router Keys
 ```
 tutorial
 signIn
   signInWithEmail
   signInWithKakaotalk:
-    verificationForCellPhoneNumberWithSms(repeated)(:type)
+    verificationForPhoneNumberWithSms(repeated)(:type)
     enteringName(repeated)(:type)
   signInWithFacebook:
-    verificationForCellPhoneNumberWithSms(repeated)(:type)
+    verificationForPhoneNumberWithSms(repeated)(:type)
     enteringName(repeated)(:type)
   signInWithGoogle:
-    verificationForCellPhoneNumberWithSms(repeated)(:type)
+    verificationForPhoneNumberWithSms(repeated)(:type)
     enteringName(repeated)(:type)
 signUp(virtual):
-  verificationForCellPhoneNumberWithSms(:type)
+  verificationForPhoneNumberWithSms(:type)
   enteringEmailAndPassword(:type, :cellphoneNumber)
   enteringName(:type, :cellphoneNumber, :email, :password)
 recoveringPassword

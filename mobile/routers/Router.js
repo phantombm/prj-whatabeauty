@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Router, Scene } from 'react-native-router-flux';
 
 import Main from '../scenes/Main';
-import Links from '../scenes/Links';
 import Tutorial from '../scenes/Tutorial';
+import SignIn from '../scenes/SignIn';
+import verificationForPhoneNumberWithSms from '../scenes/verificationForPhoneNumberWithSms';
+import enteringEmailAndPassword from '../scenes/enteringEmailAndPassword';
 
 export default class _Router extends Component {
   render() {
@@ -14,8 +16,10 @@ export default class _Router extends Component {
             <Scene key="tutorial" component={Tutorial} />
           </Scene>
           <Scene key="mainRouter" hideNavBar>
+            <Scene key="signIn" component={SignIn} panHandlers={null} />
+            <Scene key="verificationForPhoneNumberWithSms" component={verificationForPhoneNumberWithSms} panHandlers={null} />
+            <Scene key="enteringEmailAndPassword" component={enteringEmailAndPassword} panHandlers={null} />
             <Scene key="main" component={Main} panHandlers={null} />
-            <Scene key="links" component={Links} panHandlers={null} />
           </Scene>
         </Scene>
       </Router>

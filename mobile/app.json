@@ -5,7 +5,7 @@
     "sdkVersion": "19.0.0",
     "version": "0.0.0",
     "orientation": "portrait",
-    "primaryColor": "#ffffff",
+    "primaryColor": "#fd614d",
     "icon": "./assets/images/app_icon.png",
     "notification": {
       "icon": "./assets/images/splash.png",
