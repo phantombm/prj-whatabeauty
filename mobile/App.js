@@ -60,7 +60,7 @@ export default class Application extends Component {
     require('./initialization/initialization');
 
     // TODO: ddp server ip
-    Meteor.connect('ws://192.168.0.36:3000/websocket');
+    Meteor.connect('ws://221.167.202.216:3000/websocket');
 
     this.setState({
       isLoadingAssetsDone: true

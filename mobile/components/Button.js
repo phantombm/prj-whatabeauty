@@ -10,6 +10,8 @@ export default class Button extends Component {
     inactiveBackgroundColor: PropTypes.string,
     inactiveTextColor: PropTypes.string,
     borderRadius: PropTypes.number,
+    buttonStyle: PropTypes.object,
+    textStyle: PropTypes.object,
     marginTop: PropTypes.number,
     isActive: PropTypes.bool,
     onPress: PropTypes.func
@@ -21,33 +23,35 @@ export default class Button extends Component {
     inactiveBackgroundColor: '#efefef',
     inactiveTextColor: '#ffffff',
     borderRadius: 3,
+    buttonStyle: {},
+    textStyle: {},
     marginTop: 0,
     isActive: true,
     onPress: () => {}
   };
 
   render() {
-    return (
-      <View style={{ marginTop: this.props.marginTop }}>
-        { Platform.OS == 'android' &&
-          <TouchableNativeFeedback onPress={this.props.onPress} disabled={!this.props.isActive}>
-            <View style={{ alignItems: 'center', justifyContent: 'center', height: 45, borderRadius: this.props.borderRadius, backgroundColor: this.props.isActive ? this.props.backgroundColor : this.props.inactiveBackgroundColor }}>
-              <Text style={{ color: this.props.isActive ? this.props.textColor : this.props.inactiveTextColor, fontSize: 16 }}>
-                { this.props.children }
-              </Text>
-            </View>
-          </TouchableNativeFeedback>
-        }
-        { Platform.OS == 'ios' &&
-          <TouchableOpacity onPress={this.props.onPress} disabled={!this.props.isActive}>
-            <View style={{ alignItems: 'center', justifyContent: 'center', height: 45, borderRadius: this.props.borderRadius, backgroundColor: this.props.isActive ? this.props.backgroundColor : this.props.inactiveBackgroundColor }}>
-              <Text style={{ color: this.props.isActive ? this.props.textColor : this.props.inactiveTextColor, fontSize: 16 }}>
-                { this.props.children }
-              </Text>
-            </View>
-          </TouchableOpacity>
-        }
-      </View>
-    );
+    if (Platform.OS == 'android') {
+      return (
+        <TouchableNativeFeedback onPress={this.props.onPress} disabled={!this.props.isActive}>
+          <View style={[{ marginTop: this.props.marginTop, alignItems: 'center', justifyContent: 'center', height: 45, borderRadius: this.props.borderRadius, backgroundColor: this.props.isActive ? this.props.backgroundColor : this.props.inactiveBackgroundColor }, this.props.buttonStyle]}>
+            <Text style={[{ color: this.props.isActive ? this.props.textColor : this.props.inactiveTextColor, fontSize: 16 }, this.props.textStyle]}>
+              { this.props.children }
+            </Text>
+          </View>
+        </TouchableNativeFeedback>
+      );
+    }
+    else if (Platform.OS == 'ios') {
+      return (
+        <TouchableOpacity onPress={this.props.onPress} disabled={!this.props.isActive}>
+          <View style={[{ marginTop: this.props.marginTop, alignItems: 'center', justifyContent: 'center', height: 45, borderRadius: this.props.borderRadius, backgroundColor: this.props.isActive ? this.props.backgroundColor : this.props.inactiveBackgroundColor }, this.props.buttonStyle]}>
+            <Text style={[{ color: this.props.isActive ? this.props.textColor : this.props.inactiveTextColor, fontSize: 16 }, this.props.textStyle]}>
+              { this.props.children }
+            </Text>
+          </View>
+        </TouchableOpacity>
+      );
+    }
   }
 }

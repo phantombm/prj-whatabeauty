@@ -7,10 +7,6 @@ import Layout from '../layouts/Layout';
 import Input from '../components/Input';
 
 export default class EnteringEmailAndPassword extends Component {
-  componentDidMount() {
-    console.log(global.signUp.phoneNumber);
-  }
-
   render() {
     return (
       <Layout title="E-mail 계정">

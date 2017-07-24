@@ -28,7 +28,7 @@ export default class Input extends Component {
 
   state = {
     text: this.props.defaultValue,
-    errorText: '',
+    errorText: 'blank',
     overlaidBorderBottomStyle: {}
   };
 
@@ -81,7 +81,7 @@ export default class Input extends Component {
   };
 
   onChangeText = (text) => {
-    const errorText = this.props.validator(text);
+    let errorText = text ? this.props.validator(text) : 'blank';
 
     this.setState({
       text: text,
@@ -91,6 +91,22 @@ export default class Input extends Component {
     this.props.onChangeText(text, errorText);
   };
 
+  clearText = (action) => {
+    this.textInputRef.setNativeProps({
+      text: ''
+    });
+
+    this.onChangeText('');
+
+    if (action == 'frozen') {
+      return;
+    }
+
+    setTimeout(() => {
+      this.onBlur();
+    }, 1000);
+  };
+
   render() {
     return (
       <Animated.View style={[{ borderBottomWidth: 1, borderBottomColor: this.animatedBorderBottomColor, marginTop: this.props.marginTop }, this.state.overlaidBorderBottomStyle ]}>
@@ -98,7 +114,7 @@ export default class Input extends Component {
           <Animated.Text style={{ fontSize: this.animatedFontSize, color: this.animatedColor }}>
             { this.props.placeholder }
           </Animated.Text>
-          { !!this.state.text &&
+          { this.state.errorText == 'blank' ||
             <Text style={{ fontSize: 10, color: '#fd614d', marginLeft: 5 }}>
               { this.state.errorText }
             </Text>
@@ -106,6 +122,7 @@ export default class Input extends Component {
         </Animated.View>
         <View>
           <TextInput
+            ref={(ref) => { this.textInputRef = ref; }}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             onChangeText={this.onChangeText}

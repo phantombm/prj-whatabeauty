@@ -7,10 +7,10 @@ import Main from '../../ui/pages/Main/Main';
 const browserHistory = createBrowserHistory();
 
 export const renderRoutes = () => (
-  <Router history={ browserHistory }>
+  <Router history={browserHistory}>
     <div>
-      <Route exact path="/" component={ Main } />
-      <Route exact path="/links" component={ Main } />
+      <Route exact path="/" component={Main} />
+      <Route exact path="/links" component={Main} />
     </div>
   </Router>
 );
