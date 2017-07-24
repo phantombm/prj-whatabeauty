@@ -1,17 +1,12 @@
-import React from 'react';
-import { Ionicons } from '@expo/vector-icons';
-
 import Header from '../components/Header';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
-Header.defaultProps.backgroundColor = '#fafcfb';
-Header.defaultProps.leftIcon = <Ionicons name="ios-arrow-round-back" color="#3c4f5e" size={32} />;
+global.keyColor = '#fd614d';
+
 Header.defaultProps.titleColor = '#3c4f5e';
+Header.defaultProps.backgroundColor = '#fafcfb';
 
-Input.defaultProps.borderBottomEndColor = '#fd614d';
-Input.defaultProps.selectionColor = '#fd614d';
+Input.defaultProps.keyColor = global.keyColor;
 
-Button.defaultProps.buttonStyle = {
-  backgroundColor: '#fd614d'
-};
+Button.defaultProps.backgroundColor = global.keyColor;

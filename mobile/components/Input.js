@@ -4,47 +4,32 @@ import PropTypes from 'prop-types';
 
 export default class Input extends Component {
   static propTypes = {
-    type: PropTypes.string,
+    placeholder: PropTypes.string.isRequired,
     defaultValue: PropTypes.string,
-    textInputStyle: PropTypes.object,
-    placeholder: PropTypes.string,
-    placeholderStyle: PropTypes.object,
-    placeholderStartColor: PropTypes.string,
-    placeholderEndColor: PropTypes.string,
-    borderBottomStartColor: PropTypes.string,
-    borderBottomEndColor: PropTypes.string,
+    keyColor: PropTypes.string,
+    marginTop: PropTypes.number,
     validator: PropTypes.func,
     keyboardType: PropTypes.string,
-    selectionColor: PropTypes.string,
     maxLength: PropTypes.number,
-    wrapperStyle: PropTypes.object,
     onChangeText: PropTypes.func
   };
 
   static defaultProps = {
     defaultValue: '',
-    type: 'goingUpPlaceholder',
-    textInputStyle: {},
-    placeholder: '',
-    placeholderStyle: {},
-    placeholderStartColor: '#3c4f5e',
-    placeholderEndColor: '#cfcfcf',
-    borderBottomStartColor: '#dbdfe2',
-    borderBottomEndColor: '#3c4f5e',
+    keyColor: '#000000',
+    marginTop: 0,
     validator: () => {
       return '';
     },
     keyboardType: 'default',
-    selectionColor: null,
     maxLength: 20,
-    wrapperStyle: {},
     onChangeText: () => {}
   };
 
   state = {
     text: this.props.defaultValue,
     errorText: '',
-    overlaidBorderBottomColor: {}
+    overlaidBorderBottomStyle: {}
   };
 
   animatedValue = new Animated.Value(this.props.defaultValue ? 1 : 0);
@@ -61,12 +46,12 @@ export default class Input extends Component {
 
   animatedColor = this.animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [this.props.placeholderStartColor, this.props.placeholderEndColor]
+    outputRange: ['#3c4f5e', '#cfcfcf']
   });
 
   animatedBorderBottomColor = this.animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [this.props.borderBottomStartColor, this.props.borderBottomEndColor]
+    outputRange: ['#dbdfe2', this.props.keyColor]
   });
 
   onFocus = () => {
@@ -76,7 +61,7 @@ export default class Input extends Component {
     }).start();
 
     this.setState({
-      overlaidBorderBottomColor: {}
+      overlaidBorderBottomStyle: {}
     });
   };
 
@@ -89,54 +74,46 @@ export default class Input extends Component {
     }
 
     this.setState({
-      overlaidBorderBottomColor: {
-        borderBottomColor: this.props.borderBottomStartColor
+      overlaidBorderBottomStyle: {
+        borderBottomColor: '#dbdfe2'
       }
     });
   };
 
   onChangeText = (text) => {
+    const errorText = this.props.validator(text);
+
     this.setState({
       text: text,
-      errorText: this.props.validator(text)
+      errorText: errorText
     });
 
-    this.props.onChangeText(text);
+    this.props.onChangeText(text, errorText);
   };
 
   render() {
     return (
-      <Animated.View style={[{ borderBottomWidth: 1, borderBottomColor: this.animatedBorderBottomColor }, this.state.overlaidBorderBottomColor, this.props.wrapperStyle ]}>
-        { this.props.type == 'goingUpPlaceholder' &&
-          <Animated.View style={{ position: 'absolute', top: 15, transform: [{ translateY: this.animatedTranslateY }], flexDirection: 'row' }}>
-            <Animated.Text style={[{ fontSize: this.animatedFontSize, color: this.animatedColor }, this.props.placeholderStyle ]}>
-              { this.props.placeholder }
-            </Animated.Text>
-            { !!this.state.text &&
-              <Text style={{ fontSize: 10, color: '#fd614d', marginLeft: 5 }}>
-                { this.state.errorText }
-              </Text>
-            }
-          </Animated.View>
-        }
+      <Animated.View style={[{ borderBottomWidth: 1, borderBottomColor: this.animatedBorderBottomColor, marginTop: this.props.marginTop }, this.state.overlaidBorderBottomStyle ]}>
+        <Animated.View style={{ position: 'absolute', top: 15, transform: [{ translateY: this.animatedTranslateY }], flexDirection: 'row' }}>
+          <Animated.Text style={{ fontSize: this.animatedFontSize, color: this.animatedColor }}>
+            { this.props.placeholder }
+          </Animated.Text>
+          { !!this.state.text &&
+            <Text style={{ fontSize: 10, color: '#fd614d', marginLeft: 5 }}>
+              { this.state.errorText }
+            </Text>
+          }
+        </Animated.View>
         <View>
           <TextInput
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             onChangeText={this.onChangeText}
-            style={[
-              {
-                height: 50,
-                fontSize: 14,
-                paddingTop: this.props.type == 'goingUpPlaceholder' ? 10 : 0,
-                color: '#3c4f5e'
-              },
-              this.props.textInputStyle
-            ]}
+            style={{ height: 50, fontSize: 14, paddingTop: 10, color: '#3c4f5e' }}
             defaultValue={this.props.defaultValue}
             maxLength={this.props.maxLength}
             keyboardType={this.props.keyboardType}
-            selectionColor={this.props.selectionColor}
+            selectionColor={this.props.keyColor}
           />
         </View>
       </Animated.View>

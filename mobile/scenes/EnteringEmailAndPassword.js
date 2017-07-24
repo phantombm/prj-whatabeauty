@@ -6,39 +6,27 @@ import Button from '../components/Button';
 import Layout from '../layouts/Layout';
 import Input from '../components/Input';
 
-export default class VerificationForCellPhoneNumberWithSms extends Component {
-  state = {
-    phoneNumber: '',
-    validationNumber: ''
-  };
-
-  onPressNex = () => {
-    global.signUp = {
-      phoneNumber: this.state.phoneNumber,
-      validationNumber: this.state.validationNumber
-    };
-
-    Actions.enteringEmailAndPassword();
-  };
+export default class EnteringEmailAndPassword extends Component {
+  componentDidMount() {
+    console.log(global.signUp.phoneNumber);
+  }
 
   render() {
     return (
-      <Layout title="SMS인증">
+      <Layout title="E-mail 계정">
         <View style={{ flex: 1, padding: 30 }}>
           <View style={{ flex: 55 }} />
           <View style={{ flex: 140 }}>
             <Input
-              placeholder="전화번호"
-              keyboardType="numeric"
+              placeholder="이메일주소"
               validator={(text) => {
                 if (/-/.test(text)) {
                   return '-를 제외하고 입력해주세요.';
                 }
               }}
-              maxLength={11}
-              onChangeText={(text) => { this.setState({ phoneNumber: text }); }}
+              onChangeText={(text) => { this.setState({ email: text }); }}
             />
-            <Input placeholder="인증번호" keyboardType="numeric" maxLength={6} wrapperStyle={{ marginTop: 5 }} onChangeText={(text) => { this.setState({ validationNumber: text }); }} />
+            <Input placeholder="비밀번호" wrapperStyle={{ marginTop: 5 }} onChangeText={(text) => { this.setState({ password: text }); }} />
           </View>
           <View style={{ flex: 70 }}>
             <Button onPress={this.onPressNex}>다음</Button>

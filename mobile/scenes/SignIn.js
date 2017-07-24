@@ -15,11 +15,11 @@ export default class SignIn extends Component {
             <Text style={{ fontSize: 32, color: '#ffffff' }}>What a beauty</Text>
           </View>
           <View style={{ flex: 1 }}>
-            <Button buttonStyle={{ backgroundColor: '#ffffff', marginTop: 5 }} textStyle={{ color: '#fd614d' }}>카카오로 쉬운시작</Button>
-            <Button buttonStyle={{ backgroundColor: '#ffffff', marginTop: 5 }} textStyle={{ color: '#fd614d' }}>페이스북으로 쉬운시작</Button>
-            <Button buttonStyle={{ backgroundColor: '#ffffff', marginTop: 5 }} textStyle={{ color: '#fd614d' }}>구글로 쉬운시작</Button>
-            <Button buttonStyle={{ backgroundColor: '#ffffff', marginTop: 5 }} textStyle={{ color: '#fd614d' }}>이메일로 로그인</Button>
-            <Button onPress={() => { Actions.verificationForPhoneNumberWithSms({ method: 'email' }); }} buttonStyle={{ backgroundColor: '#ffffff', marginTop: 5 }} textStyle={{ color: '#fd614d' }}>회원가입</Button>
+            <Button marginTop={5}>카카오로 쉬운시작</Button>
+            <Button marginTop={5}>페이스북으로 쉬운시작</Button>
+            <Button marginTop={5}>구글로 쉬운시작</Button>
+            <Button marginTop={5}>이메일로 로그인</Button>
+            <Button onPress={() => { Actions.verificationForPhoneNumberWithSms({ method: 'email' }); }} marginTop={5}>회원가입</Button>
           </View>
         </View>
       </View>

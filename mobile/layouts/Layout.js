@@ -10,7 +10,19 @@ import Header from '../components/Header';
 export default class Layout extends Component {
   static propTypes = {
     children: PropTypes.element.isRequired,
-    title: PropTypes.string.isRequired
+    title: PropTypes.string,
+    onPressLeftIcon: PropTypes.func
+  };
+
+  static defaultProps = {
+    title: '',
+    onPressLeftIcon: () => {}
+  };
+
+  onPressLeftIcon = () => {
+    this.props.onPressLeftIcon();
+
+    Actions.pop();
   };
 
   render() {
@@ -18,7 +30,7 @@ export default class Layout extends Component {
       <View style={{ flex: 1, backgroundColor: "#fafcfb" }}>
         <View style={{ height: Constants.statusBarHeight }} />
         <View style={{ flex: 1 }}>
-          <Header title={this.props.title} leftIcon={<Ionicons name="ios-arrow-round-back-outline" color="#3c4f5e" size={50} />} onPressLeftIcon={Actions.pop} />
+          <Header title={this.props.title} leftIcon={<Ionicons name="ios-arrow-round-back-outline" color="#3c4f5e" size={50} />} onPressLeftIcon={this.onPressLeftIcon} />
         </View>
         <View style={{ flex: 10 }}>
           { this.props.children }

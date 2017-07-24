@@ -22,7 +22,7 @@ const styleSheet = StyleSheet.create({
 export default class _Tutorial extends Component {
   render() {
     return (
-      <Tutorial backgroundColor="#fd614d" onPressSkip={Actions.mainRouter}>
+      <Tutorial backgroundColor={global.keyColor} onPressSkip={Actions.mainRouter}>
         <View>
           <Image source={require('../assets/images/tutorial_1.png')} />
           <Text style={styleSheet.title}>찾아가는 서비스</Text>
