@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import Meteor from 'react-native-meteor';
@@ -44,10 +44,34 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
   onPressSendingSms = () => {
     Meteor.call('sendSms', this.state.phoneNumber, (error, result) => {
       if (error) {
-        console.log(error);
+        Alert.alert(
+          '에러',
+          error.reason,
+          [
+            {
+              text: '확인'
+            }
+          ],
+          {
+            cancelable: false
+          }
+        );
 
         return;
       }
+
+      Alert.alert(
+        'whatabeauty',
+        'whatabeauty로부터 메세지가 도착했습니다. 인증번호는 [' + result.validationNumber + '] 입니다.',
+        [
+          {
+            text: '확인'
+          }
+        ],
+        {
+          cancelable: false
+        }
+      );
 
       this.setState({
         validationNumberToMatch: result.validationNumber,
@@ -58,6 +82,19 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
 
   onPressNext = () => {
     if (this.state.validationNumber != this.state.validationNumberToMatch) {
+      Alert.alert(
+        'whatabeauty',
+        '인증번호가 일치하지 않습니다.',
+        [
+          {
+            text: '확인'
+          }
+        ],
+        {
+          cancelable: false
+        }
+      );
+
       return;
     }
 
@@ -68,7 +105,7 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
       secondsRemained: -1
     });
 
-    this.validationNumberRef.clearText('frozen');
+    this.validationNumberRef.setText('');
 
     if (this.props.method == 'email') {
       Actions.enteringEmailAndPassword({
@@ -95,9 +132,11 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
       return false;
     }
 
-    if (this.state.secondsRemained == -1) {
+    if (this.state.secondsRemained <= 0) {
       return false;
     }
+
+    return true;
   };
 
   render() {

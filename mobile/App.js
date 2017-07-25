@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { View, Platform } from 'react-native';
-import Meteor from 'react-native-meteor';
+import { View } from 'react-native';
 import { Asset } from 'expo';
-import { setCustomText, setCustomTextInput } from 'react-native-global-props';
 
 import Splash from './scenes/Splash';
 import Router from './routers/Router';
@@ -33,7 +31,7 @@ export default class Application extends Component {
           this.splashRef.disappearSpalshImage();
         }
       }, 500);
-    }, 2000); // TODO: minimum loading time
+    }, 2000);
 
     // TODO: assets to preload
     const assets = [
@@ -46,21 +44,7 @@ export default class Application extends Component {
       await Asset.fromModule(asset).downloadAsync();
     }
 
-    // TODO: global initializations
-    setCustomText({
-      style: {
-        fontFamily: Platform.OS == 'ios' ? 'Apple SD Gothic Neo' : 'sans-serif'
-      }
-    });
-
-    setCustomTextInput({
-      underlineColorAndroid: 'transparent'
-    });
-
     require('./initialization/initialization');
-
-    // TODO: ddp server ip
-    Meteor.connect('ws://221.167.202.216:3000/websocket');
 
     this.setState({
       isLoadingAssetsDone: true

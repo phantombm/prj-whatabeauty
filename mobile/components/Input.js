@@ -91,20 +91,12 @@ export default class Input extends Component {
     this.props.onChangeText(text, errorText);
   };
 
-  clearText = (action) => {
+  setText = (text) => {
     this.textInputRef.setNativeProps({
-      text: ''
+      text: text
     });
 
-    this.onChangeText('');
-
-    if (action == 'frozen') {
-      return;
-    }
-
-    setTimeout(() => {
-      this.onBlur();
-    }, 1000);
+    this.onChangeText(text);
   };
 
   render() {
