@@ -81,6 +81,11 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
   };
 
   onPressNext = () => {
+    Actions.enteringEmailAndPassword({
+      method: this.props.method,
+      phoneNumber: this.state.phoneNumber
+    });
+
     if (this.state.validationNumber != this.state.validationNumberToMatch) {
       Alert.alert(
         'whatabeauty',
@@ -116,13 +121,7 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
   };
 
   validate = () => {
-    if (!this.state.phoneNumber) {
-      return false;
-    }
-
-    if (!this.state.validationNumber) {
-      return false;
-    }
+    return true;
 
     if (this.state.phoneNumberErrorText) {
       return false;
@@ -145,10 +144,9 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
     return (
       <Layout title="SMS인증">
         <View style={{ flex: 1, padding: 30 }}>
-          <View style={{ flex: 55 }} />
+          <View style={{ flex: 50 }} />
           <View style={{ flex: 140 }}>
             <Input
-              ref={(ref) => { this.phoneNumberRef = ref; }}
               placeholder="전화번호"
               keyboardType="numeric"
               validator={(text) => {

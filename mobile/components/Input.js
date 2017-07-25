@@ -11,7 +11,8 @@ export default class Input extends Component {
     validator: PropTypes.func,
     keyboardType: PropTypes.string,
     maxLength: PropTypes.number,
-    onChangeText: PropTypes.func
+    onChangeText: PropTypes.func,
+    secureTextEntry: PropTypes.bool
   };
 
   static defaultProps = {
@@ -23,7 +24,8 @@ export default class Input extends Component {
     },
     keyboardType: 'default',
     maxLength: 20,
-    onChangeText: () => {}
+    onChangeText: () => {},
+    secureTextEntry: false
   };
 
   state = {
@@ -123,6 +125,7 @@ export default class Input extends Component {
             maxLength={this.props.maxLength}
             keyboardType={this.props.keyboardType}
             selectionColor={this.props.keyColor}
+            secureTextEntry={this.props.secureTextEntry}
           />
         </View>
       </Animated.View>
