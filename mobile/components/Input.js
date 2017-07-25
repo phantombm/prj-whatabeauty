@@ -126,6 +126,7 @@ export default class Input extends Component {
             keyboardType={this.props.keyboardType}
             selectionColor={this.props.keyColor}
             secureTextEntry={this.props.secureTextEntry}
+            autoCapitalize="none"
           />
         </View>
       </Animated.View>

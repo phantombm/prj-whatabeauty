@@ -9,12 +9,13 @@ import Input from '../components/Input';
 
 export default class EnteringEmailAndPassword extends Component {
   static propTypes = {
+    method: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired
   };
 
   state = {
     email: '',
-    emailErrorText: 'blaqnk',
+    emailErrorText: 'blank',
     password: '',
     paddwordErrorText: 'blank',
     passwordConfirmed: '',
@@ -23,6 +24,7 @@ export default class EnteringEmailAndPassword extends Component {
 
   onPressNext = () => {
     Actions.enteringName({
+      method: this.props.method,
       phoneNumber: this.props.phoneNumber,
       email: this.state.email,
       password: this.state.password
@@ -30,7 +32,7 @@ export default class EnteringEmailAndPassword extends Component {
   };
 
   validate = () => {
-    // return true;
+    return true;
 
     if (this.state.emailErrorText) {
       return false;

@@ -6,6 +6,7 @@ import Tutorial from '../scenes/Tutorial';
 import SignIn from '../scenes/SignIn';
 import VerificationForPhoneNumberWithSms from '../scenes/VerificationForPhoneNumberWithSms';
 import EnteringEmailAndPassword from '../scenes/EnteringEmailAndPassword';
+import EnteringName from '../scenes/EnteringName';
 
 export default class _Router extends Component {
   render() {
@@ -19,6 +20,7 @@ export default class _Router extends Component {
             <Scene key="signIn" component={SignIn} panHandlers={null} />
             <Scene key="verificationForPhoneNumberWithSms" component={VerificationForPhoneNumberWithSms} panHandlers={null} />
             <Scene key="enteringEmailAndPassword" component={EnteringEmailAndPassword} panHandlers={null} />
+            <Scene key="enteringName" component={EnteringName} panHandlers={null} />
             <Scene key="main" component={Main} panHandlers={null} />
           </Scene>
         </Scene>

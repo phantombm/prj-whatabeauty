@@ -168,9 +168,11 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
               marginTop={5}
               onChangeText={(text, errorText) => { this.setState({ validationNumber: text, validationNumberErrorText: errorText }); }}
             />
-            <Button onPress={this.onPressSendingSms} isActive={!this.state.phoneNumberErrorText} buttonStyle={{ width: 58, height: 22, position: 'absolute', top: 20, right: 0 }} textStyle={{ fontSize: 12 }}>
-              { this.state.secondsRemained == -1 ? '전송' : '재전송' }
-            </Button>
+            <View style={{ position: 'absolute', top: 19, right: 0 }}>
+              <Button onPress={this.onPressSendingSms} isActive={!this.state.phoneNumberErrorText} buttonStyle={{ width: 58, height: 22 }} textStyle={{ fontSize: 12 }}>
+                { this.state.secondsRemained == -1 ? '전송' : '재전송' }
+              </Button>
+            </View>
             { this.state.secondsRemained != -1 &&
               <View style={{ position: 'absolute', top: 77, right: 4, flexDirection: 'row' }}>
                 <MaterialCommunityIcons name="clock" size={23} color="#3c4f5e" style={{ marginTop: -3, marginRight: 4 }} />
