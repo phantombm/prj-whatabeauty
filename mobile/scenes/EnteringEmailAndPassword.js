@@ -32,8 +32,6 @@ export default class EnteringEmailAndPassword extends Component {
   };
 
   validate = () => {
-    return true;
-
     if (this.state.emailErrorText) {
       return false;
     }
@@ -64,6 +62,7 @@ export default class EnteringEmailAndPassword extends Component {
                   return '이메일 형식에 맞지 않습니다.';
                 }
               }}
+              maxLength={40}
               onChangeText={(text, errorText) => { this.setState({ email: text, emailErrorText: errorText }); }}
             />
             <Input

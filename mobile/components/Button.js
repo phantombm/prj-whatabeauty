@@ -14,7 +14,8 @@ export default class Button extends Component {
     textStyle: PropTypes.object,
     marginTop: PropTypes.number,
     isActive: PropTypes.bool,
-    onPress: PropTypes.func
+    onPress: PropTypes.func,
+    icon: PropTypes.element
   };
 
   static defaultProps = {
@@ -27,7 +28,8 @@ export default class Button extends Component {
     textStyle: {},
     marginTop: 0,
     isActive: true,
-    onPress: () => {}
+    onPress: () => {},
+    icon: null
   };
 
   render() {
@@ -38,6 +40,11 @@ export default class Button extends Component {
             <Text style={[{ color: this.props.isActive ? this.props.textColor : this.props.inactiveTextColor, fontSize: 16 }, this.props.textStyle]}>
               { this.props.children }
             </Text>
+            { this.props.icon &&
+              <View style={{ justifyContent: 'center', alignItems: 'center', position: 'absolute', top: 9, left: 0, width: 50, height: 28, borderRightWidth: 1, borderRightColor: 'rgba(0, 0, 0, 0.1)' }}>
+                { this.props.icon }
+              </View>
+            }
           </View>
         </TouchableNativeFeedback>
       );
@@ -49,6 +56,11 @@ export default class Button extends Component {
             <Text style={[{ color: this.props.isActive ? this.props.textColor : this.props.inactiveTextColor, fontSize: 16 }, this.props.textStyle]}>
               { this.props.children }
             </Text>
+            { this.props.icon &&
+              <View style={{ justifyContent: 'center', alignItems: 'center', position: 'absolute', top: 9, left: 0, width: 50, height: 28, borderRightWidth: 1, borderRightColor: 'rgba(0, 0, 0, 0.1)' }}>
+                { this.props.icon }
+              </View>
+            }
           </View>
         </TouchableOpacity>
       );

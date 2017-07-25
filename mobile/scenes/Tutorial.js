@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Image, View, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux'
+import Meteor from 'react-native-meteor';
 
 import Tutorial from '../components/Tutorial';
 
@@ -20,9 +21,18 @@ const styleSheet = StyleSheet.create({
 });
 
 export default class _Tutorial extends Component {
+  onPressSkip = () => {
+    if (Meteor.user()) {
+      Actions.main();
+    }
+    else {
+      Actions.signIn();
+    }
+  };
+
   render() {
     return (
-      <Tutorial backgroundColor={global.keyColor} onPressSkip={Actions.mainRouter}>
+      <Tutorial backgroundColor={global.keyColor} onPressSkip={this.onPressSkip}>
         <View>
           <Image source={require('../assets/images/tutorial_1.png')} />
           <Text style={styleSheet.title}>찾아가는 서비스</Text>

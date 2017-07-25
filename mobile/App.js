@@ -37,7 +37,9 @@ export default class Application extends Component {
     const assets = [
       require('./assets/images/tutorial_1.png'),
       require('./assets/images/tutorial_2.png'),
-      require('./assets/images/tutorial_3.png')
+      require('./assets/images/tutorial_3.png'),
+      require('./assets/images/splash_inverted.png'),
+      require('./assets/images/kakaotalk.png')
     ];
 
     for (let asset of assets) {

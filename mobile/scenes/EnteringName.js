@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { View, Text, Alert } from 'react-native';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
+import { Accounts } from 'react-native-meteor';
 
 import Button from '../components/Button';
 import Layout from '../layouts/Layout';
@@ -21,18 +22,56 @@ export default class EnteringName extends Component {
   };
 
   onPressNext = () => {
-    Actions.enteringName({
-      method: this.props.method,
-      phoneNumber: this.props.phoneNumber,
-      email: this.props.email,
-      password: this.props.password,
-      name: this.state.name
-    });
+    if (this.props.method == 'email') {
+      Accounts.createUser({
+        email: this.props.email,
+        password: this.props.password,
+        profile: {
+          name: this.state.name,
+          phoneNumber: this.props.phoneNumber
+        }
+      }, (error) => {
+        if (error) {
+          if (error.reason == 'Email already exists.') {
+            Alert.alert(
+              'whatabeauty',
+              '이미 존재하는 이메일입니다.',
+              [
+                {
+                  text: '확인'
+                }
+              ],
+              {
+                cancelable: false
+              }
+            );
+          }
+          else {
+            Alert.alert(
+              'whatabeauty',
+              error.reason,
+              [
+                {
+                  text: '확인'
+                }
+              ],
+              {
+                cancelable: false
+              }
+            );
+          }
+
+          return;
+        }
+
+        Actions.main({
+          type: ActionConst.RESET
+        });
+      });
+    }
   };
 
   validate = () => {
-    // return true;
-
     if (this.state.nameErrorText) {
       return false;
     }

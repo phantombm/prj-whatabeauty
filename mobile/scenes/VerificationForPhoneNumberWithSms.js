@@ -81,11 +81,6 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
   };
 
   onPressNext = () => {
-    Actions.enteringEmailAndPassword({
-      method: this.props.method,
-      phoneNumber: this.state.phoneNumber
-    });
-
     if (this.state.validationNumber != this.state.validationNumberToMatch) {
       Alert.alert(
         'whatabeauty',
@@ -121,8 +116,6 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
   };
 
   validate = () => {
-    return true;
-
     if (this.state.phoneNumberErrorText) {
       return false;
     }
