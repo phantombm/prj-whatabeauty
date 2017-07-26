@@ -48,36 +48,90 @@ export default class MyComponent extends Compoent {
 ```
 
 ### Components
-#### Header
+#### *Header*
 ##### propTypes
-- title: PropTypes.string
-- titleColor: PropTypes.string
-- leftIcon: PropTypes.element
-- onPressLeftIcon: PropTypes.func
-- rightIcon: PropTypes.element
+- title: PropTypes.string,
+- titleColor: PropTypes.string,
+- backgroundColor: PropTypes.string,
+- leftIcon: PropTypes.element,
+- onPressLeftIcon: PropTypes.func,
+- rightIcon: PropTypes.element,
 - onPressRightIcon: PropTypes.func
-- backgroundColor: PropTypes.string
 
 ##### defaultProps
-- title: ''
-- titleColor: '#000000'
-- leftIcon: null
-- onPressLeftIcon: null
-- rightIcon: null
+- title: '',
+- titleColor: '#000000',
+- backgroundColor: '#ffffff',
+- leftIcon: <Ionicons name="ios-arrow-round-back" color="#3c4f5e" size={32} />,
+- onPressLeftIcon: null,
+- rightIcon: null,
 - onPressRightIcon: null
-- backgroundColor: '#ffffff'
 
-#### Button
+#### *Button*
 ##### propTypes
-- children: PropTypes.element.isRequired
-- onPress: PropTypes.func.isRequired
-- buttonStyle: PropTypes.object
-- textStyle: PropTypes.object
+- backgroundColor: PropTypes.string,
+- textColor: PropTypes.string,
+- inactiveBackgroundColor: PropTypes.string,
+- inactiveTextColor: PropTypes.string,
+- borderRadius: PropTypes.number,
+- buttonStyle: PropTypes.object,
+- textStyle: PropTypes.object,
+- marginTop: PropTypes.number,
+- isActive: PropTypes.bool,
+- onPress: PropTypes.func,
+- icon: PropTypes.element
 
 ##### defaultProps
-- buttonStyle: {}
-- textStyle: {}
+- backgroundColor: '#000000',
+- textColor: '#ffffff',
+- inactiveBackgroundColor: '#efefef',
+- inactiveTextColor: '#ffffff',
+- borderRadius: 3,
+- buttonStyle: {},
+- textStyle: {},
+- marginTop: 0,
+- isActive: true,
+- onPress: () => {},
+- icon: null
 
+#### *Input*
+##### propTypes
+- placeholder: PropTypes.string.isRequired,
+- defaultValue: PropTypes.string,
+- keyColor: PropTypes.string,
+- marginTop: PropTypes.number,
+- validator: PropTypes.func,
+- keyboardType: PropTypes.string,
+- maxLength: PropTypes.number,
+- onChangeText: PropTypes.func,
+- secureTextEntry: PropTypes.bool
+
+##### defaultProps
+- defaultValue: '',
+- keyColor: '#000000',
+- marginTop: 0,
+- validator: () => {
+  return '';
+},
+- keyboardType: 'default',
+- maxLength: 50,
+- onChangeText: () => {},
+- secureTextEntry: false
+
+#### *MagnetView*
+##### propTypes
+- style: PropTypes.object,
+- offsetInIos: PropTypes.number,
+- offsetInAndroid: PropTypes.number,
+- isWorkingIos: PropTypes.bool,
+- isWorkinginAndroid: PropTypes.bool
+
+##### defaultProps
+- style: {},
+- offsetInIos: 0,
+- offsetInAndroid: 0,
+- isWorkingIos: true,
+- isWorkinginAndroid: true
 
 ### Router Keys
 ```
@@ -85,54 +139,54 @@ tutorial
 signIn
   signInWithEmail
   signInWithKakaotalk:
-    verificationForPhoneNumberWithSms(repeated)(:type)
-    enteringName(repeated)(:type)
+    verificationForPhoneNumberWithSms(repeated)(:method)
+    enteringName(repeated)(:method)
   signInWithFacebook:
-    verificationForPhoneNumberWithSms(repeated)(:type)
-    enteringName(repeated)(:type)
+    verificationForPhoneNumberWithSms(repeated)(:method)
+    enteringName(repeated)(:method)
   signInWithGoogle:
-    verificationForPhoneNumberWithSms(repeated)(:type)
-    enteringName(repeated)(:type)
-signUp(virtual):
-  verificationForPhoneNumberWithSms(:type)
-  enteringEmailAndPassword(:type, :cellphoneNumber)
-  enteringName(:type, :cellphoneNumber, :email, :password)
+    verificationForPhoneNumberWithSms(repeated)(:method)
+    enteringName(repeated)(:method)
+signUp(abstract):
+  verificationForPhoneNumberWithSms(:method)
+  enteringEmailAndPassword(:method, :cellPhoneNumber)
+  enteringName(:method, :cellPhoneNumber, :email, :password)
 recoveringPassword
 main
-  reservations(virtual)
+  reservations(abstract)
     reservation(:id)
       writingReview(:id)
-  reservationsOfSsam(virtual)
+  reservationsOfSsam(abstract)
     reservationOfSsam(:id)
-      changingDateTime(:id)
-  serviceTypes(virtual)
+      selectingDateTime(repeated)
+  serviceTypes(abstract)
     services(:id)
       service(:id)
         selectingServiceQuantity(:id)
           reserving(:id, :quantity)
             selectingServiceQuantity(repeated)
             selectingAddress
-              addingAddress(virtual)
+              addingAddress(abstract)
                 enteringAddress
                 enteringAddressDetail
             selectingDateTime
             writingRequest
             
-            ssams
+            ssams(:reservationInformation)
               ssam(:id)
                 portfolio(:id)
                 
-                reservationSummary
+                reservationSummary(:reservationInformation, :ssamId)
                 payment
-  brands(virtual)
+  brands(abstract)
     brand(:id)
       chat(repeated)
   chat
-  reservations
-    reservation(repeated)(:id)
-      writingReview(repeated)
-  notices
-    notice(:id)
+  reservations(:forWhom)
+    reservation(:forWhom, :id)
+      writingReview(repeated)(:id)
+  notices(:forWhom)
+    notice(:forWhom, :id)
   faqs
   sharing
   settings
@@ -140,10 +194,10 @@ main
     privacyStatement
   account
     updatingInformation
-    updateAddress(virtual)
+    updatingAddress(abstract)
       enteringAddress(repeated)
         enteringAddressDetail(repeated)
-    addingAddress(virtual)
+    addingAddress(abstract)
       enteringAddress(repeated)
         enteringAddressDetail(repeated)
     changingPassword
@@ -151,21 +205,22 @@ main
   applyingForSsam
     chat(repeated)
   menuForSsam
-    noticesForSsam
-      notice(repeated)(:id)
+    notices(repeated)(:forWhom)
+      notice(repeated)(:forWhom, :id)
     belonging
-    ssamInformation
-    portfolio(repeated)
-    complainingReview
-    updatingSsamInformation
-    reservationsOfSsam
-      reservationOfSsam(repeated)(:id)
+    informationForSsam
+      portfolio(repeated)(:id)
+      complainingReview(:id)
+      updatingInformationForSsam
+    reservations(repeated)(:forWhom)
+      reservation(repeated)(:forWhom, :id)
         changingDateTime(repeated)
     balancingMoney:
-      balancingMoneyDetail
+      balancingMoneyDetail(:id)
       standardTableForBalancingMoney
       updatingBankAccount
     schedule
+      reservation(repeated)(:forWhom, :id)
   notifications
 ```
 
