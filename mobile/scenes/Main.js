@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, DatePickerIOS } from 'react-native';
 import { Constants } from 'expo';
 import { Ionicons, SimpleLineIcons } from '@expo/vector-icons';
 import Meteor from 'react-native-meteor';
@@ -13,7 +13,7 @@ export default class Main extends Component {
   onPressSignOut = () => {
     Meteor.logout();
 
-    Actions.tutorial({
+    Actions.signIn({
       type: ActionConst.RESET
     });
   };
@@ -31,8 +31,11 @@ export default class Main extends Component {
               rightIcon={<SimpleLineIcons name="bell" color="#1d1d1b" size={26} />}
             />
           </View>
-          <View style={{ flex: 10 }}>
+          <View style={{ flex: 2 }}>
             <Button onPress={this.onPressSignOut}>로그아웃</Button>
+          </View>
+          <View style={{ flex: 10 }}>
+            <DatePickerIOS mode="time" date={new Date()} />
           </View>
         </View>
       </Drawer>

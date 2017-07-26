@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Constants } from 'expo';
 import PropTypes from 'prop-types';
 import { Ionicons } from '@expo/vector-icons';
@@ -25,17 +25,23 @@ export default class Layout extends Component {
     Actions.pop();
   };
 
+  onPress = () => {
+    Keyboard.dismiss();
+  };
+
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "#fafcfb" }}>
-        <View style={{ height: Constants.statusBarHeight }} />
-        <View style={{ flex: 1 }}>
-          <Header title={this.props.title} leftIcon={<Ionicons name="ios-arrow-round-back-outline" color="#3c4f5e" size={50} />} onPressLeftIcon={this.onPressLeftIcon} />
+      <TouchableWithoutFeedback onPress={this.onPress}>
+        <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
+          <View style={{ height: Constants.statusBarHeight }} />
+          <View style={{ flex: 1 }}>
+            <Header title={this.props.title} leftIcon={<Ionicons name="ios-arrow-round-back-outline" color="#3c4f5e" size={50} />} onPressLeftIcon={this.onPressLeftIcon} />
+          </View>
+          <View style={{ flex: 10 }}>
+            { this.props.children }
+          </View>
         </View>
-        <View style={{ flex: 10 }}>
-          { this.props.children }
-        </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

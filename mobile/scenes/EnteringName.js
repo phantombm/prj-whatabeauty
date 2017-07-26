@@ -83,25 +83,22 @@ export default class EnteringName extends Component {
     const isValid = this.validate();
 
     return (
-      <Layout title="E-mail 계정">
+      <Layout title="이름 입력">
         <View style={{ flex: 1, padding: 30 }}>
-          <View style={{ flex: 30 }} />
-          <View style={{ flex: 100 }}>
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 14 }}>
             <Input
-              placeholder="이름입력"
+              placeholder="이름"
               onChangeText={(text, errorText) => { this.setState({ name: text, nameErrorText: errorText }); }}
             />
-            <View style={{ flexDirection: 'row', marginTop: 20 }}>
+            <View style={{ flexDirection: 'row', marginTop: 30 }}>
               <Text style={{ color: '#4990e2', fontSize: 11, textDecorationLine: 'underline' }}>서비스이용약관</Text>
               <Text style={{ color: '#cfcfcf', fontSize: 11 }}>과 </Text>
               <Text style={{ color: '#4990e2', fontSize: 11, textDecorationLine: 'underline' }}>개인정보이용방침</Text>
               <Text style={{ color: '#cfcfcf', fontSize: 11 }}>에 동의합니다.</Text>
             </View>
+            <Button onPress={this.onPressNext} isActive={isValid} marginTop={20}>회원가입 완료</Button>
           </View>
-          <View style={{ flex: 70 }}>
-            <Button onPress={this.onPressNext} isActive={isValid}>회원가입 완료</Button>
-          </View>
-          <View style={{ flex: 210 }} />
         </View>
       </Layout>
     );

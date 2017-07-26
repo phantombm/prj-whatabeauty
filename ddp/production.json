@@ -1,0 +1,10 @@
+{
+  "facebook": {
+    "appId": "12345",
+    "secret": "1234567"
+  },
+  "google": {
+    "appId": "634787728690-82bio4n3a2c0jr10638mv5vgbpomesog.apps.googleusercontent.com",
+    "secret": "ltOjna9A2Hn_2yOhfQa0cmXI"
+  }
+}

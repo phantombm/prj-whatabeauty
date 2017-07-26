@@ -41,7 +41,7 @@ export default class Button extends Component {
               { this.props.children }
             </Text>
             { this.props.icon &&
-              <View style={{ justifyContent: 'center', alignItems: 'center', position: 'absolute', top: 9, left: 0, width: 50, height: 28, borderRightWidth: 1, borderRightColor: 'rgba(0, 0, 0, 0.1)' }}>
+              <View style={{ justifyContent: 'center', alignItems: 'center', position: 'absolute', top: 8, left: 0, width: 50, height: 30, borderRightWidth: 1, borderRightColor: 'rgba(0, 0, 0, 0.1)' }}>
                 { this.props.icon }
               </View>
             }
@@ -57,7 +57,7 @@ export default class Button extends Component {
               { this.props.children }
             </Text>
             { this.props.icon &&
-              <View style={{ justifyContent: 'center', alignItems: 'center', position: 'absolute', top: 9, left: 0, width: 50, height: 28, borderRightWidth: 1, borderRightColor: 'rgba(0, 0, 0, 0.1)' }}>
+              <View style={{ justifyContent: 'center', alignItems: 'center', position: 'absolute', top: 8, left: 0, width: 50, height: 30, borderRightWidth: 1, borderRightColor: 'rgba(0, 0, 0, 0.1)' }}>
                 { this.props.icon }
               </View>
             }

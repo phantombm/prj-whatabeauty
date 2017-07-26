@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, Alert } from 'react-native';
+import { View, Text, Alert, Keyboard } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import Meteor from 'react-native-meteor';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { EvilIcons } from '@expo/vector-icons';
 
 import Button from '../components/Button';
 import Layout from '../layouts/Layout';
@@ -107,6 +107,8 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
 
     this.validationNumberRef.setText('');
 
+    Keyboard.dismiss();
+
     if (this.props.method == 'email') {
       Actions.enteringEmailAndPassword({
         method: this.props.method,
@@ -135,12 +137,12 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
     const isValid = this.validate();
 
     return (
-      <Layout title="SMS인증">
+      <Layout title="SMS 인증">
         <View style={{ flex: 1, padding: 30 }}>
-          <View style={{ flex: 50 }} />
-          <View style={{ flex: 140 }}>
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 14 }}>
             <Input
-              placeholder="전화번호"
+              placeholder="휴대폰번호"
               keyboardType="numeric"
               validator={(text) => {
                 if (/[^0-9]/.test(text)) {
@@ -167,18 +169,15 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
               </Button>
             </View>
             { this.state.secondsRemained != -1 &&
-              <View style={{ position: 'absolute', top: 77, right: 4, flexDirection: 'row' }}>
-                <MaterialCommunityIcons name="clock" size={23} color="#3c4f5e" style={{ marginTop: -3, marginRight: 4 }} />
-                <Text style={{ fontSize: 14, color: this.state.secondsRemained > 10 ? '#3c4f5e' : '#fd614d' }}>
+              <View style={{ position: 'absolute', top: 80, right: 12, flexDirection: 'row' }}>
+                <EvilIcons name="clock" size={18} color="#3c4f5e" />
+                <Text style={{ fontSize: 10, color: this.state.secondsRemained > 10 ? '#3c4f5e' : '#fd614d', marginLeft: 3 }}>
                   { Math.floor(this.state.secondsRemained / 60) }:{ this.state.secondsRemained % 60 < 10 ? '0' : '' }{ this.state.secondsRemained % 60 }
                 </Text>
               </View>
             }
+            <Button onPress={this.onPressNext} isActive={isValid} marginTop={30}>다음</Button>
           </View>
-          <View style={{ flex: 70 }}>
-            <Button onPress={this.onPressNext} isActive={isValid}>다음</Button>
-          </View>
-          <View style={{ flex: 210 }} />
         </View>
       </Layout>
     );

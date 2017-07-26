@@ -23,7 +23,7 @@ export default class Input extends Component {
       return '';
     },
     keyboardType: 'default',
-    maxLength: 20,
+    maxLength: 50,
     onChangeText: () => {},
     secureTextEntry: false
   };

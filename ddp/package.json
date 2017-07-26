@@ -2,7 +2,7 @@
   "name": "whatabeauty",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run --settings production.json"
   },
   "dependencies": {
     "babel-runtime": "^6.20.0",

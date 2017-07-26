@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Alert, Keyboard } from 'react-native';
+import { View, Alert, Text } from 'react-native';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import Meteor from 'react-native-meteor';
 
@@ -13,26 +13,6 @@ export default class SignInWithEmail extends Component {
     emailErrorText: 'blank',
     password: '',
     paddwordErrorText: 'blank'
-  };
-
-  componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardDidHide);
-  }
-
-  componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
-  }
-
-  keyboardDidShow = (event) => {
-    console.log('asdf');
-    console.log(event);
-  };
-
-  keyboardDidHide = (event) => {
-    console.log('asdf');
-    console.log(event);
   };
 
   onPressNext = () => {
@@ -108,7 +88,8 @@ export default class SignInWithEmail extends Component {
     return (
       <Layout title="로그인">
         <View style={{ flex: 1, padding: 30 }}>
-          <View style={{ flex: 190 }}>
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 14 }}>
             <Input
               placeholder="이메일주소"
               keyboardType="email-address"
@@ -126,11 +107,12 @@ export default class SignInWithEmail extends Component {
               secureTextEntry
               onChangeText={(text, errorText) => { this.setState({ password: text, paddwordErrorText: errorText }); }}
             />
+            <Button onPress={this.onPressNext} isActive={isValid} marginTop={30}>다음</Button>
+            <View style={{ flexDirection: 'row', marginTop: 15, justifyContent: 'center' }}>
+              <Text style={{ fontSize: 12, color: '#cfcfcf' }}>비밀번호를 잃어버리셨습니까? </Text>
+              <Text style={{ fontSize: 12, color: '#fd614d' }}>비밀번호찾기</Text>
+            </View>
           </View>
-          <View style={{ flex: 70 }}>
-            <Button onPress={this.onPressNext} isActive={isValid}>다음</Button>
-          </View>
-          <View style={{ flex: 210 }} />
         </View>
       </Layout>
     );

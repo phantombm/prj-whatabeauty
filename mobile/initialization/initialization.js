@@ -23,7 +23,7 @@ Meteor.connect('ws://192.168.0.36:3000/websocket');
 global.keyColor = '#fd614d';
 
 Header.defaultProps.titleColor = '#3c4f5e';
-Header.defaultProps.backgroundColor = '#fafcfb';
+Header.defaultProps.backgroundColor = '#ffffff';
 
 Input.defaultProps.keyColor = global.keyColor;
 

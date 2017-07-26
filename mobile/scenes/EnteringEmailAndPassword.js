@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Button from '../components/Button';
 import Layout from '../layouts/Layout';
 import Input from '../components/Input';
+import MagnetView from '../components/MagnetView';
 
 export default class EnteringEmailAndPassword extends Component {
   static propTypes = {
@@ -53,7 +54,8 @@ export default class EnteringEmailAndPassword extends Component {
     return (
       <Layout title="E-mail 계정">
         <View style={{ flex: 1, padding: 30 }}>
-          <View style={{ flex: 190 }}>
+          <View style={{ flex: 1 }} />
+          <MagnetView style={{ flex: 14 }} offsetInAndroid={200} isWorkingIos={false} >
             <Input
               placeholder="이메일주소"
               keyboardType="email-address"
@@ -62,7 +64,6 @@ export default class EnteringEmailAndPassword extends Component {
                   return '이메일 형식에 맞지 않습니다.';
                 }
               }}
-              maxLength={40}
               onChangeText={(text, errorText) => { this.setState({ email: text, emailErrorText: errorText }); }}
             />
             <Input
@@ -87,11 +88,8 @@ export default class EnteringEmailAndPassword extends Component {
               secureTextEntry
               onChangeText={(text, errorText) => { this.setState({ passwordConfirmed: text, passwordConfirmedErrorText: errorText }); }}
             />
-          </View>
-          <View style={{ flex: 70 }}>
-            <Button onPress={this.onPressNext} isActive={isValid}>다음</Button>
-          </View>
-          <View style={{ flex: 210 }} />
+            <Button onPress={this.onPressNext} isActive={isValid} marginTop={30}>다음</Button>
+          </MagnetView>
         </View>
       </Layout>
     );
