@@ -17,7 +17,9 @@ setCustomText({
 });
 
 // TODO: ddp server ip
-Meteor.connect('ws://192.168.0.36:3000/websocket');
+global.ddpServerIp = '192.168.0.36:3000'
+
+Meteor.connect(`ws://${global.ddpServerIp}/websocket`);
 
 // TODO: custom default props
 global.keyColor = '#fd614d';

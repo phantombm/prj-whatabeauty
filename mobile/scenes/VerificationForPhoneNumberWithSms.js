@@ -62,7 +62,7 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
 
       Alert.alert(
         'whatabeauty',
-        'whatabeauty로부터 메세지가 도착했습니다. 인증번호는 [' + result.validationNumber + '] 입니다.',
+        `whatabeauty로부터 메세지가 도착했습니다. 인증번호는 [${result.validationNumber}] 입니다.`,
         [
           {
             text: '확인'
