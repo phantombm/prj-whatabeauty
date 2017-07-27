@@ -16,11 +16,10 @@ export default class SignIn extends Component {
       <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
         <View style={{ height: Constants.statusBarHeight }} />
         <View style={{ flex: 1, padding: 30 }}>
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ flex: 3, alignItems: 'center', justifyContent: 'center' }}>
             <Image source={require('../assets/images/splash_inverted.png')} />
           </View>
-          <View style={{ flex: 1 }}>
-            <Button onPress={() => { this.onPressSignIn('loginWithKakaotalk'); }} backgroundColor="#fcea4e" textColor="#381e1f" icon={<Image source={require('../assets/images/kakaotalk.png')} />}>카카오로 쉬운시작</Button>
+          <View style={{ flex: 2 }}>
             <Button onPress={() => { this.onPressSignIn('loginWithGoogle'); }} backgroundColor="#dd4b39" marginTop={8} icon={<FontAwesome name="google" size={28} color="#ffffff" />}>구글로 쉬운시작</Button>
             <Button onPress={() => { this.onPressSignIn('loginWithFacebook'); }} backgroundColor="#4267b2" marginTop={8} icon={<EvilIcons name="sc-facebook" size={38} color="#ffffff" />}>페이스북으로 쉬운시작</Button>
             <Button onPress={Actions.signInWithEmail} backgroundColor="#fd614d" marginTop={8} icon={<Entypo name="email" size={26} color="#ffffff" />}>이메일로 로그인</Button>

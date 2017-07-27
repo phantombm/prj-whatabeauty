@@ -19,6 +19,10 @@ export default class MyComponent extends Compoent {
     text: PropTypes.string
   };
   
+  static defaultProps = {
+    text: 'default'
+  };
+  
   state = {
     clickNumber: 0
   };
@@ -29,20 +33,20 @@ export default class MyComponent extends Compoent {
     // initialization when mounted
   }
   
-  render() {
-    return (
-      <View>
-        <Text onPress={ this.onPress }>{ this.props.text }</Text>
-      </View>
-    );
-  }
-  
   onPress = () => {
     this.setState((previousState) => {
       return {
         clickNumber: previousState.clickNumber + 1
       };
     });
+  }
+  
+  render() {
+    return (
+      <View>
+        <Text onPress={ this.onPress }>{ this.props.text }</Text>
+      </View>
+    );
   }
 }
 ```
@@ -215,8 +219,8 @@ main
     reservations(repeated)(:forWhom)
       reservation(repeated)(:forWhom, :id)
         changingDateTime(repeated)
-    balancingMoney:
-      balancingMoneyDetail(:id)
+    balancedMoney:
+      balancedMoneyDetail(:id)
       standardTableForBalancingMoney
       updatingBankAccount
     schedule
@@ -227,12 +231,12 @@ main
 ### Routing Table For Administrator App
 - /chats
 - /chatBoilerplates
-- /servicesForReview
-- /servicesForReview/:id/reviews
 - /notices
 - /notices/:id
+- /notices/add
 - /faqs
 - /faqs/:id
+- /faqs/add
 - /terms
 - /ssams
 - /ssams/:id
@@ -240,13 +244,16 @@ main
 - /users/:id
 - /partners
 - /partners/:id
+- /partners/add
 - /services
 - /services/:id
+- /services/add
 - /portfoilos
-- /portfoilos/:id
 - /sales
 - /balancedMoney
 - /events
+- /events/:id
+- /events/add
 - /notifications
 
 ### DB Schema
