@@ -55,7 +55,7 @@ export default class Splash extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: global.keyColor }}>
         <View style={{ flex: 7, alignItems: 'center', justifyContent: 'center' }}>
-          <Animated.Image source={require('../assets/images/splash.png')} style={{ opacity: this.animatedOpacity, transform: [{ translateY: this.animatedTranslateY }] }} />
+          <Animated.Image source={require('../assets/images/splash.png')} style={{ width: 100, height: 100, opacity: this.animatedOpacity, transform: [{ translateY: this.animatedTranslateY }] }} />
         </View>
         <View style={{ flex: 3 }} />
       </View>

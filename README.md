@@ -143,25 +143,25 @@ tutorial
 signIn
   signInWithEmail
   signInWithKakaotalk:
-    verificationForPhoneNumberWithSms(repeated)(:method)
-    enteringName(repeated)(:method)
+    verificationForPhoneNumberWithSms(repeated)(:signInType)
+    enteringName(repeated)(:signInType)
   signInWithFacebook:
-    verificationForPhoneNumberWithSms(repeated)(:method)
-    enteringName(repeated)(:method)
+    verificationForPhoneNumberWithSms(repeated)(:signInType)
+    enteringName(repeated)(:signInType)
   signInWithGoogle:
-    verificationForPhoneNumberWithSms(repeated)(:method)
-    enteringName(repeated)(:method)
-signUp(abstract):
-  verificationForPhoneNumberWithSms(:method)
-  enteringEmailAndPassword(:method, :cellPhoneNumber)
-  enteringName(:method, :cellPhoneNumber, :email, :password)
-recoveringPassword
+    verificationForPhoneNumberWithSms(repeated)(:signInType)
+    enteringName(repeated)(:signInType)
+  signUp(abstract):
+    verificationForPhoneNumberWithSms(:signInType)
+    enteringEmailAndPassword(:signInType, :phoneNumber)
+    enteringName(:signInType, :phoneNumber, :email, :password)
+  recoveringPassword
 main
   reservations(abstract)
-    reservation(:id)
+    reservation(:userType, :id)
       writingReview(:id)
-  reservationsOfSsam(abstract)
-    reservationOfSsam(:id)
+  reservationsForSsam(abstract)
+    reservation(:userType, :id)
       selectingDateTime(repeated)
   serviceTypes(abstract)
     services(:id)
@@ -185,47 +185,48 @@ main
   brands(abstract)
     brand(:id)
       chat(repeated)
-  chat
-  reservations(:forWhom)
-    reservation(:forWhom, :id)
-      writingReview(repeated)(:id)
-  notices(:forWhom)
-    notice(:forWhom, :id)
-  faqs
-  sharing
-  settings
-    terms
-    privacyStatement
-  account
-    updatingInformation
-    updatingAddress(abstract)
-      enteringAddress(repeated)
-        enteringAddressDetail(repeated)
-    addingAddress(abstract)
-      enteringAddress(repeated)
-        enteringAddressDetail(repeated)
-    changingPassword
-    deletingAccount
-  applyingForSsam
-    chat(repeated)
-  menuForSsam
-    notices(repeated)(:forWhom)
-      notice(repeated)(:forWhom, :id)
-    belonging
-    informationForSsam
-      portfolio(repeated)(:id)
-      complainingReview(:id)
-      updatingInformationForSsam
-    reservations(repeated)(:forWhom)
-      reservation(repeated)(:forWhom, :id)
-        changingDateTime(repeated)
-    balancedMoney:
-      balancedMoneyDetail(:id)
-      standardTableForBalancingMoney
-      updatingBankAccount
-    schedule
-      reservation(repeated)(:forWhom, :id)
   notifications
+  chat
+  drawerMenu(abstract)
+    reservations(:userType)
+      reservation(:userType, :id)
+        writingReview(repeated)(:id)
+    notices(:userType)
+      notice(:userType, :id)
+    faqs
+    sharing
+    settings
+      termsOfService
+      privacyPolicy
+    account
+      updatingInformation
+      updatingAddress(abstract)
+        enteringAddress(repeated)
+          enteringAddressDetail(repeated)
+      addingAddress(abstract)
+        enteringAddress(repeated)
+          enteringAddressDetail(repeated)
+      changingPassword
+      deletingAccount
+    applyingForSsam
+      chat(repeated)
+    menuForSsam
+      notices(repeated)(:userType)
+        notice(repeated)(:userType, :id)
+      belonging
+      informationForSsam
+        portfolio(repeated)(:id)
+        complainingReview(:id)
+        updatingInformationForSsam
+      reservations(repeated)(:userType)
+        reservation(repeated)(:userType, :id)
+          changingDateTime(repeated)
+      balancedMoney:
+        balancedMoneyDetail(:id)
+        standardTableForBalancingMoney
+        updatingBankAccount
+      schedule
+        reservation(repeated)(:userType, :id)
 ```
 
 ### Routing Table For Administrator App
@@ -256,7 +257,7 @@ main
 - /events/add
 - /notifications
 
-### DB Schema
+### Mongo Database Schema
 
 #### users.profile collection
 ```

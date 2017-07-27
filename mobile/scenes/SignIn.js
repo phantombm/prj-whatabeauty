@@ -17,7 +17,7 @@ export default class SignIn extends Component {
         <View style={{ height: Constants.statusBarHeight }} />
         <View style={{ flex: 1, padding: 30 }}>
           <View style={{ flex: 3, alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={require('../assets/images/splash_inverted.png')} />
+            <Image source={require('../assets/images/splash_inverted.png')} style={{ width: 100, height: 100 }} />
           </View>
           <View style={{ flex: 2 }}>
             <Button onPress={() => { this.onPressSignIn('loginWithGoogle'); }} backgroundColor="#dd4b39" marginTop={8} icon={<FontAwesome name="google" size={28} color="#ffffff" />}>구글로 쉬운시작</Button>

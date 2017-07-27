@@ -8,16 +8,16 @@ export default class MagnetView extends Component {
     style: PropTypes.object,
     offsetInIos: PropTypes.number,
     offsetInAndroid: PropTypes.number,
-    isWorkingIos: PropTypes.bool,
-    isWorkinginAndroid: PropTypes.bool
+    isWorkingInIos: PropTypes.bool,
+    isWorkingInAndroid: PropTypes.bool
   };
 
   static defaultProps = {
     style: {},
     offsetInIos: 0,
     offsetInAndroid: 0,
-    isWorkingIos: true,
-    isWorkinginAndroid: true
+    isWorkingInIos: true,
+    isWorkingInAndroid: true
   };
 
   animatedTranlateY = new Animated.Value(0);
@@ -33,11 +33,11 @@ export default class MagnetView extends Component {
   }
 
   keyboardDidShow = (event) => {
-    if (Platform.OS == 'ios' && this.props.isWorkingIos == false) {
+    if (Platform.OS == 'ios' && this.props.isWorkingInIos == false) {
       return;
     }
 
-    if (Platform.OS == 'android' && this.props.isWorkinginAndroid == false) {
+    if (Platform.OS == 'android' && this.props.isWorkingInAndroid == false) {
       return;
     }
 
@@ -57,11 +57,11 @@ export default class MagnetView extends Component {
   };
 
   keyboardDidHide = () => {
-    if (Platform.OS == 'ios' && this.props.isWorkingIos == false) {
+    if (Platform.OS == 'ios' && this.props.isWorkingInIos == false) {
       return;
     }
 
-    if (Platform.OS == 'android' && this.props.isWorkinginAndroid == false) {
+    if (Platform.OS == 'android' && this.props.isWorkingInAndroid == false) {
       return;
     }
 
