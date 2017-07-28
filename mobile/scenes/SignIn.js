@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import { View, Image, Text } from 'react-native';
 import { Constants, WebBrowser } from 'expo';
-import { Actions } from 'react-native-router-flux';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import { FontAwesome, EvilIcons, Entypo } from '@expo/vector-icons';
+import Meteor from 'react-native-meteor';
 
 import Button from '../components/Button';
 
 export default class SignIn extends Component {
   onPressSignIn = async (param) => {
-    const result = await WebBrowser.openBrowserAsync(`http://221.167.202.216:3000/${param}`);
+    const result = await WebBrowser.openBrowserAsync(`http://${global.ddpServerIp}/${param}`);
+
+    if (Meteor.user()) {
+      Actions.main({
+        type: ActionConst.RESET
+      });
+    }
   };
 
   render() {

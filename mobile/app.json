@@ -21,11 +21,11 @@
       ]
     },
     "ios": {
-      "bundleIdentifier": "com.smartlink.whatabeauty",
+      "bundleIdentifier": "io.smartlink.whatabeauty",
       "supportsTablet": true
     },
     "android": {
-      "package": "com.smartlink.whatabeauty"
+      "package": "io.smartlink.whatabeauty"
     }
   }
 }

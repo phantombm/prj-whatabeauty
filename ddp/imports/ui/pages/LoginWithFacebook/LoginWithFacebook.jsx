@@ -3,8 +3,22 @@ import { Accounts } from 'meteor/accounts-base';
 import React, { Component } from 'react';
 
 export default class LoginWithFacebook extends Component {
+  state = {
+    isSucceeded: false
+  };
+
   componentDidMount() {
     const setIntervalId = Meteor.setInterval(() => {
+      if (Meteor.user()) {
+        this.setState({
+          isSucceeded: true
+        });
+
+        Meteor.clearInterval(setIntervalId);
+
+        return;
+      }
+
       if (Accounts.loginServicesConfigured()) {
         Meteor.loginWithFacebook({
           loginStyle: 'redirect'
@@ -21,7 +35,14 @@ export default class LoginWithFacebook extends Component {
 
   render() {
     return (
-      <div />
+      <div>
+        { this.state.isSucceeded &&
+          <div style={{ fontSize: '50px', textAlign: 'center', marginTop: '100px' }}>
+            로그인에 성공했습니다.<br />
+            창을 닫아주세요.
+          </div>
+        }
+      </div>
     );
   }
 }

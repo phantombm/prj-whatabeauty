@@ -264,53 +264,188 @@ main
 {
   name: String,
   cellPhoneNumber: String,
-  addresses: [addressSchema],
-  servicesOfUser: [servicesOfUserSchema],
+  addresses: [
+    {
+      address: String,
+      addressDetail: String,
+      memo: String
+    }
+  ],
+  reservations: [String(_id)],
+  isOwner: Boolean,
   isAdministrator: Boolean,
   isSsam: Boolean,
-  region: String,
-  career: Number
+  informationForSsam: {
+    name: String,
+    region: String,
+    career: Number(month),
+    belonging: {
+      brandId: String,
+      name: String(brandName)
+    },
+    portfolios: [
+      {
+        imageUrl: String,
+        description: String
+      }
+    ],
+    notAvailableDates: [Date],
+    isServiceAvailable: Boolean,
+    reservations: [String(_id)],
+    balancedMoney: [
+      {
+        yearMonth: Date,
+        balancedMoney: {
+          amount: Number,
+          unit: String
+        },
+        reservations: [String(reservationId)],
+        createAt: Date
+      }
+    ],
+    bankAccount: {
+      bank: String,
+      number: String,
+      owner: String
+    }
+  }
+  isActive: Boolean,
+  createAt: Date
 }
 ```
 
-#### address schema
+#### reservations collections
 ```
 {
-  address: String,
-  detail: String
-}
-```
-
-#### services schema
-```
-{
-  ssam: ssamSchema,
-  service: serviceDefinitionsSchema,
-  relatedServices: [serviceDefinitionsSchema],
-  quantity: Number,
-  price: Number,
-  address: addressSchema,
+  ssam: informationForSsam(schema),
+  services: [
+    {
+      service: service(schema),
+      quantity: Number
+    }
+  ],
+  price: {
+    amount: Number,
+    unit: String
+  },
+  balancedMoney: {
+    amount: Number,
+    unit: String
+  },
+  isBalanced,
+  address: addresses.0(schema),
   progress: {
     type: String,
     allowedValues: [
       'not paid',
       'reserved',
       'refunded',
+      'wating for confirming payment'
       'completed'
     ]
-  }
+  },
+  requirement: String,
+  scheduledAt: Date,
+  createAt: Date
 }
 ```
 
-#### serviceDefinitions collection / schema
+#### serviceTypes collection
 ```
 {
-  type: String,
   name: String,
-  detail: String,
+  title: String,
+  description: String,
+  imageUrl: String,
+  ordering: Number
+}
+```
+
+#### services collection
+```
+{
+  type: String(service type name),
+  name: String,
+  description: [
+    {
+      title: String,
+      contents: String
+    }
+  ],
   imageUrl: String,
   galleryImageUrls: [String],
   price: Number,
-  relatedService: [serviceDefinitionsSchema]
+  relatedService: [String(serviceId)],
+  ordering: Number,
+  duration: Number,
+  isActive: Boolean
+}
+```
+
+#### notifications
+```
+{
+  type: {
+    type: String,
+    allowedValues: [
+      'chat',
+      'reservation'
+    ]
+  },
+  reservationId: String,
+  title: String,
+  description: String,
+  createAt: Date
+}
+```
+
+#### notificationsToAll
+```
+{
+  title: String,
+  description: String,
+  createAt: Date
+}
+```
+
+#### chats
+```
+{
+  type: String('text', 'image'),
+  from: String(userId),
+  to: String(userId),
+  message: String,
+  imageUrl: String,
+  createAt: Date
+}
+```
+
+#### documentsForManagement collection
+```
+{
+  type: 'notices',
+  title: String,
+  contents: String,
+  createAt: Date
+}
+
+{
+  type: 'faqs',
+  title: String,
+  contents: String,
+  ordering: Number
+  createAt: Date
+}
+
+{
+  type: 'termsOfService',
+  title: String,
+  contents: String(html)
+}
+
+{
+  type: 'privacyPolicy',
+  title: String,
+  contents: String(html)
 }
 ```
