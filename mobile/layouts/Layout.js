@@ -11,12 +11,14 @@ export default class Layout extends Component {
   static propTypes = {
     children: PropTypes.element.isRequired,
     title: PropTypes.string,
-    onPressLeftIcon: PropTypes.func
+    onPressLeftIcon: PropTypes.func,
+    isKeyboardDismissedOnTouched: PropTypes.bool
   };
 
   static defaultProps = {
     title: '',
-    onPressLeftIcon: () => {}
+    onPressLeftIcon: () => {},
+    isKeyboardDismissedOnTouched: true
   };
 
   onPressLeftIcon = () => {
@@ -25,13 +27,28 @@ export default class Layout extends Component {
     Actions.pop();
   };
 
-  onPress = () => {
+  onPressView = () => {
     Keyboard.dismiss();
   };
 
   render() {
-    return (
-      <TouchableWithoutFeedback onPress={this.onPress}>
+    if (this.props.isKeyboardDismissedOnTouched) {
+      return (
+        <TouchableWithoutFeedback onPress={this.onPressView}>
+          <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
+            <View style={{ height: Constants.statusBarHeight }} />
+            <View style={{ flex: 1 }}>
+              <Header title={this.props.title} leftIcon={<Ionicons name="ios-arrow-round-back-outline" color="#3c4f5e" size={50} />} onPressLeftIcon={this.onPressLeftIcon} />
+            </View>
+            <View style={{ flex: 10 }}>
+              { this.props.children }
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      );
+    }
+    else {
+      return (
         <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
           <View style={{ height: Constants.statusBarHeight }} />
           <View style={{ flex: 1 }}>
@@ -41,7 +58,7 @@ export default class Layout extends Component {
             { this.props.children }
           </View>
         </View>
-      </TouchableWithoutFeedback>
-    );
+      );
+    }
   }
 }

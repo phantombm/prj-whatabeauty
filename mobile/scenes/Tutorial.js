@@ -22,8 +22,16 @@ const styleSheet = StyleSheet.create({
 
 export default class _Tutorial extends Component {
   onPressSkip = () => {
-    if (Meteor.user()) {
-      Actions.main();
+    const user = Meteor.user();
+    if (user) {
+      if (user.profile.phoneNumber) {
+        Actions.main();
+      }
+      else {
+        Meteor.logout();
+
+        Actions.signIn();
+      }
     }
     else {
       Actions.signIn();

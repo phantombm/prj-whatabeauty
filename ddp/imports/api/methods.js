@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
 Meteor.methods({
-  sendSms: (phoneNumber) => {
+  'sendSms'(phoneNumber) {
     check(phoneNumber, String);
 
     if (!/^[0-9]{10,11}$/.test(phoneNumber)) {
@@ -14,5 +14,10 @@ Meteor.methods({
     return {
       validationNumber: validationNumber
     };
+  },
+  'users.update'(modifier) {
+    Meteor.users.update({
+      _id: this.userId
+    }, modifier);
   }
 });

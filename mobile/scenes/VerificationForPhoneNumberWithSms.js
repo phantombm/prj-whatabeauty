@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Alert, Keyboard } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import Meteor from 'react-native-meteor';
 import { EvilIcons } from '@expo/vector-icons';
@@ -11,7 +11,7 @@ import Input from '../components/Input';
 
 export default class VerificationForCellPhoneNumberWithSms extends Component {
   static propTypes = {
-    method: PropTypes.string.isRequired
+    signInType: PropTypes.string.isRequired
   };
 
   state = {
@@ -45,16 +45,10 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
     Meteor.call('sendSms', this.state.phoneNumber, (error, result) => {
       if (error) {
         Alert.alert(
-          '에러',
+          'whatabeauty',
           error.reason,
-          [
-            {
-              text: '확인'
-            }
-          ],
-          {
-            cancelable: false
-          }
+          [{ text: '확인' }],
+          { cancelable: false }
         );
 
         return;
@@ -63,14 +57,8 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
       Alert.alert(
         'whatabeauty',
         `whatabeauty로부터 메세지가 도착했습니다. 인증번호는 [${result.validationNumber}] 입니다.`,
-        [
-          {
-            text: '확인'
-          }
-        ],
-        {
-          cancelable: false
-        }
+        [{ text: '확인' }],
+        { cancelable: false }
       );
 
       this.setState({
@@ -85,14 +73,8 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
       Alert.alert(
         'whatabeauty',
         '인증번호가 일치하지 않습니다.',
-        [
-          {
-            text: '확인'
-          }
-        ],
-        {
-          cancelable: false
-        }
+        [{ text: '확인' }],
+        { cancelable: false }
       );
 
       return;
@@ -109,10 +91,20 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
 
     Keyboard.dismiss();
 
-    if (this.props.method == 'email') {
+    if (this.props.signInType == 'password') {
       Actions.enteringEmailAndPassword({
-        method: this.props.method,
         phoneNumber: this.state.phoneNumber
+      });
+    }
+    else {
+      Meteor.call('users.update', {
+        $set: {
+          'profile.phoneNumber': this.state.phoneNumber
+        }
+      });
+
+      Actions.main({
+        type: ActionConst.RESET
       });
     }
   };
@@ -133,16 +125,24 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
     return true;
   };
 
+  onPressLeftIcon = () => {
+    if (this.props.signInType == 'external service') {
+      Meteor.logout();
+    }
+
+    Actions.pop();
+  };
+
   render() {
     const isValid = this.validate();
 
     return (
-      <Layout title="SMS 인증">
+      <Layout title="SMS 인증" onPressLeftIcon={this.onPressLeftIcon}>
         <View style={{ flex: 1, padding: 30 }}>
           <View style={{ flex: 1 }} />
           <View style={{ flex: 14 }}>
             <Input
-              placeholder="휴대폰번호"
+              placeholder="핸드폰번호"
               keyboardType="numeric"
               validator={(text) => {
                 if (/[^0-9]/.test(text)) {
@@ -176,7 +176,9 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
                 </Text>
               </View>
             }
-            <Button onPress={this.onPressNext} isActive={isValid} marginTop={30}>다음</Button>
+            <Button onPress={this.onPressNext} isActive={isValid} marginTop={30}>
+              { this.props.signInType == 'password' ? '다음' : '회원가입 완료' }
+            </Button>
           </View>
         </View>
       </Layout>

@@ -10,7 +10,6 @@ import Input from '../components/Input';
 
 export default class EnteringName extends Component {
   static propTypes = {
-    method: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired
@@ -22,53 +21,40 @@ export default class EnteringName extends Component {
   };
 
   onPressNext = () => {
-    if (this.props.method == 'email') {
-      Accounts.createUser({
+    Accounts.createUser({
+      email: this.props.email,
+      password: this.props.password,
+      profile: {
+        name: this.state.name,
         email: this.props.email,
-        password: this.props.password,
-        profile: {
-          name: this.state.name,
-          phoneNumber: this.props.phoneNumber
+        phoneNumber: this.props.phoneNumber
+      }
+    }, (error) => {
+      if (error) {
+        if (error.reason == 'Email already exists.') {
+          Alert.alert(
+            'whatabeauty',
+            '이미 존재하는 이메일입니다.',
+            [{ text: '확인' }],
+            { cancelable: false }
+          );
         }
-      }, (error) => {
-        if (error) {
-          if (error.reason == 'Email already exists.') {
-            Alert.alert(
-              'whatabeauty',
-              '이미 존재하는 이메일입니다.',
-              [
-                {
-                  text: '확인'
-                }
-              ],
-              {
-                cancelable: false
-              }
-            );
-          }
-          else {
-            Alert.alert(
-              'whatabeauty',
-              error.reason,
-              [
-                {
-                  text: '확인'
-                }
-              ],
-              {
-                cancelable: false
-              }
-            );
-          }
-
-          return;
+        else {
+          Alert.alert(
+            'whatabeauty',
+            error.reason,
+            [{ text: '확인' }],
+            { cancelable: false }
+          );
         }
 
-        Actions.main({
-          type: ActionConst.RESET
-        });
+        return;
+      }
+
+      Actions.main({
+        type: ActionConst.RESET
       });
-    }
+    });
   };
 
   validate = () => {

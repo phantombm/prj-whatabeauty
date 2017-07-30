@@ -1,4 +1,4 @@
-/* eslint no-undef: off */
+/* eslint "no-undef": "off" */
 
 import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';

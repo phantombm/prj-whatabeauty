@@ -20,7 +20,8 @@
     "react-native-router-flux": "^3.41.0",
     "react-redux": "^5.0.5",
     "redux": "^3.7.2",
-    "underscore": "^1.8.3"
+    "underscore": "^1.8.3",
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

@@ -22,42 +22,24 @@ export default class SignInWithEmail extends Component {
           Alert.alert(
             'whatabeauty',
             '존재하지 않는 이메일입니다.',
-            [
-              {
-                text: '확인'
-              }
-            ],
-            {
-              cancelable: false
-            }
+            [{ text: '확인' }],
+            { cancelable: false }
           );
         }
         else if (error.reason == 'Incorrect password') {
           Alert.alert(
             'whatabeauty',
             '비밀번호가 틀립니다.',
-            [
-              {
-                text: '확인'
-              }
-            ],
-            {
-              cancelable: false
-            }
+            [{ text: '확인' }],
+            { cancelable: false }
           );
         }
         else {
           Alert.alert(
             'whatabeauty',
             error.reason,
-            [
-              {
-                text: '확인'
-              }
-            ],
-            {
-              cancelable: false
-            }
+            [{ text: '확인' }],
+            { cancelable: false }
           );
         }
 

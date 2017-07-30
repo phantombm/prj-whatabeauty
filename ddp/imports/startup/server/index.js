@@ -1,3 +1,4 @@
 import './fixtures';
-import './register_api';
-import './initialization';
+import './api_registeration';
+import './service_configuration';
+import './accounts_configuration';
