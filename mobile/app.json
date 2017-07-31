@@ -12,7 +12,7 @@
       "color": "#ffffff"
     },
     "loading": {
-      "icon": "./assets/images/splash.png",
+      "icon": "./assets/images/fake_splash.png",
       "hideExponentText": true
     },
     "packagerOpts": {

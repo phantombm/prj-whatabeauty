@@ -354,31 +354,41 @@ main
 ```
 {
   name: String,
-  title: String,
-  description: String,
   imageUrl: String,
-  ordering: Number
+  ordering: Number,
+  isVisible: Boolean,
+  isActive: Boolean,
+  createAt: Date
 }
 ```
 
 #### services collection
 ```
 {
-  type: String(service type name),
+  serviceTypeId: String,
   name: String,
-  description: [
+  comment: String,
+  description: {
+    contents: String,
+    progress: String
+  },
+  imageUrl: String,
+  gallery: [
     {
-      title: String,
-      contents: String
+      imageUrl: String,
+      description: String
     }
   ],
-  imageUrl: String,
-  galleryImageUrls: [String],
-  price: Number,
   relatedService: [String(serviceId)],
+  price: {
+    amount: Number,
+    unit: String
+  },
+  duration: Number(minutes),
   ordering: Number,
-  duration: Number,
-  isActive: Boolean
+  isVisible: Boolean,
+  isActive: Boolean,
+  createAt: Date
 }
 ```
 

@@ -42,7 +42,7 @@ export default class _Tutorial extends Component {
     return (
       <Tutorial backgroundColor={global.keyColor} onPressSkip={this.onPressSkip}>
         <View>
-          <Image source={require('../assets/images/tutorial_1.png')} />
+          <Image source={require('../assets/images/tutorial_1.png')} style={{ width: 305, height: 444 }} />
           <Text style={styleSheet.title}>찾아가는 서비스</Text>
           <Text style={styleSheet.description}>
             아름답고싶은것은 본능입니다.{'\n'}
@@ -51,7 +51,7 @@ export default class _Tutorial extends Component {
           </Text>
         </View>
         <View>
-          <Image source={require('../assets/images/tutorial_2.png')} />
+          <Image source={require('../assets/images/tutorial_2.png')} style={{ width: 305, height: 444 }} />
           <Text style={styleSheet.title}>특별해지고 싶은 날</Text>
           <Text style={styleSheet.description}>
             아름답고싶은것은 본능입니다.{'\n'}
@@ -60,7 +60,7 @@ export default class _Tutorial extends Component {
           </Text>
         </View>
         <View>
-          <Image source={require('../assets/images/tutorial_3.png')} />
+          <Image source={require('../assets/images/tutorial_3.png')} style={{ width: 305, height: 444 }} />
           <Text style={styleSheet.title}>전문가의 손길</Text>
           <Text style={styleSheet.description}>
             아름답고싶은것은 본능입니다.{'\n'}

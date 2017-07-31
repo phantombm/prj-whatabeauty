@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, FlatList, Image, Text, TouchableWithoutFeedback } from 'react-native';
 import PropType from 'prop-types';
 import { Actions } from 'react-native-router-flux';
+import moment from 'moment';
+import _ from 'lodash';
 
 import Layout from '../layouts/Layout';
 
@@ -15,304 +17,305 @@ export default class Services extends Component {
     services: [
       {
         _id: '1',
+        serviceTypeId: '1',
+        name: '본식 메이크업',
+        comment: '전통 혼례 포함',
+        description: {
+          contents: '<div style="font-size: 12px; color: #9b9b9b">신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다. 신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다.</div>',
+          progress: '<div style="font-size: 12px; color: #9b9b9b">상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다. 상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다. 상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다.</div>'
+        },
         imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-        title: '촬영 메이크업',
-        description: '전통 혼례 포함',
+        gallery: [
+          {
+            imageUrl: 'http://cfile28.uf.tistory.com/image/2372783D577FD52D022E32',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://upload2.inven.co.kr/upload/2017/06/09/bbs/i14754277015.jpg',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'https://i.ytimg.com/vi/TRTquokWSCw/maxresdefault.jpg',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://cfile29.uf.tistory.com/image/2648023A5466928F2ECAB5',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://ppss.kr/wp-content/uploads/2017/04/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C-8-540x245.png',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          }
+        ],
+        relatedService: ['2', '3'],
         price: {
-          amount: 25000,
+          amount: 300000,
           unit: '원'
-        }
+        },
+        duration: 30,
+        ordering: 1,
+        isVisible: true,
+        isActive: true,
+        createAt: moment()
       },
       {
         _id: '2',
+        serviceTypeId: '1',
+        name: '본식 메이크업',
+        comment: '전통 혼례 포함',
+        description: {
+          contents: '<div style="font-size: 12px; color: #9b9b9b">신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다. 신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다.</div>',
+          progress: '<div style="font-size: 12px; color: #9b9b9b">상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다. 상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다. 상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다.</div>'
+        },
         imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-        title: '촬영 메이크업',
-        description: '전통 혼례 포함',
+        gallery: [
+          {
+            imageUrl: 'http://cfile28.uf.tistory.com/image/2372783D577FD52D022E32',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://upload2.inven.co.kr/upload/2017/06/09/bbs/i14754277015.jpg',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'https://i.ytimg.com/vi/TRTquokWSCw/maxresdefault.jpg',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://cfile29.uf.tistory.com/image/2648023A5466928F2ECAB5',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://ppss.kr/wp-content/uploads/2017/04/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C-8-540x245.png',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          }
+        ],
+        relatedService: ['2', '3'],
         price: {
-          amount: 25000,
+          amount: 300000,
           unit: '원'
-        }
+        },
+        duration: 30,
+        ordering: 2,
+        isVisible: true,
+        isActive: true,
+        createAt: moment()
       },
       {
         _id: '3',
+        serviceTypeId: '1',
+        name: '본식 메이크업',
+        comment: '전통 혼례 포함',
+        description: {
+          contents: '<div style="font-size: 12px; color: #9b9b9b">신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다. 신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다.</div>',
+          progress: '<div style="font-size: 12px; color: #9b9b9b">상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다. 상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다. 상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다.</div>'
+        },
         imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-        title: '촬영 메이크업',
-        description: '전통 혼례 포함',
+        gallery: [
+          {
+            imageUrl: 'http://cfile28.uf.tistory.com/image/2372783D577FD52D022E32',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://upload2.inven.co.kr/upload/2017/06/09/bbs/i14754277015.jpg',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'https://i.ytimg.com/vi/TRTquokWSCw/maxresdefault.jpg',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://cfile29.uf.tistory.com/image/2648023A5466928F2ECAB5',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://ppss.kr/wp-content/uploads/2017/04/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C-8-540x245.png',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          }
+        ],
+        relatedService: ['2', '3'],
         price: {
-          amount: 25000,
+          amount: 300000,
           unit: '원'
-        }
+        },
+        duration: 30,
+        ordering: 3,
+        isVisible: true,
+        isActive: true,
+        createAt: moment()
       },
       {
         _id: '4',
-        imageUrl: 'http://ntry.com/data/editor/1511/c28d086434c11e4cc76670f44aa8a7c6_KiYjF4Q6hLUuHiowxc5.png',
-        title: '촬영 메이크업',
-        description: '전통 혼례 포함',
+        serviceTypeId: '1',
+        name: '본식 메이크업',
+        comment: '전통 혼례 포함',
+        description: {
+          contents: '<div style="font-size: 12px; color: #9b9b9b">신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다. 신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다.</div>',
+          progress: '<div style="font-size: 12px; color: #9b9b9b">상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다. 상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다. 상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다.</div>'
+        },
+        imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
+        gallery: [
+          {
+            imageUrl: 'http://cfile28.uf.tistory.com/image/2372783D577FD52D022E32',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://upload2.inven.co.kr/upload/2017/06/09/bbs/i14754277015.jpg',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'https://i.ytimg.com/vi/TRTquokWSCw/maxresdefault.jpg',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://cfile29.uf.tistory.com/image/2648023A5466928F2ECAB5',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://ppss.kr/wp-content/uploads/2017/04/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C-8-540x245.png',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          }
+        ],
+        relatedService: ['2', '3'],
         price: {
-          amount: 25000,
+          amount: 300000,
           unit: '원'
-        }
+        },
+        duration: 30,
+        ordering: 4,
+        isVisible: true,
+        isActive: true,
+        createAt: moment()
       },
       {
         _id: '5',
-        imageUrl: 'http://www.peopletimes.net/files/attach/images/152/694/418/13a781ef41cd318f0f3e48c070685f32.png',
-        title: '촬영 메이크업',
-        description: '전통 혼례 포함',
+        serviceTypeId: '1',
+        name: '본식 메이크업',
+        comment: '전통 혼례 포함',
+        description: {
+          contents: '<div style="font-size: 12px; color: #9b9b9b">신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다. 신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다.</div>',
+          progress: '<div style="font-size: 12px; color: #9b9b9b">상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다. 상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다. 상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다.</div>'
+        },
+        imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
+        gallery: [
+          {
+            imageUrl: 'http://cfile28.uf.tistory.com/image/2372783D577FD52D022E32',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://upload2.inven.co.kr/upload/2017/06/09/bbs/i14754277015.jpg',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'https://i.ytimg.com/vi/TRTquokWSCw/maxresdefault.jpg',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://cfile29.uf.tistory.com/image/2648023A5466928F2ECAB5',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://ppss.kr/wp-content/uploads/2017/04/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C-8-540x245.png',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          }
+        ],
+        relatedService: ['2', '3'],
         price: {
-          amount: 25000,
+          amount: 300000,
           unit: '원'
-        }
+        },
+        duration: 30,
+        ordering: 5,
+        isVisible: true,
+        isActive: true,
+        createAt: moment()
       },
       {
         _id: '6',
-        imageUrl: 'http://www.matcl.com/files/attach/images/2791205/244/951/002/a90ae656c9a6d1dcec575d04c7f2fc23.jpg',
-        title: '촬영 메이크업',
-        description: '전통 혼례 포함',
+        serviceTypeId: '1',
+        name: '본식 메이크업',
+        comment: '전통 혼례 포함',
+        description: {
+          contents: '<div style="font-size: 12px; color: #9b9b9b">신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다. 신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다.</div>',
+          progress: '<div style="font-size: 12px; color: #9b9b9b">상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다. 상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다. 상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다.</div>'
+        },
+        imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
+        gallery: [
+          {
+            imageUrl: 'http://cfile28.uf.tistory.com/image/2372783D577FD52D022E32',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://upload2.inven.co.kr/upload/2017/06/09/bbs/i14754277015.jpg',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'https://i.ytimg.com/vi/TRTquokWSCw/maxresdefault.jpg',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://cfile29.uf.tistory.com/image/2648023A5466928F2ECAB5',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://ppss.kr/wp-content/uploads/2017/04/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C-8-540x245.png',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          }
+        ],
+        relatedService: ['2', '3'],
         price: {
-          amount: 25000,
+          amount: 300000,
           unit: '원'
-        }
+        },
+        duration: 30,
+        ordering: 6,
+        isVisible: true,
+        isActive: true,
+        createAt: moment()
       },
       {
         _id: '7',
-        imageUrl: 'http://cdn.sketchpan.com/member/s/sss455/draw/1406884151781/0.png',
-        title: '촬영 메이크업',
-        description: '전통 혼례 포함',
+        serviceTypeId: '1',
+        name: '본식 메이크업',
+        comment: '전통 혼례 포함',
+        description: {
+          contents: '<div style="font-size: 12px; color: #9b9b9b">신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다. 신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다.</div>',
+          progress: '<div style="font-size: 12px; color: #9b9b9b">상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다. 상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다. 상품을 등록하기 전에 채팅을 통해서 건 전화를 통해서 건 상담을 꼼꼼하게 받은 다음에 필요한 정보들을 차근차근 입력하고 예약하면 예약한 시간과 장소에 찾아가서 서비스를 진행한다는 일련의 과정들을 설명하는 공간입니다.</div>'
+        },
+        imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
+        gallery: [
+          {
+            imageUrl: 'http://cfile28.uf.tistory.com/image/2372783D577FD52D022E32',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://upload2.inven.co.kr/upload/2017/06/09/bbs/i14754277015.jpg',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'https://i.ytimg.com/vi/TRTquokWSCw/maxresdefault.jpg',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://cfile29.uf.tistory.com/image/2648023A5466928F2ECAB5',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          },
+          {
+            imageUrl: 'http://ppss.kr/wp-content/uploads/2017/04/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C-8-540x245.png',
+            description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
+          }
+        ],
+        relatedService: ['2', '3'],
         price: {
-          amount: 25000,
+          amount: 300000,
           unit: '원'
-        }
-      },
-      {
-        _id: '8',
-        imageUrl: 'http://post.phinf.naver.net/MjAxNzAzMTBfNjMg/MDAxNDg5MTExODg1NzY2.lWqivT-Ys0fog8SPrAme2x9kouljyNQGor52-SJe_0Eg.ny3eUc84yReXYZC4jyc3JspAYgWaoPsQAcQqU6yhuRcg.PNG/2.PNG?type=w1200',
-        title: '촬영 메이크업',
-        description: '전통 혼례 포함',
-        price: {
-          amount: 25000,
-          unit: '원'
-        }
-      },
-      // {
-      //   _id: '9',
-      //   imageUrl: 'http://mblogthumb1.phinf.naver.net/20160808_48/tnsenqn3379_14706664639875Dwm0_PNG/2013-01-15_063B153B32.png?type=w800',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '71',
-      //   imageUrl: 'http://cogly.net/xe/files/attach/images/23381/067/861/1e8190260402b4284fe0d23c46863acd.png',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '81',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '91',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '72',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '82',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '92',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '73',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '83',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '93',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '74',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '84',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '94',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '75',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '85',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '95',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '76',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '86',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '96',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '77',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '87',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // },
-      // {
-      //   _id: '97',
-      //   imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-      //   title: '촬영 메이크업',
-      //   description: '전통 혼례 포함',
-      //   price: {
-      //     amount: 25000,
-      //     unit: '원'
-      //   }
-      // }
+        },
+        duration: 30,
+        ordering: 7,
+        isVisible: true,
+        isActive: true,
+        createAt: moment()
+      }
     ]
   };
 
@@ -329,10 +332,10 @@ export default class Services extends Component {
           </View>
           <View style={{ borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderWidth: 1, borderColor: '#eeeeee', padding: 10, flex: 1 }}>
             <View>
-              <Text style={{ fontSize: 13, color: '#666666' }}>{ item.title }</Text>
+              <Text style={{ fontSize: 13, color: '#666666' }}>{ item.name }</Text>
             </View>
             <View style={{ flexDirection: 'row', marginTop: 5 }}>
-              <Text style={{ fontSize: 10, color: '#919191' }}>{ item.description } | </Text>
+              <Text style={{ fontSize: 10, color: '#919191' }}>{ item.comment } | </Text>
               <Text style={{ fontSize: 10, color: '#fd614d' }}>{ this.renderPrice(item) }</Text>
             </View>
           </View>
@@ -352,9 +355,15 @@ export default class Services extends Component {
   };
 
   render() {
+    let services = this.props.services;
+
+    services  = _.sortBy(services, [(service) => { return -service.ordering; }, 'createAt']);
+
+    services.reverse();
+
     return (
-      <Layout title={this.props.serviceType.title} isKeyboardDismissedOnTouched={false}>
-        <FlatList data={this.props.services} keyExtractor={this.keyExtractor} renderItem={this.renderService} numColumns={2} contentContainerStyle={{ paddingRight: 16, paddingBottom: 16 }} />
+      <Layout title={this.props.serviceType.name} isKeyboardDismissedOnTouched={false}>
+        <FlatList data={services} keyExtractor={this.keyExtractor} renderItem={this.renderService} numColumns={2} contentContainerStyle={{ paddingRight: 16, paddingBottom: 16 }} />
       </Layout>
     );
   }
