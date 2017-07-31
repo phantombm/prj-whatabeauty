@@ -14,26 +14,29 @@ class SignInWithExternalService extends Component {
 
   componentDidUpdate() {
     if (this.props.isLoginServicesConfigured !== undefined) {
-      if (this.props.match.params.signInType == 'facebook') {
-        Meteor.loginWithFacebook(() => {
-          Meteor.call('signInTokens.insert', Meteor.user().profile, this.props.match.params.uuidV1, () => {
-            window.open('', '_self').close();
-          });
+      if (Meteor.user()) {
+        Meteor.call('signInTokens.insert', Meteor.user().profile, this.props.match.params.uuidV1, () => {
+          Meteor.logout();
         });
       }
-      else if (this.props.match.params.signInType == 'google') {
-        Meteor.loginWithGoogle(() => {
-          Meteor.call('signInTokens.insert', Meteor.user().profile, this.props.match.params.uuidV1, () => {
-            window.open('', '_self').close();
+      else {
+        if (this.props.match.params.signInType == 'facebook') {
+          Meteor.loginWithFacebook({
+            loginStyle: 'redirect'
           });
-        });
+        }
+        else if (this.props.match.params.signInType == 'google') {
+          Meteor.loginWithGoogle({
+            loginStyle: 'redirect'
+          });
+        }
       }
     }
   }
 
   render() {
     return (
-      <div>창이 자동으로 닫히지 않으면 닫아주세요.</div>
+      <div>로그인이 완료되면 창을 닫아주세요.</div>
     );
   }
 }

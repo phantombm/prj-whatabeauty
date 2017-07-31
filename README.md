@@ -340,7 +340,7 @@ main
       'not paid',
       'reserved',
       'refunded',
-      'wating for confirming payment'
+      'wating for confirming payment',
       'completed'
     ]
   },

@@ -12,7 +12,9 @@ Meteor.methods({
     const user = Accounts.findUserByUsername(profile.signInId);
 
     if (user) {
-      Accounts.setPassword(user._id, uuidV1);
+      Accounts.setPassword(user._id, uuidV1, {
+        logout: false
+      });
     }
     else {
       Accounts.createUser({
@@ -32,12 +34,18 @@ Meteor.methods({
 
     const signInToken = SignInTokens.findOne(selector);
 
+    if (!signInToken) {
+      return;
+    }
+
     SignInTokens.remove({
       _id: signInToken._id
     });
 
     Meteor.users.remove({
-      'services.password': null
+      'services.password': {
+        $exists: false
+      }
     });
 
     return signInToken;

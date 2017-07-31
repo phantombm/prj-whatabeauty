@@ -32,6 +32,10 @@ export default class SignIn extends Component {
         );
       }
 
+      if (!signInToken) {
+        return;
+      }
+
       Meteor.loginWithPassword(signInToken.signInId, signInToken.uuidV1, (error) => {
         if (error) {
           Alert.alert(

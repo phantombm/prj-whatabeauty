@@ -95,7 +95,7 @@ export default class Tutorial extends Component {
     );
   };
 
-  onScrollScrollView = (event) => {
+  onScrollScrollView = () => {
     const animatedValue = this.animatedValue.__getValue();
 
     if (/\./.test(animatedValue + '')) {
