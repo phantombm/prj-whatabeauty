@@ -62,7 +62,7 @@ export default class Reserving extends Component {
             <View style={{ height: 120, borderTopWidth: 1, borderTopColor: '#eeeeee', flexDirection: 'row', paddingHorizontal: 20, alignItems: 'center' }}>
               <Text style={{ fontSize: 12, color: '#cfcfcf' }}>아직 할인 혜택이 없습니다.</Text>
             </View>
-            <TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={ Actions.enteringAddress }>
               <View style={{ height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', flexDirection: 'row', paddingHorizontal: 20, alignItems: 'center' }}>
                 <SimpleLineIcons name="home" size={23} color="#4a4a4a" />
                 <Text style={{ color: '#3c4f5e', marginLeft: 20 }}>서비스를 받을 주소를 입력해 주세요.</Text>
