@@ -142,16 +142,11 @@ export default class MyComponent extends Compoent {
 tutorial
 signIn
   signInWithEmail
-  signInWithKakaotalk:
+  signInWithFacebook
     verificationForPhoneNumberWithSms(repeated)(:signInType)
-    enteringName(repeated)(:signInType)
-  signInWithFacebook:
+  signInWithGoogle
     verificationForPhoneNumberWithSms(repeated)(:signInType)
-    enteringName(repeated)(:signInType)
-  signInWithGoogle:
-    verificationForPhoneNumberWithSms(repeated)(:signInType)
-    enteringName(repeated)(:signInType)
-  signUp(abstract):
+  signUp(abstract)
     verificationForPhoneNumberWithSms(:signInType)
     enteringEmailAndPassword(:signInType, :phoneNumber)
     enteringName(:signInType, :phoneNumber, :email, :password)
@@ -164,10 +159,10 @@ main
     reservation(:userType, :id)
       selectingDateTime(repeated)
   serviceTypes(abstract)
-    services(:id)
-      service(:id)
-        selectingServiceQuantity(:id)
-          reserving(:id, :quantity)
+    services(:serviceTypeId)
+      service(:service)
+        selectingServiceQuantity(:service)
+          reserving(:service)
             selectingServiceQuantity(repeated)
             selectingAddress
               addingAddress(abstract)

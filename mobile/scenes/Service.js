@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, ScrollView, Text, StyleSheet, Animated, Image, TouchableWithoutFeedback, WebView } from 'react-native';
 import PropType from 'prop-types';
 import { Ionicons } from '@expo/vector-icons';
+import { Actions } from 'react-native-router-flux';
 
 import Layout from '../layouts/Layout';
 import Button from '../components/Button';
@@ -52,6 +53,12 @@ export default class Service extends Component {
     return this.props.service.price.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + this.props.service.price.unit;
   };
 
+  onPressReserving = () => {
+    Actions.selectingServiceQuantity({
+      service: this.props.service
+    });
+  };
+
   render() {
     return (
       <Layout title={this.props.service.name} isKeyboardDismissedOnTouched={false}>
@@ -89,7 +96,9 @@ export default class Service extends Component {
             </View>
             { this.renderGallary() }
           </ScrollView>
-          <Button buttonStyle={{ borderRadius: 0 }}>예약하기</Button>
+          <View>
+            <Button buttonStyle={{ borderRadius: 0 }} onPress={this.onPressReserving}>예약하기</Button>
+          </View>
           {/*<View style={{ position: 'absolute', bottom: 70, right: 20 }}>*/}
           {/*<TouchableWithoutFeedback>*/}
           {/*<View style={{ width: 45, height: 45, backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center', borderRadius: 10, elevation: 3 }}>*/}

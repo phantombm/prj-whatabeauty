@@ -11,20 +11,22 @@ export default class Layout extends Component {
   static propTypes = {
     children: PropTypes.element.isRequired,
     title: PropTypes.string,
+    leftIcon: PropTypes.element,
     onPressLeftIcon: PropTypes.func,
+    rightIcon: PropTypes.element,
+    onPressRightIcon: PropTypes.func,
     isKeyboardDismissedOnTouched: PropTypes.bool
   };
 
   static defaultProps = {
     title: '',
-    onPressLeftIcon: () => {},
+    leftIcon: <Ionicons name="ios-arrow-round-back-outline" color="#3c4f5e" size={50} />,
+    onPressLeftIcon: () => {
+      Actions.pop();
+    },
+    rightIcon: <View />,
+    onPressRightIcon: () => {},
     isKeyboardDismissedOnTouched: true
-  };
-
-  onPressLeftIcon = () => {
-    this.props.onPressLeftIcon();
-
-    Actions.pop();
   };
 
   onPressView = () => {
@@ -38,7 +40,7 @@ export default class Layout extends Component {
           <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
             <View style={{ height: Constants.statusBarHeight }} />
             <View style={{ flex: 1 }}>
-              <Header title={this.props.title} leftIcon={<Ionicons name="ios-arrow-round-back-outline" color="#3c4f5e" size={50} />} onPressLeftIcon={this.onPressLeftIcon} />
+              <Header title={this.props.title} leftIcon={this.props.leftIcon} onPressLeftIcon={this.props.onPressLeftIcon} rightIcon={this.props.rightIcon} onPressRightIcon={this.props.onPressRightIcon} />
             </View>
             <View style={{ flex: 10 }}>
               { this.props.children }
@@ -52,7 +54,7 @@ export default class Layout extends Component {
         <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
           <View style={{ height: Constants.statusBarHeight }} />
           <View style={{ flex: 1 }}>
-            <Header title={this.props.title} leftIcon={<Ionicons name="ios-arrow-round-back-outline" color="#3c4f5e" size={50} />} onPressLeftIcon={this.onPressLeftIcon} />
+            <Header title={this.props.title} leftIcon={this.props.leftIcon} onPressLeftIcon={this.props.onPressLeftIcon} rightIcon={this.props.rightIcon} onPressRightIcon={this.props.onPressRightIcon} />
           </View>
           <View style={{ flex: 10 }}>
             { this.props.children }

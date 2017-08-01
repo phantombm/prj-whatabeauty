@@ -53,7 +53,7 @@ export default class EnteringEmailAndPassword extends Component {
       <Layout title="E-mail 계정">
         <View style={{ flex: 1, padding: 30 }}>
           <View style={{ flex: 1 }} />
-          <MagnetView style={{ flex: 14 }} offsetInAndroid={200} isWorkingIos={false} >
+          <MagnetView style={{ flex: 14 }} offsetInAndroid={200} isWorkingInIos={false} >
             <Input
               placeholder="이메일주소"
               keyboardType="email-address"
