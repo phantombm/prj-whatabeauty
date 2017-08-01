@@ -10,8 +10,8 @@ import SignInWithEmail from '../scenes/SignInWithEmail';
 import Main from '../scenes/Main';
 import Services from '../scenes/Services';
 import Service from '../scenes/Service';
-import Reserving from '../scenes/Reserving';
 import SelectingServiceQuantity from '../scenes/SelectingServiceQuantity';
+import Reserving from '../scenes/Reserving';
 
 export default class _Router extends Component {
   render() {
@@ -27,8 +27,8 @@ export default class _Router extends Component {
           <Scene key="main" component={Main} panHandlers={null} />
           <Scene key="services" component={Services} panHandlers={null} />
           <Scene key="service" component={Service} panHandlers={null} />
-          <Scene key="reserving" component={Reserving} panHandlers={null} />
           <Scene key="selectingServiceQuantity" component={SelectingServiceQuantity} panHandlers={null} direction="vertical" />
+          <Scene key="reserving" component={Reserving} panHandlers={null} />
         </Scene>
       </Router>
     );

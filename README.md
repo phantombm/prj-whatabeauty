@@ -163,7 +163,7 @@ main
       service(:service)
         selectingServiceQuantity(:service)
           reserving(:service)
-            selectingServiceQuantity(repeated)
+            selectingServiceQuantity(repeated)(:service)
             selectingAddress
               addingAddress(abstract)
                 enteringAddress
@@ -367,6 +367,12 @@ main
     contents: String,
     progress: String
   },
+  commentsForReserving: [
+    {
+      comment: String,
+      ordering: Number
+    }
+  ],
   imageUrl: String,
   gallery: [
     {
@@ -374,7 +380,7 @@ main
       description: String
     }
   ],
-  relatedService: [String(serviceId)],
+  relatedServices: [String(serviceId)],
   price: {
     amount: Number,
     unit: String

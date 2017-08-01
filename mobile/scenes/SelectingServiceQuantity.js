@@ -3,6 +3,7 @@ import { View, Image, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Actions } from 'react-native-router-flux';
+import _ from 'lodash';
 
 import Layout from '../layouts/Layout';
 import IconButton from '../components/IconButton';
@@ -10,12 +11,19 @@ import Button from '../components/Button';
 
 export default class SelectingServiceQuantity extends Component {
   static propTypes = {
-    service: PropTypes.object.isRequired
+    flowType: PropTypes.string.isRequired,
+    isMainService: PropTypes.bool.isRequired,
+    service: PropTypes.object.isRequired,
+    callback: PropTypes.func
+  };
+
+  static defaultProps = {
+    callback: () => {}
   };
 
   state = {
-    quantity: 1,
-    isMinusButtonActive: false,
+    quantity: this.props.service.quantity,
+    isMinusButtonActive: this.props.service.quantity == 1 ? false : true,
     isPlusButtonActive: true
   };
 
@@ -28,7 +36,7 @@ export default class SelectingServiceQuantity extends Component {
   };
 
   onPressMinus = () => {
-    if (this.state.quantity == 2) {
+    if (this.state.quantity == (this.props.isMainService ? 2 : 1)) {
       this.setState({
         isMinusButtonActive: false
       });
@@ -36,12 +44,19 @@ export default class SelectingServiceQuantity extends Component {
 
     this.setState((previousState) => {
       return {
-        quantity: previousState.quantity - 1
+        quantity: previousState.quantity - 1,
+        isPlusButtonActive: true
       };
     });
   };
 
   onPressPlus = () => {
+    if (this.state.quantity == 98) {
+      this.setState({
+        isPlusButtonActive: false
+      });
+    }
+
     this.setState((previousState) => {
       return {
         quantity: previousState.quantity + 1,
@@ -51,7 +66,35 @@ export default class SelectingServiceQuantity extends Component {
   };
 
   onPressConfirm = () => {
-    Actions.reserving();
+    if (this.props.flowType == 'initial') {
+      this.props.service.quantity = this.state.quantity;
+
+      Actions.reserving({
+        service: this.props.service
+      });
+    }
+    else if (this.props.flowType == 'popup') {
+      this.props.callback(this.state.quantity);
+
+      Actions.pop();
+    }
+  };
+
+  renderServiceCommentsForReserving = () => {
+    const commentsForReserving = _.sortBy(this.props.service.commentsForReserving, ['ordering']);
+
+    return commentsForReserving.map((comment, index) => {
+      return (
+        <View key={index} style={{ flexDirection: 'row', paddingLeft: 20, marginTop: index == 0 ? 5 : 0 }}>
+          <View>
+            <Ionicons name="ios-checkmark" size={30} color="#fd614d" style={{ marginTop: -7 }} />
+          </View>
+          <View style={{ marginLeft: 12 }}>
+            <Text style={{ fontSize: 12, color: '#3c4f5e' }}>{ comment.comment }</Text>
+          </View>
+        </View>
+      );
+    });
   };
 
   render() {
@@ -76,26 +119,11 @@ export default class SelectingServiceQuantity extends Component {
               </IconButton>
             </View>
             <View style={{ borderBottomWidth: 1, borderBottomColor: '#eeeeee' }} />
-            <View style={{ flex: 1, justifyContent: 'center' }}>
-              <View style={{ flexDirection: 'row', paddingLeft: 20, marginTop: 5 }}>
-                <View>
-                  <Ionicons name="ios-checkmark" size={30} color="#fd614d" style={{ marginTop: -7 }} />
-                </View>
-                <View style={{ marginLeft: 12 }}>
-                  <Text style={{ fontSize: 12, color: '#3c4f5e' }}>신랑 신부 2인 모두에게 서비스 합니다.</Text>
-                </View>
-              </View>
-              <View style={{ flexDirection: 'row', paddingLeft: 20 }}>
-                <View>
-                  <Ionicons name="ios-checkmark" size={30} color="#fd614d" style={{ marginTop: -7 }} />
-                </View>
-                <View style={{ marginLeft: 12 }}>
-                  <Text style={{ fontSize: 12, color: '#3c4f5e' }}>신랑 신부 2인 모두에게 서비스 합니다.</Text>
-                </View>
-              </View>
+            <View style={{ flex: 5, justifyContent: 'center' }}>
+              { this.renderServiceCommentsForReserving() }
             </View>
             <View style={{ borderBottomWidth: 1, borderBottomColor: '#eeeeee' }} />
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ flex: 3, justifyContent: 'center', alignItems: 'center' }}>
               <Text style={{ fontSize: 16, color: '#3c4f5e' }}>총 금액 : { this.renderPrice(this.props.service.price.amount * this.state.quantity) }</Text>
             </View>
           </View>

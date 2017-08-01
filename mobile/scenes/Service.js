@@ -55,6 +55,8 @@ export default class Service extends Component {
 
   onPressReserving = () => {
     Actions.selectingServiceQuantity({
+      flowType: 'initial',
+      isMainService: true,
       service: this.props.service
     });
   };
