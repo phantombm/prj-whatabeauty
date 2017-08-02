@@ -12,7 +12,9 @@ export default class Input extends Component {
     keyboardType: PropTypes.string,
     maxLength: PropTypes.number,
     onChangeText: PropTypes.func,
-    secureTextEntry: PropTypes.bool
+    secureTextEntry: PropTypes.bool,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func
   };
 
   static defaultProps = {
@@ -25,7 +27,9 @@ export default class Input extends Component {
     keyboardType: 'default',
     maxLength: 50,
     onChangeText: () => {},
-    secureTextEntry: false
+    secureTextEntry: false,
+    onFocus: () => {},
+    onBlur: () => {}
   };
 
   state = {
@@ -65,6 +69,8 @@ export default class Input extends Component {
     this.setState({
       overlaidBorderBottomStyle: {}
     });
+
+    this.props.onFocus();
   };
 
   onBlur = () => {
@@ -80,6 +86,8 @@ export default class Input extends Component {
         borderBottomColor: '#dbdfe2'
       }
     });
+
+    this.props.onBlur();
   };
 
   onChangeText = (text) => {

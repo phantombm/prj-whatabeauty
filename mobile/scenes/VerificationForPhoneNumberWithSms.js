@@ -161,6 +161,7 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
               placeholder="인증번호"
               keyboardType="numeric"
               marginTop={5}
+              maxLength={6}
               onChangeText={(text, errorText) => { this.setState({ validationNumber: text, validationNumberErrorText: errorText }); }}
             />
             <View style={{ position: 'absolute', top: 19, right: 0 }}>

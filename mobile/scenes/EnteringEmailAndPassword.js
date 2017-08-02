@@ -58,7 +58,7 @@ export default class EnteringEmailAndPassword extends Component {
               placeholder="이메일주소"
               keyboardType="email-address"
               validator={(text) => {
-                if (!/.+@.+\..+/.test(text)) {
+                if (!/^[a-z0-9]+@[a-z]+\.[a-z]+$/.test(text)) {
                   return '이메일 형식에 맞지 않습니다.';
                 }
               }}
