@@ -1,7 +1,7 @@
 /* eslint "no-undef": "off" */
 
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { MapView, Location, Permissions } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import { FontAwesome } from '@expo/vector-icons';
@@ -18,24 +18,18 @@ export default class EnteringAddress extends Component {
     markerPosition: null,
     addressPredictions: [],
     address: '',
-    addressErrorText: 'blank',
-    isAddressPredictionsVisible: false
+    isAddressPredictionsVisible: false,
+    isConfirmingActive: false
   };
 
   componentDidMount() {
-    this.getCurrentPositionAsync();
+    this.initialize();
   }
 
-  getCurrentPositionAsync = async () => {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+  initialize = async () => {
+    await this.getLocationPermission();
 
-    if (status != 'granted') {
-      Actions.pop();
-
-      return;
-    }
-
-    const currentPosition = await Location.getCurrentPositionAsync({});
+    const currentPosition = await this.getCurrentPosition();
 
     this.setState({
       initialRegion: {
@@ -57,101 +51,90 @@ export default class EnteringAddress extends Component {
     });
   };
 
-  geocode = async (address) => {
-    try {
-      const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDPfFACTvvSydru2peltHH6CInpZr6336s`);
+  getLocationPermission = async () => {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
-      let respondedJson = await response.json();
+    if (status != 'granted') {
+      Actions.pop();
 
-      this.setState({
-        currentRegion: {
-          latitude: respondedJson.results[0].geometry.location.lat,
-          longitude: respondedJson.results[0].geometry.location.lng,
-          latitudeDelta: 0.002,
-          longitudeDelta: 0.002
-        },
-        markerPosition: {
-          latitude: respondedJson.results[0].geometry.location.lat,
-          longitude: respondedJson.results[0].geometry.location.lng,
-        }
-      });
-    } catch(error) {
-      Alert.alert(
-        'whatabeauty',
-        error.reason,
-        [{ text: '확인' }],
-        { cancelable: false }
-      );
+      return;
     }
+  };
+
+  getCurrentPosition = async () => {
+    const currentPosition = await Location.getCurrentPositionAsync({});
+
+    return currentPosition;
+  };
+
+  geocode = async (address) => {
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDPfFACTvvSydru2peltHH6CInpZr6336s`);
+
+    return await response.json();
   };
 
   geocodeReversely = async (region) => {
-    try {
-      const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?result_type=sublocality_level_2&language=ko&latlng=${region.latitude},${region.longitude}&key=AIzaSyDPfFACTvvSydru2peltHH6CInpZr6336s`);
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?result_type=sublocality_level_2&language=ko&latlng=${region.latitude},${region.longitude}&key=AIzaSyDPfFACTvvSydru2peltHH6CInpZr6336s`);
 
-      let respondedJson = await response.json();
-
-      this.addressRef.setText(respondedJson.results[0].formatted_address.replace('대한민국 ', ''));
-    } catch(error) {
-      Alert.alert(
-        'whatabeauty',
-        error.reason,
-        [{ text: '확인' }],
-        { cancelable: false }
-      );
-    }
+    return await response.json();
   };
 
-  onPressGetCurrentPosition = () => {
-    this.geocodeReversely(this.state.initialRegion);
+  onPressGettingCurrentPosition = async () => {
+    const response = await this.geocodeReversely(this.state.initialRegion);
+
+    const address = response.results[0].formatted_address.replace('대한민국 ', '');
+
+    this.addressRef.setText(address);
+
+    this.addressRef.onFocus();
 
     this.setState({
       currentRegion: this.state.initialRegion,
       markerPosition: {
         latitude: this.state.initialRegion.latitude,
         longitude: this.state.initialRegion.longitude
-      }
-    });
-  };
-
-  onChangeAddress = (address, addressErrorText) => {
-    this.setState({
-      address: address,
-      addressErrorText: addressErrorText
-    });
-
-    if (/^[가-힣 ]+$/.test(address)) {
-      this.autocompleteAddress(address);
-    }
-  };
-
-  autocompleteAddress = async (address) => {
-    try {
-      const response = await fetch(`https://maps.googleapis.com/maps/api/place/autocomplete/json?language=ko&components=country:kr&input=${address}&key=AIzaSyDPfFACTvvSydru2peltHH6CInpZr6336s`);
-
-      let respondedJson = await response.json();
-
-      this.setState({
-        addressPredictions: respondedJson.predictions
-      });
-    } catch(error) {
-      Alert.alert(
-        'whatabeauty',
-        error.reason,
-        [{ text: '확인' }],
-        { cancelable: false }
-      );
-    }
-  };
-
-  onPressAddressPrediction = (addressPrediction) => {
-    this.geocode(addressPrediction.description);
-
-    this.addressRef.setText(addressPrediction.description.replace('대한민국 ', ''));
-
-    this.setState({
+      },
       isAddressPredictionsVisible: false
     });
+  };
+
+  onChangeAddress = async (address, addressErrorText) => {
+    this.setState({
+      address: address
+    });
+
+    const addressPredictions = await this.getAddressPredictions(address);
+
+    this.setState({
+      addressPredictions: addressPredictions.predictions,
+      isConfirmingActive: addressErrorText == '' ? true : false
+    });
+  };
+
+  getAddressPredictions = async (address) => {
+    const response = await fetch(`https://maps.googleapis.com/maps/api/place/autocomplete/json?language=ko&components=country:kr&input=${address}&key=AIzaSyDPfFACTvvSydru2peltHH6CInpZr6336s`);
+
+    return await response.json();
+  };
+
+  onPressAddressPrediction = async (addressPrediction) => {
+    const response = await this.geocode(addressPrediction.description);
+
+    this.setState({
+      currentRegion: {
+        latitude: response.results[0].geometry.location.lat,
+        longitude: response.results[0].geometry.location.lng,
+        latitudeDelta: 0.002,
+        longitudeDelta: 0.002
+      },
+      markerPosition: {
+        latitude: response.results[0].geometry.location.lat,
+        longitude: response.results[0].geometry.location.lng,
+      },
+      isAddressPredictionsVisible: false
+    });
+
+    this.addressRef.setText(addressPrediction.description.replace('대한민국 ', ''));
 
     Keyboard.dismiss();
   };
@@ -178,6 +161,16 @@ export default class EnteringAddress extends Component {
     });
   };
 
+  onPressConfirming = () => {
+    Keyboard.dismiss();
+
+    Actions.enteringAddressDetail({
+      region: this.state.currentRegion,
+      markerPosition: this.state.markerPosition,
+      address: this.state.address
+    });
+  };
+
   render() {
     if (!this.state.initialRegion && !this.state.currentRegion && !this.state.markerPosition && !this.state.address) {
       return (
@@ -190,45 +183,48 @@ export default class EnteringAddress extends Component {
       return (
         <Layout title="주소">
           <View style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
-              <MapView
-                style={{ flex: 1 }}
-                region={this.state.currentRegion}
-                onRegionChangeComplete={(region) => { this.setState({ currentRegion: region }) }}
-              >
-                <MapView.Marker
-                  draggable
-                  coordinate={{
-                    latitude: this.state.markerPosition.latitude,
-                    longitude: this.state.markerPosition.longitude
-                  }}
-                  onDragEnd={(event) => { this.setState({ markerPosition: event.nativeEvent.coordinate }) }}
-                />
-              </MapView>
-              <MagnetView style={{ position: 'absolute', bottom: 16, width: '100%', paddingHorizontal: 30 }}>
-                <Button>확인</Button>
-              </MagnetView>
-              <View style={{ position: 'absolute', top: 16, width: '100%', paddingHorizontal: 16 }}>
-                <View style={{ backgroundColor: '#ffffff', borderRadius: 3 }}>
-                  <View style={{ flexDirection: 'row', paddingBottom: 5 }}>
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                      <FontAwesome name="map-marker" size={20} color="#fd614d" />
-                    </View>
-                    <View style={{ flex: 6 }}>
-                      <Input
-                        ref={(ref) => { this.addressRef = ref; }}
-                        placeholder="주소"
-                        onChangeText={this.onChangeAddress}
-                        onFocus={() => { this.setState({ isAddressPredictionsVisible: true }); }}
-                        onBlur={() => { this.setState({ isAddressPredictionsVisible: false }); }}
-                      />
-                    </View>
-                    <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
-                      <Button onPress={this.onPressGetCurrentPosition} buttonStyle={{ width: 58, height: 22 }} textStyle={{ fontSize: 12 }} marginTop={5}>현재위치</Button>
-                    </View>
+            <MapView
+              style={{ flex: 1 }}
+              region={this.state.currentRegion}
+              onRegionChangeComplete={(region) => { this.setState({ currentRegion: region }) }}
+            >
+              <MapView.Marker
+                draggable
+                coordinate={{
+                  latitude: this.state.markerPosition.latitude,
+                  longitude: this.state.markerPosition.longitude
+                }}
+                onDragEnd={(event) => { this.setState({ markerPosition: event.nativeEvent.coordinate }) }}
+              />
+            </MapView>
+            <MagnetView style={{ position: 'absolute', bottom: 16, width: '100%', paddingHorizontal: 30 }}>
+              <Button onPress={this.onPressConfirming} isActive={this.state.isConfirmingActive}>확인</Button>
+            </MagnetView>
+            <View style={{ position: 'absolute', top: 16, width: '100%', paddingHorizontal: 16 }}>
+              <View style={{ backgroundColor: '#ffffff', borderRadius: 3 }}>
+                <View style={{ flexDirection: 'row', paddingBottom: 5 }}>
+                  <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <FontAwesome name="map-marker" size={20} color="#fd614d" />
                   </View>
-                  { this.state.isAddressPredictionsVisible && this.renderAddressPredictions() }
+                  <View style={{ flex: 6 }}>
+                    <Input
+                      ref={(ref) => { this.addressRef = ref; }}
+                      placeholder="주소"
+                      onChangeText={this.onChangeAddress}
+                      onFocus={() => { this.setState({ isAddressPredictionsVisible: true }); }}
+                      onBlur={() => { this.setState({ isAddressPredictionsVisible: false }); }}
+                    />
+                  </View>
+                  <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
+                    <Button
+                      onPress={this.onPressGettingCurrentPosition}
+                      buttonStyle={{ width: 58, height: 22 }}
+                      textStyle={{ fontSize: 12 }}
+                      marginTop={5}
+                    >현재위치</Button>
+                  </View>
                 </View>
+                { this.state.isAddressPredictionsVisible && this.renderAddressPredictions() }
               </View>
             </View>
           </View>

@@ -364,7 +364,7 @@ main
   name: String,
   comment: String,
   description: {
-    contents: String,
+    content: String,
     progress: String
   },
   commentsForReserving: [
@@ -436,14 +436,14 @@ main
 {
   type: 'notices',
   title: String,
-  contents: String,
+  content: String,
   createAt: Date
 }
 
 {
   type: 'faqs',
   title: String,
-  contents: String,
+  content: String,
   ordering: Number
   createAt: Date
 }
@@ -451,12 +451,12 @@ main
 {
   type: 'termsOfService',
   title: String,
-  contents: String(html)
+  content: String(html)
 }
 
 {
   type: 'privacyPolicy',
   title: String,
-  contents: String(html)
+  content: String(html)
 }
 ```

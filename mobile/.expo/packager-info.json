@@ -1,8 +1,8 @@
 {
-  "expoServerPort": 19001,
-  "packagerPort": 19002,
-  "packagerPid": 1106,
-  "expoServerNgrokUrl": "https://cz-vyi.phantombm.mobile.exp.direct",
-  "packagerNgrokUrl": "https://packager.cz-vyi.phantombm.mobile.exp.direct",
-  "ngrokPid": 1120
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }

@@ -128,13 +128,15 @@ export default class Input extends Component {
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             onChangeText={this.onChangeText}
-            style={{ height: 50, fontSize: 14, paddingTop: 10, color: '#3c4f5e' }}
+            style={{ height: 50, paddingTop: 10, color: '#3c4f5e' }}
             defaultValue={this.props.defaultValue}
             maxLength={this.props.maxLength}
             keyboardType={this.props.keyboardType}
             selectionColor={this.props.keyColor}
             secureTextEntry={this.props.secureTextEntry}
             autoCapitalize="none"
+            autoCorrect={false}
+            returnKeyType="done"
           />
         </View>
       </Animated.View>

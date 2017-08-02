@@ -23,7 +23,7 @@ export default class SelectingServiceQuantity extends Component {
 
   state = {
     quantity: this.props.service.quantity,
-    isMinusButtonActive: this.props.service.quantity == 1 ? false : true,
+    isMinusButtonActive: this.props.service.quantity <= 1 ? false : true,
     isPlusButtonActive: true
   };
 

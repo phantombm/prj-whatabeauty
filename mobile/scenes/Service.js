@@ -76,7 +76,7 @@ export default class Service extends Component {
               <Text style={{ color: '#3c4f5e' }}>서비스 내용</Text>
             </View>
             <View style={{ marginTop: 10, height: 100 }}>
-              <WebView scrollEnabled={false} source={{ html: this.props.service.description.contents }} />
+              <WebView scrollEnabled={false} source={{ html: this.props.service.description.content }} />
             </View>
             <View style={styleSheet.title}>
               <Text style={{ color: '#3c4f5e' }}>진행 과정</Text>

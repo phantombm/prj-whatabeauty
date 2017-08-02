@@ -13,6 +13,7 @@ import Service from '../scenes/Service';
 import SelectingServiceQuantity from '../scenes/SelectingServiceQuantity';
 import Reserving from '../scenes/Reserving';
 import EnteringAddress from '../scenes/EnteringAddress';
+import EnteringAddressDetail from '../scenes/EnteringAddressDetail';
 
 export default class _Router extends Component {
   render() {
@@ -31,6 +32,7 @@ export default class _Router extends Component {
           <Scene key="selectingServiceQuantity" component={SelectingServiceQuantity} panHandlers={null} direction="vertical" />
           <Scene key="reserving" component={Reserving} panHandlers={null} />
           <Scene key="enteringAddress" component={EnteringAddress} panHandlers={null} />
+          <Scene key="enteringAddressDetail" component={EnteringAddressDetail} panHandlers={null} />
         </Scene>
       </Router>
     );
