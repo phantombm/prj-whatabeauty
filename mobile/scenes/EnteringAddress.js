@@ -1,7 +1,7 @@
 /* eslint "no-undef": "off" */
 
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, Keyboard } from 'react-native';
 import { MapView, Location, Permissions } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import { FontAwesome } from '@expo/vector-icons';
@@ -10,6 +10,7 @@ import Layout from '../layouts/Layout';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import MagnetView from '../components/MagnetView';
+import Touchable from '../components/Touchable';
 
 export default class EnteringAddress extends Component {
   state = {
@@ -142,7 +143,7 @@ export default class EnteringAddress extends Component {
   renderAddressPredictions = () => {
     return this.state.addressPredictions.map((addressPrediction) => {
       return (
-        <TouchableWithoutFeedback key={addressPrediction.place_id} onPress={() => { this.onPressAddressPrediction(addressPrediction); }}>
+        <Touchable key={addressPrediction.place_id} onPress={() => { this.onPressAddressPrediction(addressPrediction); }}>
           <View style={{ flexDirection: 'row', paddingVertical: 7 }}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
               <FontAwesome name="map-marker" size={20} color="#cfcfcf" />
@@ -156,12 +157,12 @@ export default class EnteringAddress extends Component {
               </View>
             </View>
           </View>
-        </TouchableWithoutFeedback>
+        </Touchable>
       );
     });
   };
 
-  onPressConfirming = () => {
+  onPressEnteringAddress = () => {
     Keyboard.dismiss();
 
     Actions.enteringAddressDetail({
@@ -183,49 +184,53 @@ export default class EnteringAddress extends Component {
       return (
         <Layout title="주소">
           <View style={{ flex: 1 }}>
-            <MapView
-              style={{ flex: 1 }}
-              region={this.state.currentRegion}
-              onRegionChangeComplete={(region) => { this.setState({ currentRegion: region }) }}
-            >
-              <MapView.Marker
-                draggable
-                coordinate={{
-                  latitude: this.state.markerPosition.latitude,
-                  longitude: this.state.markerPosition.longitude
-                }}
-                onDragEnd={(event) => { this.setState({ markerPosition: event.nativeEvent.coordinate }) }}
-              />
-            </MapView>
-            <MagnetView style={{ position: 'absolute', bottom: 16, width: '100%', paddingHorizontal: 30 }}>
-              <Button onPress={this.onPressConfirming} isActive={this.state.isConfirmingActive}>확인</Button>
-            </MagnetView>
-            <View style={{ position: 'absolute', top: 16, width: '100%', paddingHorizontal: 16 }}>
-              <View style={{ backgroundColor: '#ffffff', borderRadius: 3 }}>
-                <View style={{ flexDirection: 'row', paddingBottom: 5 }}>
-                  <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <FontAwesome name="map-marker" size={20} color="#fd614d" />
+            <View style={{ flex: 1 }}>
+              <MapView
+                style={{ flex: 1 }}
+                region={this.state.currentRegion}
+                onRegionChangeComplete={(region) => { this.setState({ currentRegion: region }) }}
+              >
+                <MapView.Marker
+                  draggable
+                  coordinate={{
+                    latitude: this.state.markerPosition.latitude,
+                    longitude: this.state.markerPosition.longitude
+                  }}
+                  onDragEnd={(event) => { this.setState({ markerPosition: event.nativeEvent.coordinate }) }}
+                />
+              </MapView>
+              <View style={{ position: 'absolute', top: 16, width: '100%', paddingHorizontal: 16 }}>
+                <View style={{ backgroundColor: '#ffffff', borderRadius: 3 }}>
+                  <View style={{ flexDirection: 'row', paddingBottom: 5 }}>
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                      <FontAwesome name="map-marker" size={20} color="#fd614d" />
+                    </View>
+                    <View style={{ flex: 6 }}>
+                      <Input
+                        ref={(ref) => { this.addressRef = ref; }}
+                        placeholder="주소"
+                        onChangeText={this.onChangeAddress}
+                        onFocus={() => { this.setState({ isAddressPredictionsVisible: true }); }}
+                        onBlur={() => { this.setState({ isAddressPredictionsVisible: false }); }}
+                      />
+                    </View>
+                    <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
+                      <Button
+                        onPress={this.onPressGettingCurrentPosition}
+                        buttonStyle={{ width: 58, height: 22 }}
+                        textStyle={{ fontSize: 12 }}
+                        marginTop={5}
+                      >현재위치</Button>
+                    </View>
                   </View>
-                  <View style={{ flex: 6 }}>
-                    <Input
-                      ref={(ref) => { this.addressRef = ref; }}
-                      placeholder="주소"
-                      onChangeText={this.onChangeAddress}
-                      onFocus={() => { this.setState({ isAddressPredictionsVisible: true }); }}
-                      onBlur={() => { this.setState({ isAddressPredictionsVisible: false }); }}
-                    />
-                  </View>
-                  <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
-                    <Button
-                      onPress={this.onPressGettingCurrentPosition}
-                      buttonStyle={{ width: 58, height: 22 }}
-                      textStyle={{ fontSize: 12 }}
-                      marginTop={5}
-                    >현재위치</Button>
-                  </View>
+                  { this.state.isAddressPredictionsVisible && this.renderAddressPredictions() }
                 </View>
-                { this.state.isAddressPredictionsVisible && this.renderAddressPredictions() }
               </View>
+            </View>
+            <View>
+              <MagnetView>
+                <Button buttonStyle={{ borderRadius: 0 }} onPress={this.onPressEnteringAddress} isActive={this.state.isConfirmingActive}>확인</Button>
+              </MagnetView>
             </View>
           </View>
         </Layout>

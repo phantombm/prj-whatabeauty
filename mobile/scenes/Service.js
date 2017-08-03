@@ -3,6 +3,7 @@ import { View, ScrollView, Text, StyleSheet, Animated, Image, TouchableWithoutFe
 import PropType from 'prop-types';
 import { Ionicons } from '@expo/vector-icons';
 import { Actions } from 'react-native-router-flux';
+import Meteor, { createContainer } from 'react-native-meteor';
 
 import Layout from '../layouts/Layout';
 import Button from '../components/Button';
@@ -17,10 +18,21 @@ const styleSheet = StyleSheet.create({
   }
 });
 
-export default class Service extends Component {
+class Service extends Component {
   static propTypes = {
-    service: PropType.object.isRequired
+    service: PropType.object.isRequired,
+    relatedServices: PropType.array.isRequired
   };
+
+  componentWillMount() {
+    this.props.relatedServices.forEach((relatedService, index) => {
+      this.props.relatedServices[index].quantity = 0;
+    });
+
+    this.props.service.relatedServices = this.props.relatedServices;
+
+    this.props.service.quantity = 1;
+  }
 
   animatedScrollY = new Animated.Value(0);
 
@@ -53,6 +65,16 @@ export default class Service extends Component {
     return this.props.service.price.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + this.props.service.price.unit;
   };
 
+  renderRelatedServices = () => {
+    return this.props.service.relatedServices.map((relatedService) => {
+      return (
+        <View key={relatedService._id}>
+          <Text style={{ fontSize: 12, color: '#9b9b9b' }}>{ relatedService.name }</Text>
+        </View>
+      );
+    });
+  };
+
   onPressReserving = () => {
     Actions.selectingServiceQuantity({
       flowType: 'initial',
@@ -71,7 +93,12 @@ export default class Service extends Component {
               <Text style={{ fontSize: 18, color: '#ffffff' }}>{ this.props.service.name } | { this.renderPrice() }</Text>
             </View>
           </Animated.View>
-          <ScrollView bounces={false} scrollEventThrottle={1} contentContainerStyle={{ paddingLeft: 16, paddingRight: 16, paddingBottom: 16 }} onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: this.animatedScrollY } } }])}>
+          <ScrollView
+            bounces={false}
+            scrollEventThrottle={1}
+            contentContainerStyle={{ paddingLeft: 16, paddingRight: 16, paddingBottom: 16 }}
+            onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: this.animatedScrollY } } }])}
+          >
             <View style={styleSheet.title}>
               <Text style={{ color: '#3c4f5e' }}>서비스 내용</Text>
             </View>
@@ -84,15 +111,16 @@ export default class Service extends Component {
             <View style={{ marginTop: 10, height: 170 }}>
               <WebView scrollEnabled={false} source={{ html: this.props.service.description.progress }} />
             </View>
-            <View style={styleSheet.title}>
-              <Text style={{ color: '#3c4f5e' }}>관련 서비스</Text>
-            </View>
-            <View style={{ marginTop: 10, paddingLeft: 8 }}>
-              <Text style={{ fontSize: 12, color: '#9b9b9b' }}>
-                웨딩 본식 메이크업{'\n'}
-                혼주 메이크업
-              </Text>
-            </View>
+            { this.props.service.relatedServiceIds.length != 0 &&
+              <View>
+                <View style={styleSheet.title}>
+                  <Text style={{ color: '#3c4f5e' }}>관련 서비스</Text>
+                </View>
+                <View style={{ marginTop: 10, paddingLeft: 8 }}>
+                  { this.renderRelatedServices() }
+                </View>
+              </View>
+            }
             <View style={styleSheet.title}>
               <Text style={{ color: '#3c4f5e' }}>갤러리</Text>
             </View>
@@ -113,3 +141,19 @@ export default class Service extends Component {
     );
   }
 }
+
+export default createContainer((props) => {
+  Meteor.subscribe('services.find', {
+    _id: {
+      $in: props.service.relatedServiceIds
+    }
+  });
+
+  return {
+    relatedServices: Meteor.collection('services').find({
+      _id: {
+        $in: props.service.relatedServiceIds
+      }
+    })
+  };
+}, Service);

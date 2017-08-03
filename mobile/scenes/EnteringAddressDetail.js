@@ -87,14 +87,12 @@ export default class EnteringAddressDetail extends Component {
             </MapView>
           </View>
           <View style={{ flex: 1 }}>
-            <View style={{ flexDirection: 'row', paddingVertical: 7 }}>
+            <View style={{ flexDirection: 'row', marginTop: 10 }}>
               <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <FontAwesome name="map-marker" size={20} color="#fd614d" />
               </View>
               <View style={{ flex: 8, justifyContent: 'center' }}>
-                <View>
-                  <Text style={{ color: '#9b9b9b' }}>{ this.props.address }</Text>
-                </View>
+                <Text style={{ color: '#9b9b9b' }}>{ this.props.address }</Text>
               </View>
             </View>
             <View style={{ flex: 1, paddingHorizontal: 30 }}>

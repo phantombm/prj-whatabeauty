@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import _ from 'lodash';
 
 Meteor.methods({
   'sendSms'(phoneNumber) {
@@ -14,10 +15,5 @@ Meteor.methods({
     return {
       validationNumber: validationNumber
     };
-  },
-  'users.update'(modifier) {
-    Meteor.users.update({
-      _id: this.userId
-    }, modifier);
   }
 });

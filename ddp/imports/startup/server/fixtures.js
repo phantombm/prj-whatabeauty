@@ -1,7 +1,143 @@
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base'
+
 import { ServiceTypes } from '../../api/serviceTypes/serviceTypes';
+import { Services } from '../../api/services/services';
 
 Meteor.startup(() => {
+  if (Meteor.users.find({
+      'profile.isSsam': true
+    }).count() == 0) {
+    let userId = Accounts.createUser({
+      email: 'ssam4@test.com',
+      password: '123456',
+      profile: {
+        name: '쌤1',
+        email: 'ssam1@test.com',
+        phoneNumber: '01028331122'
+      }
+    });
+
+    Meteor.users.update({
+      _id: userId
+    }, {
+      $set: {
+        'profile.isSsam': true,
+        'profile.informationForSsam.name': '잘하는 쌤',
+        'profile.informationForSsam.imageUrl': 'http://file.mk.co.kr/meet/neds/2014/10/image_readtop_2014_1297012_14128986651568541.jpg',
+        'profile.informationForSsam.region': '서울',
+        'profile.informationForSsam.career': 26,
+        'profile.informationForSsam.portfolios': [
+          {
+            imageUrl: 'http://file.mk.co.kr/meet/neds/2014/10/image_readtop_2014_1297012_14128986651568541.jpg',
+            description: '어제 했어요'
+          },
+          {
+            imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
+            description: '그제 했어요'
+          },
+          {
+            imageUrl: 'http://cfile29.uf.tistory.com/image/2648023A5466928F2ECAB5',
+            description: '3일전 했어요'
+          }
+        ],
+        'profile.informationForSsam.notAvailableDates': [new Date()],
+        'profile.informationForSsam.isAvailable': true,
+        'profile.informationForSsam.bankAccount': {
+          bank: '국민',
+          number: '010-2833-1122',
+          owner: '쌤1'
+        }
+      }
+    });
+
+    userId = Accounts.createUser({
+      email: 'ssam2@test.com',
+      password: '123456',
+      profile: {
+        name: '쌤2',
+        email: 'ssam2@test.com',
+        phoneNumber: '01028331122'
+      }
+    });
+
+    Meteor.users.update({
+      _id: userId
+    }, {
+      $set: {
+        'profile.isSsam': true,
+        'profile.informationForSsam.name': '잘하는 쌤2',
+        'profile.informationForSsam.imageUrl': 'http://file.mk.co.kr/meet/neds/2014/10/image_readtop_2014_1297012_14128986651568541.jpg',
+        'profile.informationForSsam.region': '서울',
+        'profile.informationForSsam.career': 26,
+        'profile.informationForSsam.portfolios': [
+          {
+            imageUrl: 'http://file.mk.co.kr/meet/neds/2014/10/image_readtop_2014_1297012_14128986651568541.jpg',
+            description: '어제 했어요'
+          },
+          {
+            imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
+            description: '그제 했어요'
+          },
+          {
+            imageUrl: 'http://cfile29.uf.tistory.com/image/2648023A5466928F2ECAB5',
+            description: '3일전 했어요'
+          }
+        ],
+        'profile.informationForSsam.notAvailableDates': [new Date()],
+        'profile.informationForSsam.isAvailable': true,
+        'profile.informationForSsam.bankAccount': {
+          bank: '국민',
+          number: '010-2833-1122',
+          owner: '쌤2'
+        }
+      }
+    });
+
+    userId = Accounts.createUser({
+      email: 'ssam3@test.com',
+      password: '123456',
+      profile: {
+        name: '쌤3',
+        email: 'ssam3@test.com',
+        phoneNumber: '01028331122'
+      }
+    });
+
+    Meteor.users.update({
+      _id: userId
+    }, {
+      $set: {
+        'profile.isSsam': true,
+        'profile.informationForSsam.name': '잘하는 쌤3',
+        'profile.informationForSsam.imageUrl': 'http://file.mk.co.kr/meet/neds/2014/10/image_readtop_2014_1297012_14128986651568541.jpg',
+        'profile.informationForSsam.region': '서울',
+        'profile.informationForSsam.career': 26,
+        'profile.informationForSsam.portfolios': [
+          {
+            imageUrl: 'http://file.mk.co.kr/meet/neds/2014/10/image_readtop_2014_1297012_14128986651568541.jpg',
+            description: '어제 했어요'
+          },
+          {
+            imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
+            description: '그제 했어요'
+          },
+          {
+            imageUrl: 'http://cfile29.uf.tistory.com/image/2648023A5466928F2ECAB5',
+            description: '3일전 했어요'
+          }
+        ],
+        'profile.informationForSsam.notAvailableDates': [],
+        'profile.informationForSsam.isAvailable': true,
+        'profile.informationForSsam.bankAccount': {
+          bank: '국민',
+          number: '010-2833-1122',
+          owner: '쌤3'
+        }
+      }
+    });
+  }
+
   if (ServiceTypes.find({}).count() == 0) {
     const serviceTypes = [
       {
@@ -89,11 +225,21 @@ Meteor.startup(() => {
             imageUrl: 'http://ppss.kr/wp-content/uploads/2017/04/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C-8-540x245.png',
             description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
           }
-        ]
+        ],
+        relatedServiceIds: [],
+        price: {
+          amount: 50,
+          unit: '원'
+        },
+        duration: 20,
+        ordering: 1,
+        isVisible: true,
+        isActive: true,
+        createAt: new Date()
       },
       {
         serviceTypeId: serviceTypeIds[0],
-        name: '웨딩 본 메이크업',
+        name: '웨딩 본식 메이크업',
         comment: '전통 혼례 포함',
         description: {
           content: '<div style="font-size: 12px; color: #9b9b9b">신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다. 신랑 신부 모두에게 서비스를 제공하는 세트 상품으로 두사람의 본식 메이크업을 저렴하고 합리적으로 제공받을 수 있는 서비스 입니다. 등등의 서비스 내용이 적히는 공간입니다.</div>',
@@ -135,7 +281,17 @@ Meteor.startup(() => {
             imageUrl: 'http://ppss.kr/wp-content/uploads/2017/04/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C-8-540x245.png',
             description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
           }
-        ]
+        ],
+        relatedServiceIds: [],
+        price: {
+          amount: 100,
+          unit: '원'
+        },
+        duration: 60,
+        ordering: 2,
+        isVisible: true,
+        isActive: true,
+        createAt: new Date()
       },
       {
         serviceTypeId: serviceTypeIds[0],
@@ -181,7 +337,17 @@ Meteor.startup(() => {
             imageUrl: 'http://ppss.kr/wp-content/uploads/2017/04/%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C-8-540x245.png',
             description: '2017년 07월 17일 논현동 스튜디오에서  제공된 서비스'
           }
-        ]
+        ],
+        relatedServiceIds: [],
+        price: {
+          amount: 30,
+          unit: '원'
+        },
+        duration: 30,
+        ordering: 3,
+        isVisible: true,
+        isActive: true,
+        createAt: new Date()
       }
     ];
 
@@ -189,6 +355,22 @@ Meteor.startup(() => {
 
     services.forEach((service) => {
       serviceIds.push(Services.insert(service));
+    });
+
+    Services.update({
+      _id: serviceIds[0]
+    }, {
+      $push: {
+        relatedServiceIds: serviceIds[1]
+      }
+    });
+
+    Services.update({
+      _id: serviceIds[0]
+    }, {
+      $push: {
+        relatedServiceIds: serviceIds[2]
+      }
     });
   }
 });

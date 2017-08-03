@@ -1,75 +1,24 @@
 import React, { Component } from 'react';
-import { View, FlatList, Image, TouchableWithoutFeedback, Text } from 'react-native';
+import { View, FlatList, Image, Text, TouchableWithoutFeedback } from 'react-native';
 import { Constants } from 'expo';
 import { Ionicons, SimpleLineIcons } from '@expo/vector-icons';
-import Meteor from 'react-native-meteor';
+import Meteor, { createContainer } from 'react-native-meteor';
 import { Actions } from 'react-native-router-flux';
 import PropType from 'prop-types';
 import _ from 'lodash';
-import moment from 'moment';
 
 import Drawer from '../components/Drawer';
 import Header from '../components/Header';
 
-export default class Main extends Component {
+class Main extends Component {
   static propTypes = {
-    serviceTypes: PropType.array
+    serviceTypes: PropType.array.isRequired
   };
 
-  static defaultProps = {
-    serviceTypes: [
-      {
-        _id: '1',
-        name: 'WEDDING',
-        imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-        ordering: 1,
-        isVisible: true,
-        isActive: true,
-        createAt: moment().add(7, 'days')
-      },
-      {
-        _id: '2',
-        name: 'FAMILY1',
-        imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-        ordering: 4,
-        isVisible: true,
-        isActive: true,
-        createAt: moment()
-      },
-      {
-        _id: '3',
-        name: 'WEDDING2',
-        imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-        ordering: 2,
-        isVisible: true,
-        isActive: true,
-        createAt: moment()
-      },
-      {
-        _id: '4',
-        name: 'FAMILY2',
-        imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-        ordering: 5,
-        isVisible: true,
-        isActive: true,
-        createAt: moment()
-      },
-      {
-        _id: '5',
-        name: 'WEDDING3',
-        imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
-        ordering: 3,
-        isVisible: true,
-        isActive: true,
-        createAt: moment()
-      }
-    ]
-  };
+  onPressLeftIcon = () => {
+    this.drawerRef.openDrawer();
 
-  onPressServiceType = (serviceType) => {
-    Actions.services({
-      serviceType: serviceType
-    });
+    Meteor.logout();
   };
 
   keyExtractor = (serviceType) => {
@@ -91,6 +40,12 @@ export default class Main extends Component {
     );
   };
 
+  onPressServiceType = (serviceType) => {
+    Actions.services({
+      serviceType: serviceType
+    });
+  };
+
   render() {
     let serviceTypes = this.props.serviceTypes;
 
@@ -106,7 +61,7 @@ export default class Main extends Component {
             <Header
               title="main"
               leftIcon={<Ionicons name="ios-menu" color="#1d1d1b" size={32} />}
-              onPressLeftIcon={() => { this.drawerRef.openDrawer(); Meteor.logout(); }}
+              onPressLeftIcon={this.onPressLeftIcon}
               rightIcon={<SimpleLineIcons name="bell" color="#1d1d1b" size={26} />}
             />
           </View>
@@ -118,3 +73,11 @@ export default class Main extends Component {
     );
   }
 }
+
+export default createContainer(() => {
+  Meteor.subscribe('serviceTypes.find', {});
+
+  return {
+    serviceTypes: Meteor.collection('serviceTypes').find({})
+  };
+}, Main);

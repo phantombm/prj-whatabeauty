@@ -14,15 +14,15 @@ class SelectingAddress extends Component {
     user: PropTypes.object.isRequired
   };
 
-  renderAddresses = (addresses) => {
-    return addresses.map((address, index) => {
+  renderAddresses = () => {
+    return this.props.user.profile.addresses.map((address, index) => {
       return (
-        <Touchable key={index} onPress={() => { this.props.service.address = address; Actions.pop({ refresh: { service: this.props.service } }) }}>
-          <View style={{ flexDirection: 'row', paddingVertical: 7, borderTopColor: '#eeeeee', borderTopWidth: 1 }}>
+        <Touchable key={index} onPress={() => { this.onPressAddress(address) }}>
+          <View style={{ height: 60, flexDirection: 'row', borderTopColor: '#eeeeee', borderTopWidth: 1 }}>
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
               <FontAwesome name="map-marker" size={20} color="#fd614d" />
             </View>
-            <View style={{ flex: 8 }}>
+            <View style={{ flex: 8, justifyContent: 'center' }}>
               <View>
                 <Text style={{ color: '#9b9b9b' }}>{ address.address }</Text>
               </View>
@@ -36,22 +36,30 @@ class SelectingAddress extends Component {
     });
   };
 
+  onPressAddress = (address) => {
+    this.props.service.address = address;
+
+    Actions.pop({
+      refresh: {
+        service: this.props.service
+      }
+    });
+  };
+
   render() {
     return (
       <Layout title="주소 선택하기" isKeyboardDismissedOnTouched={false}>
-        <View style={{ flex: 1 }}>
-          <ScrollView>
-            { this.renderAddresses(this.props.user.profile.addresses) }
-            <Touchable onPress={Actions.enteringAddress}>
-              <View style={{ borderTopColor: '#eeeeee', borderTopWidth: 1, borderBottomColor: '#eeeeee', borderBottomWidth: 1 }}>
-                <View style={{ flex: 1 }} />
-                <View style={{ flex: 8, paddingVertical: 16, paddingLeft: 40 }}>
-                  <Text style={{ fontSize: 12, color: '#fd614d' }}>+ 주소 추가하기</Text>
-                </View>
+        <ScrollView>
+          { this.renderAddresses() }
+          <Touchable onPress={Actions.enteringAddress}>
+            <View style={{ height: 60, flexDirection: 'row', borderTopColor: '#eeeeee', borderTopWidth: 1, borderBottomColor: '#eeeeee', borderBottomWidth: 1 }}>
+              <View style={{ flex: 1 }} />
+              <View style={{ flex: 8, justifyContent: 'center' }}>
+                <Text style={{ fontSize: 12, color: '#fd614d' }}>+ 주소 추가하기</Text>
               </View>
-            </Touchable>
-          </ScrollView>
-        </View>
+            </View>
+          </Touchable>
+        </ScrollView>
       </Layout>
     );
   }

@@ -276,6 +276,7 @@ main
   isSsam: Boolean,
   informationForSsam: {
     name: String,
+    imageUrl: String,
     region: String,
     career: Number(month),
     belonging: {

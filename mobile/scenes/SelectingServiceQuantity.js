@@ -14,21 +14,17 @@ export default class SelectingServiceQuantity extends Component {
     flowType: PropTypes.string.isRequired,
     isMainService: PropTypes.bool.isRequired,
     service: PropTypes.object.isRequired,
-    callback: PropTypes.func
+    relatedServiceIndex: PropTypes.number
   };
 
   static defaultProps = {
-    callback: () => {}
+    relatedServiceIndex: 0
   };
 
   state = {
-    quantity: this.props.service.quantity,
-    isMinusButtonActive: this.props.service.quantity <= 1 ? false : true,
+    quantity: this.props.isMainService ? this.props.service.quantity : this.props.service.relatedServices[this.props.relatedServiceIndex].quantity,
+    isMinusButtonActive: this.props.isMainService ? (this.props.service.quantity < 2 ? false : true) : (this.props.service.relatedServices[this.props.relatedServiceIndex].quantity < 1 ? false : true),
     isPlusButtonActive: true
-  };
-
-  renderPrice = (amount) => {
-    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + this.props.service.price.unit;
   };
 
   onPressRightIcon = () => {
@@ -36,48 +32,35 @@ export default class SelectingServiceQuantity extends Component {
   };
 
   onPressMinus = () => {
+    let isMinusButtonActive = true;
+
     if (this.state.quantity == (this.props.isMainService ? 2 : 1)) {
-      this.setState({
-        isMinusButtonActive: false
-      });
+      isMinusButtonActive = false;
     }
 
     this.setState((previousState) => {
       return {
         quantity: previousState.quantity - 1,
+        isMinusButtonActive: isMinusButtonActive,
         isPlusButtonActive: true
       };
     });
   };
 
   onPressPlus = () => {
+    let isPlusButtonActive = true;
+
     if (this.state.quantity == 98) {
-      this.setState({
-        isPlusButtonActive: false
-      });
+      isPlusButtonActive = false;
     }
 
     this.setState((previousState) => {
       return {
         quantity: previousState.quantity + 1,
-        isMinusButtonActive: true
+        isMinusButtonActive: true,
+        isPlusButtonActive: isPlusButtonActive
       };
     });
-  };
-
-  onPressConfirm = () => {
-    if (this.props.flowType == 'initial') {
-      this.props.service.quantity = this.state.quantity;
-
-      Actions.reserving({
-        service: this.props.service
-      });
-    }
-    else if (this.props.flowType == 'popup') {
-      this.props.callback(this.state.quantity);
-
-      Actions.pop();
-    }
   };
 
   renderServiceCommentsForReserving = () => {
@@ -97,18 +80,46 @@ export default class SelectingServiceQuantity extends Component {
     });
   };
 
+  renderPrice = (amount) => {
+    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + this.props.service.price.unit;
+  };
+
+  onPressSelectingServiceQuantity = () => {
+    if (this.props.flowType == 'initial') {
+      this.props.service.quantity = this.state.quantity;
+
+      Actions.reserving({
+        service: this.props.service
+      });
+    }
+    else if (this.props.flowType == 'popup') {
+      if (this.props.isMainService) {
+        this.props.service.quantity = this.state.quantity;
+      }
+      else {
+        this.props.service.relatedServices[this.props.relatedServiceIndex].quantity = this.state.quantity;
+      }
+
+      Actions.pop({
+        refresh: {
+          service: this.props.service
+        }
+      });
+    }
+  };
+
   render() {
     return (
       <Layout title={this.props.service.name} leftIcon={<View />} onPressLeftIcon={() => {}} rightIcon={<Ionicons name="ios-close-outline" size={50} />} onPressRightIcon={this.onPressRightIcon}>
         <View style={{ flex: 1 }}>
           <View style={{ height: 260 }}>
-            <Image source={{ uri: this.props.service.imageUrl }} style={{ width: '100%', height: 260 }} />
+            <Image source={{ uri: this.props.isMainService ? this.props.service.imageUrl : this.props.service.relatedServices[this.props.relatedServiceIndex].imageUrl }} style={{ width: '100%', height: 260 }} />
             <View style={{ position: 'absolute', bottom: 0, width: '100%', height: 45, backgroundColor: 'rgba(0, 0, 0, 0.5)', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 18, color: '#ffffff' }}>{ this.props.service.name } | { this.renderPrice(this.props.service.price.amount) }</Text>
+              <Text style={{ fontSize: 18, color: '#ffffff' }}>{ this.props.service.name } | { this.renderPrice(this.props.isMainService ? this.props.service.price.amount : this.props.service.relatedServices[this.props.relatedServiceIndex].price.amount) }</Text>
             </View>
           </View>
           <View style={{ flex: 1, padding: 16, paddingBottom: 0 }}>
-            <View style={{ borderBottomWidth: 1, borderBottomColor: '#eeeeee' }} />
+            <View style={{ height: 1, backgroundColor: '#eeeeee' }} />
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
               <IconButton backgroundColor="#fd5739" borderRadius={30} inactiveBackgroundColor="#e0e0e1" onPress={this.onPressMinus} isActive={this.state.isMinusButtonActive}>
                 <MaterialCommunityIcons name="minus" size={25} color="#ffffff" />
@@ -118,17 +129,17 @@ export default class SelectingServiceQuantity extends Component {
                 <MaterialCommunityIcons name="plus" size={25} color="#ffffff" />
               </IconButton>
             </View>
-            <View style={{ borderBottomWidth: 1, borderBottomColor: '#eeeeee' }} />
+            <View style={{ height: 1, backgroundColor: '#eeeeee' }} />
             <View style={{ flex: 5, justifyContent: 'center' }}>
               { this.renderServiceCommentsForReserving() }
             </View>
-            <View style={{ borderBottomWidth: 1, borderBottomColor: '#eeeeee' }} />
+            <View style={{ height: 1, backgroundColor: '#eeeeee' }} />
             <View style={{ flex: 3, justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={{ fontSize: 16, color: '#3c4f5e' }}>총 금액 : { this.renderPrice(this.props.service.price.amount * this.state.quantity) }</Text>
+              <Text style={{ fontSize: 16, color: '#3c4f5e' }}>총 금액 : { this.renderPrice(this.props.isMainService ? this.props.service.price.amount * this.state.quantity : this.props.service.relatedServices[this.props.relatedServiceIndex].price.amount * this.state.quantity) }</Text>
             </View>
           </View>
           <View>
-            <Button buttonStyle={{ borderRadius: 0 }} onPress={this.onPressConfirm}>선택하기</Button>
+            <Button buttonStyle={{ borderRadius: 0 }} onPress={this.onPressSelectingServiceQuantity}>선택하기</Button>
           </View>
         </View>
       </Layout>

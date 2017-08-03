@@ -1,7 +1,5 @@
-/* eslint "no-undef": "off" */
-
 import { Accounts } from 'meteor/accounts-base';
-import moment from 'moment';
+import _ from 'lodash';
 
 Accounts.onCreateUser((options, user) => {
   let profile = options.profile;
@@ -38,6 +36,7 @@ Accounts.onCreateUser((options, user) => {
     isSsam: false,
     informationForSsam: {
       name: '',
+      imageUrl: '',
       region: '',
       career: 0,
       belonging: {

@@ -1,5 +1,3 @@
-/* eslint "no-undef": "off" */
-
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import React, { Component } from 'react';
