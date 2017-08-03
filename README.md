@@ -169,7 +169,7 @@ main
                 enteringAddress
                 enteringAddressDetail
             selectingDateTime
-            writingRequest
+            writingMemo
             
             ssams(:reservationInformation)
               ssam(:id)
@@ -257,18 +257,22 @@ main
 #### users.profile collection
 ```
 {
+  signInType: String('password', 'facebook', 'google'),
+  signInId: String,
   name: String,
+  email: String,
   cellPhoneNumber: String,
   addresses: [
     {
       address: String,
-      addressDetail: String,
+      detail: String,
       memo: String
     }
   ],
   reservations: [String(_id)],
+  notificationTokens: [String],
   isOwner: Boolean,
-  isAdministrator: Boolean,
+  isManager: Boolean,
   isSsam: Boolean,
   informationForSsam: {
     name: String,
@@ -285,7 +289,7 @@ main
       }
     ],
     notAvailableDates: [Date],
-    isServiceAvailable: Boolean,
+    isAvailable: Boolean,
     reservations: [String(_id)],
     balancedMoney: [
       {
@@ -303,7 +307,7 @@ main
       number: String,
       owner: String
     }
-  }
+  },
   isActive: Boolean,
   createAt: Date
 }

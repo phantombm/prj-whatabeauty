@@ -1,6 +1,7 @@
 /* eslint "no-undef": "off" */
 
 import { Accounts } from 'meteor/accounts-base';
+import moment from 'moment';
 
 Accounts.onCreateUser((options, user) => {
   let profile = options.profile;
@@ -29,7 +30,33 @@ Accounts.onCreateUser((options, user) => {
   }
 
   profile = _.extend({
-
+    addresses: [],
+    reservations: [],
+    notificationTokens: [],
+    isOwner: false,
+    isManager: false,
+    isSsam: false,
+    informationForSsam: {
+      name: '',
+      region: '',
+      career: 0,
+      belonging: {
+        brandId: '',
+        name: ''
+      },
+      portfolios: [],
+      notAvailableDates: [],
+      isAvailable: true,
+      reservations: [],
+      balancedMoney: [],
+      bankAccount: {
+        bank: '',
+        number: '',
+        owner: ''
+      }
+    },
+    isActive: true,
+    createAt: new Date()
   }, profile);
 
   user.profile = profile;

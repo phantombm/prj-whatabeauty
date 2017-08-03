@@ -16,6 +16,7 @@
     "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.12",
     "react-native": "https://github.com/expo/react-native/archive/sdk-19.0.0.tar.gz",
+    "react-native-calendars": "^1.5.6",
     "react-native-drawer": "^2.3.0",
     "react-native-global-props": "^1.1.1",
     "react-native-meteor": "^1.1.0",

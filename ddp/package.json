@@ -2,12 +2,13 @@
   "name": "whatabeauty",
   "private": true,
   "scripts": {
-    "start": "meteor run --settings development.json --port 221.167.202.216:3000"
+    "start": "meteor run --settings development.json --port 192.168.0.36:3000"
   },
   "dependencies": {
     "babel-runtime": "^6.20.0",
     "history": "^4.6.3",
     "meteor-node-stubs": "~0.2.4",
+    "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-addons-pure-render-mixin": "^15.6.0",

@@ -136,7 +136,6 @@ export default class Input extends Component {
             secureTextEntry={this.props.secureTextEntry}
             autoCapitalize="none"
             autoCorrect={false}
-            returnKeyType="done"
           />
         </View>
       </Animated.View>

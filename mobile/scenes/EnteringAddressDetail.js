@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, Alert } from 'react-native';
 import { MapView } from 'expo';
 import PropTypes from 'prop-types';
 import { FontAwesome } from '@expo/vector-icons';
 import { Actions } from 'react-native-router-flux';
+import Meteor from 'react-native-meteor';
 
 import Layout from '../layouts/Layout';
 import Button from '../components/Button';
@@ -20,7 +21,6 @@ export default class EnteringAddressDetail extends Component {
   state = {
     region: this.props.region,
     markerPosition: this.props.markerPosition,
-    address: this.props.address,
     addressDetail: '',
     memo: '',
     isAddingAddressActive: false
@@ -40,8 +40,29 @@ export default class EnteringAddressDetail extends Component {
   };
 
   onPressAddingAddress = () => {
-    Actions.pop({
-      popNum: 2
+    Meteor.call('users.update', {
+      $push: {
+        'profile.addresses': {
+          address: this.props.address,
+          detail: this.state.addressDetail,
+          memo: this.state.memo
+        }
+      }
+    }, (error) => {
+      if (error) {
+        Alert.alert(
+          'whatabeauty',
+          error.reason,
+          [{ text: '확인' }],
+          { cancelable: false }
+        );
+
+        return;
+      }
+
+      Actions.pop({
+        popNum: 2
+      });
     });
   };
 
@@ -72,7 +93,7 @@ export default class EnteringAddressDetail extends Component {
               </View>
               <View style={{ flex: 8, justifyContent: 'center' }}>
                 <View>
-                  <Text style={{ color: '#9b9b9b' }}>{ this.state.address }</Text>
+                  <Text style={{ color: '#9b9b9b' }}>{ this.props.address }</Text>
                 </View>
               </View>
             </View>
@@ -87,7 +108,7 @@ export default class EnteringAddressDetail extends Component {
                   autoCorrect={false}
                   autoCapitalizer="none"
                   placeholder="방문 시 요청사항이 있다면 적어주세요."
-                  style={{ backgroundColor: '#fafafa', height: '100%', color: '#3c4f5e', padding: 12 }}
+                  style={{ backgroundColor: '#fafafa', height: '100%', color: '#3c4f5e', padding: 12, fontSize: 14 }}
                   placeholderTextColor="#cfcfcf"
                   maxLength={200}
                   onChangeText={this.onChangeMemo}

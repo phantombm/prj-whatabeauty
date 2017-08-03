@@ -12,8 +12,11 @@ import Services from '../scenes/Services';
 import Service from '../scenes/Service';
 import SelectingServiceQuantity from '../scenes/SelectingServiceQuantity';
 import Reserving from '../scenes/Reserving';
+import SelectingAddress from '../scenes/SelectingAddress';
 import EnteringAddress from '../scenes/EnteringAddress';
 import EnteringAddressDetail from '../scenes/EnteringAddressDetail';
+import SelectingDateTime from '../scenes/SelectingDateTime';
+import WritingMemo from '../scenes/WritingMemo';
 
 export default class _Router extends Component {
   render() {
@@ -31,8 +34,11 @@ export default class _Router extends Component {
           <Scene key="service" component={Service} panHandlers={null} />
           <Scene key="selectingServiceQuantity" component={SelectingServiceQuantity} panHandlers={null} direction="vertical" />
           <Scene key="reserving" component={Reserving} panHandlers={null} />
+          <Scene key="selectingAddress" component={SelectingAddress} panHandlers={null} />
           <Scene key="enteringAddress" component={EnteringAddress} panHandlers={null} />
           <Scene key="enteringAddressDetail" component={EnteringAddressDetail} panHandlers={null} />
+          <Scene key="selectingDateTime" component={SelectingDateTime} panHandlers={null} />
+          <Scene key="writingMemo" component={WritingMemo} panHandlers={null} />
         </Scene>
       </Router>
     );
