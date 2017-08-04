@@ -21,11 +21,11 @@ class Services extends Component {
   renderService = ({ item }) => {
     return (
       <Touchable onPress={() => { this.onPressService(item); }}>
-        <View style={{ width: '50%', height: 185, paddingLeft: 16, marginTop: 16 }}>
+        <View style={{ width: '50%', paddingLeft: 16, marginTop: 16 }}>
           <View>
             <Image source={{ uri: item.imageUrl }} style={{ width: '100%', height: 130 }} />
           </View>
-          <View style={{ borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderWidth: 1, borderColor: '#eeeeee', flex: 1, justifyContent: 'center', paddingLeft: 10 }}>
+          <View style={{ borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderWidth: 1, borderColor: '#eeeeee', flex: 1, justifyContent: 'center', paddingVertical: 7, paddingHorizontal: 10 }}>
             <View>
               <Text style={{ fontSize: 13, color: '#666666' }}>{ item.name }</Text>
             </View>
@@ -67,7 +67,7 @@ class Services extends Component {
 }
 
 export default createContainer((props) => {
-  Meteor.subscribe('services.find', {
+  Meteor.subscribe('services', {
     serviceTypeId: props.serviceType._id
   });
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableNativeFeedback, TouchableOpacity, Platform } from 'react-native';
+import { TouchableNativeFeedback, TouchableWithoutFeedback, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 
 export default class Button extends Component {
@@ -15,11 +15,11 @@ export default class Button extends Component {
         </TouchableNativeFeedback>
       );
     }
-    else if (Platform.OS == 'ios') {
+    else {
       return (
-        <TouchableOpacity {...this.props}>
+        <TouchableWithoutFeedback {...this.props}>
           { this.props.children }
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
       );
     }
   }

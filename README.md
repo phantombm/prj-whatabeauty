@@ -279,6 +279,9 @@ main
     imageUrl: String,
     region: String,
     career: Number(month),
+    comment: String,
+    description: String,
+    reviews: [Object],
     belonging: {
       brandId: String,
       name: String(brandName)
@@ -346,6 +349,19 @@ main
   },
   requirement: String,
   scheduledAt: Date,
+  createAt: Date
+}
+```
+
+#### reviews collection
+```
+{
+  userId: String,
+  name: String,
+  grade: Number,
+  comment: String,
+  isVisible: Boolean,
+  isActive: Boolean,
   createAt: Date
 }
 ```

@@ -1,13 +1,11 @@
 import { Meteor } from 'meteor/meteor';
-import _ from 'lodash';
 
-Meteor.publish('ssams.find', (selector) => {
-  const assignedSelector = _.assign(selector, {
+Meteor.publish('ssams.all', () => {
+  return Meteor.users.find({
     'profile.isSsam': true
-  });
-  return Meteor.users.find(assignedSelector, {
+  }, {
     fields: {
-      profile: 1
+      services: 0
     }
   });
 });

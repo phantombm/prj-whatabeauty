@@ -90,7 +90,9 @@ export default class Reserving extends Component {
   };
 
   onPressReserving = () => {
-
+    Actions.ssams({
+      service: this.props.service
+    });
   };
 
   render() {

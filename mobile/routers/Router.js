@@ -17,6 +17,8 @@ import EnteringAddress from '../scenes/EnteringAddress';
 import EnteringAddressDetail from '../scenes/EnteringAddressDetail';
 import SelectingDateTime from '../scenes/SelectingDateTime';
 import WritingMemo from '../scenes/WritingMemo';
+import Ssams from '../scenes/Ssams';
+import Ssam from '../scenes/Ssam';
 
 export default class _Router extends Component {
   render() {
@@ -39,6 +41,8 @@ export default class _Router extends Component {
           <Scene key="enteringAddressDetail" component={EnteringAddressDetail} panHandlers={null} />
           <Scene key="selectingDateTime" component={SelectingDateTime} panHandlers={null} />
           <Scene key="writingMemo" component={WritingMemo} panHandlers={null} />
+          <Scene key="ssams" component={Ssams} panHandlers={null} />
+          <Scene key="ssam" component={Ssam} panHandlers={null} />
         </Scene>
       </Router>
     );

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TimePickerAndroid } from 'react-native';
+import { View, Text, TimePickerAndroid, Platform, DatePickerIOS } from 'react-native';
 import PropTypes from 'prop-types';
 import { EvilIcons } from '@expo/vector-icons';
 import { Actions } from 'react-native-router-flux';
@@ -17,9 +17,13 @@ export default class SelectingDateTime extends Component {
 
   state = {
     date: null,
-    time: null,
+    time: Platform.OS == 'android' ? null : {
+      hours: 14,
+      minutes: 0
+    },
     markedDates: {},
-    isSelectingDateTimeActive: false
+    isSelectingDateTimeActive: false,
+    dateForIos: moment().hours(14).minutes(0).toDate()
   };
 
   onPressDay = (day) => {
@@ -45,8 +49,8 @@ export default class SelectingDateTime extends Component {
     if (action != TimePickerAndroid.dismissedAction) {
       this.setState({
         time: {
-          hour: hour,
-          minute: minute
+          hours: hour,
+          minutes: minute
         }
       });
     }
@@ -54,7 +58,7 @@ export default class SelectingDateTime extends Component {
 
   renderTime = () => {
     if (this.state.time) {
-      return `${this.state.time.hour}시 ${this.state.time.minute}분`;
+      return `${this.state.time.hours}시 ${this.state.time.minutes}분`;
     }
     else {
       return '시간을 선택해주세요.';
@@ -62,12 +66,24 @@ export default class SelectingDateTime extends Component {
   };
 
   onPressSelectingDateTime = () => {
-    this.props.service.scheduledAt = moment(`${this.state.date} ${this.state.time.hour}:${this.state.time.minute}`, 'YYYY-MM-DD H:m');
+    this.props.service.scheduledAt = moment(`${this.state.date} ${this.state.time.hours}:${this.state.time.minutes}`, 'YYYY-MM-DD H:m');
 
     Actions.pop({
       refresh: {
         service: this.props.service
       }
+    });
+  };
+
+  onChangeDate = (date) => {
+    const currentMoment = moment(date);
+
+    this.setState({
+      time: {
+        hours: currentMoment.hours(),
+        minutes: currentMoment.minutes()
+      },
+      dateForIos: currentMoment.toDate()
     });
   };
 
@@ -94,12 +110,19 @@ export default class SelectingDateTime extends Component {
               />
             </View>
             <View>
-              <Touchable onPress={this.onPressSelectingTime}>
-                <View style={{ height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', borderBottomWidth: 1, borderBottomColor: '#eeeeee', flexDirection: 'row', paddingHorizontal: 20, alignItems: 'center' }}>
-                  <EvilIcons name="clock" size={35} color="#4a4a4a" />
-                  <Text style={{ color: '#3c4f5e', marginLeft: 15 }}>{ this.renderTime() }</Text>
+              { Platform.OS == 'android' ?
+                <View>
+                  <Touchable onPress={this.onPressSelectingTime}>
+                    <View style={{ height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', borderBottomWidth: 1, borderBottomColor: '#eeeeee', flexDirection: 'row', paddingHorizontal: 20, alignItems: 'center' }}>
+                      <EvilIcons name="clock" size={35} color="#4a4a4a" />
+                      <Text style={{ color: '#3c4f5e', marginLeft: 15 }}>{ this.renderTime() }</Text>
+                    </View>
+                  </Touchable>
+                </View> :
+                <View>
+                  <DatePickerIOS date={this.state.dateForIos} mode="time" onDateChange={this.onChangeDate} />
                 </View>
-              </Touchable>
+              }
             </View>
           </View>
           <View>

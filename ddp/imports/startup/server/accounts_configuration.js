@@ -39,6 +39,9 @@ Accounts.onCreateUser((options, user) => {
       imageUrl: '',
       region: '',
       career: 0,
+      comment: '',
+      description: '',
+      reviews: [],
       belonging: {
         brandId: '',
         name: ''

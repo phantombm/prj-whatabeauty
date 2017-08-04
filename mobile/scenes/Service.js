@@ -47,18 +47,16 @@ class Service extends Component {
   });
 
   renderGallary = () => {
-    return (
-      this.props.service.gallery.map((gallery, index) => {
-        return (
-          <View key={index} style={{ marginTop: 10 }}>
-            <Image source={{ uri: gallery.imageUrl }} style={{ width: '100%', height: 180 }} />
-            <View style={{ position: 'absolute', bottom: 0, width: '100%', height: 45, backgroundColor: 'rgba(0, 0, 0, 0.5)', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 10, color: '#ffffff' }}>{ gallery.description }</Text>
-            </View>
+    return this.props.service.gallery.map((gallery, index) => {
+      return (
+        <View key={index} style={{ marginTop: 10 }}>
+          <Image source={{ uri: gallery.imageUrl }} style={{ width: '100%', height: 180 }} />
+          <View style={{ position: 'absolute', bottom: 0, width: '100%', height: 45, backgroundColor: 'rgba(0, 0, 0, 0.5)', alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ fontSize: 10, color: '#ffffff' }}>{ gallery.description }</Text>
           </View>
-        );
-      })
-    );
+        </View>
+      );
+    });
   };
 
   renderPrice = () => {
@@ -143,7 +141,7 @@ class Service extends Component {
 }
 
 export default createContainer((props) => {
-  Meteor.subscribe('services.find', {
+  Meteor.subscribe('services', {
     _id: {
       $in: props.service.relatedServiceIds
     }
