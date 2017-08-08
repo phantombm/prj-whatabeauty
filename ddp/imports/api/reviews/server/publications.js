@@ -1,11 +1,10 @@
-import { publishComposite } from 'meteor/reywood:publish-composite';
+import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
 
 import { Reviews } from '../reviews';
 
-publishComposite('reviews', (selector) => {
-  return {
-    find: () => {
-      return Reviews.find(selector);
-    }
-  };
+Meteor.publish('reviews', (selector) => {
+  check(selector, Object);
+
+  return Reviews.find(selector);
 });

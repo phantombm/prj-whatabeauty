@@ -75,7 +75,7 @@ class Main extends Component {
 }
 
 export default createContainer(() => {
-  Meteor.subscribe('serviceTypes.all');
+  Meteor.subscribe('serviceTypes', {});
 
   return {
     serviceTypes: Meteor.collection('serviceTypes').find({})

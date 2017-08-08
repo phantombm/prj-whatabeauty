@@ -3,13 +3,17 @@ import { View, Image, Text, ScrollView } from 'react-native';
 import StarRating from 'react-native-star-rating';
 import PropType from 'prop-types';
 import _ from 'lodash';
+import Meteor, { createContainer } from 'react-native-meteor';
+import moment from 'moment';
 
 import Layout from '../layouts/Layout';
 import Button from '../components/Button';
 
-export default class Ssam extends Component {
+class Ssam extends Component {
   static propTypes = {
-    ssam: PropType.object.isRequired
+    service: PropType.object.isRequired,
+    ssam: PropType.object.isRequired,
+    reviews: PropType.array.isRequired
   };
 
   getGradesAverage = (informationForSsam) => {
@@ -44,6 +48,28 @@ export default class Ssam extends Component {
           <Image source={{ uri: portfolio.imageUrl }} style={{ width: '100%', height: 180 }} />
           <View style={{ position: 'absolute', bottom: 0, width: '100%', height: 45, backgroundColor: 'rgba(0, 0, 0, 0.5)', alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{ fontSize: 10, color: '#ffffff' }}>{ portfolio.description }</Text>
+          </View>
+        </View>
+      );
+    });
+  };
+
+  renderReviews = () => {
+    return this.props.reviews.map((review) => {
+      return (
+        <View key={review._id}>
+          <View style={{ flexDirection: 'row', height: 50 }}>
+            <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center' }}>
+              <View>
+                <Text>{ review.name }</Text>
+              </View>
+              <View>
+                <StarRating disabled maxStars={5} rating={review.grade} starSize={10} starColor="#f5d56e" emptyStarColor="#f5d56e" />
+              </View>
+            </View>
+            <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
+              <Text>{ moment(review.createAt).format('YYYY.MM.DD') }</Text>
+            </View>
           </View>
         </View>
       );
@@ -105,6 +131,9 @@ export default class Ssam extends Component {
                     <Text style={{ fontSize: 12, color: '#fd614d' }}>총 { informationForSsam.reviews.length }개</Text>
                   </View>
                 </View>
+                <View>
+                  { this.renderReviews() }
+                </View>
               </View>
             </ScrollView>
           </View>
@@ -116,3 +145,23 @@ export default class Ssam extends Component {
     );
   }
 }
+
+export default createContainer((props) => {
+  const reviewIds = props.ssam.profile.informationForSsam.reviews.map((review) => {
+    return review.id;
+  });
+
+  Meteor.subscribe('reviews', {
+    _id: {
+      $in: reviewIds
+    }
+  });
+
+  return {
+    reviews: Meteor.collection('reviews').find({
+      _id: {
+        $in: reviewIds
+      }
+    })
+  };
+}, Ssam);

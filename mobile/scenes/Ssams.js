@@ -41,11 +41,11 @@ class Ssams extends Component {
               <Text style={{ fontSize: 10, color: '#9b9b9b' }}>{ informationForSsam.comment }</Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
-              <View style={{ flex: 1, justifyContent: 'center' }}>
+              <View style={{ flex: 2, justifyContent: 'center' }}>
                 <StarRating disabled maxStars={5} rating={parseFloat(average)} starSize={10} starColor="#f5d56e" emptyStarColor="#f5d56e" />
               </View>
-              <View style={{ flex: 1 }}>
-                <Text style={{ fontSize: 10, color: '#fd614d', textAlign: 'right' }}>{average} ({ this.renderGradesLenght(informationForSsam) })</Text>
+              <View style={{ flex: 3 }}>
+                <Text style={{ marginLeft: 10, fontSize: 10, color: '#fd614d' }}>{average} ({ this.renderGradesLenght(informationForSsam) })</Text>
               </View>
             </View>
           </View>
@@ -56,6 +56,7 @@ class Ssams extends Component {
 
   onPressSsam = (ssam) => {
     Actions.ssam({
+      service: this.props.service,
       ssam: ssam
     });
   };
@@ -101,7 +102,9 @@ class Ssams extends Component {
 }
 
 export default createContainer(() => {
-  Meteor.subscribe('ssams.all');
+  Meteor.subscribe('ssams', {
+    'profile.isSsam': true
+  });
 
   return {
     ssams: Meteor.collection('users').find({

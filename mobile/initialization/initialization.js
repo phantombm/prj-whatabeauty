@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
 import Meteor from 'react-native-meteor';
 import { setCustomText, setCustomTextInput } from 'react-native-global-props';
+import 'moment/locale/ko';
 
 import Header from '../components/Header';
 import Input from '../components/Input';
@@ -17,7 +18,7 @@ setCustomText({
 });
 
 // TODO: ddp server ip
-global.ddpServerIp = '192.168.0.36:3000';
+global.ddpServerIp = '192.168.43.228:3000';
 
 Meteor.connect(`ws://${global.ddpServerIp}/websocket`);
 
