@@ -69,13 +69,13 @@ export default class EnteringAddress extends Component {
   };
 
   geocode = async (address) => {
-    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDPfFACTvvSydru2peltHH6CInpZr6336s`);
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyDhR3pfzlDHyxr1IVWV3vpOeSkLOuuNmnc`);
 
     return await response.json();
   };
 
   geocodeReversely = async (region) => {
-    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?result_type=sublocality_level_2&language=ko&latlng=${region.latitude},${region.longitude}&key=AIzaSyDPfFACTvvSydru2peltHH6CInpZr6336s`);
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?result_type=sublocality_level_2&language=ko&latlng=${region.latitude},${region.longitude}&key=AIzaSyDhR3pfzlDHyxr1IVWV3vpOeSkLOuuNmnc`);
 
     return await response.json();
   };
@@ -113,7 +113,7 @@ export default class EnteringAddress extends Component {
   };
 
   getAddressPredictions = async (address) => {
-    const response = await fetch(`https://maps.googleapis.com/maps/api/place/autocomplete/json?language=ko&components=country:kr&input=${address}&key=AIzaSyDPfFACTvvSydru2peltHH6CInpZr6336s`);
+    const response = await fetch(`https://maps.googleapis.com/maps/api/place/autocomplete/json?language=ko&components=country:kr&input=${address}&key=AIzaSyDhR3pfzlDHyxr1IVWV3vpOeSkLOuuNmnc`);
 
     return await response.json();
   };

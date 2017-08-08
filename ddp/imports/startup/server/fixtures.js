@@ -6,6 +6,8 @@ import { Services } from '../../api/services/services';
 import { Reviews } from '../../api/reviews/reviews';
 
 Meteor.startup(() => {
+  const reviewIds = [];
+
   if (Reviews.find({}).count() == 0) {
     const reviews = [
       {
@@ -56,7 +58,7 @@ Meteor.startup(() => {
     ];
 
     reviews.forEach((review) => {
-      Reviews.insert(review);
+      reviewIds.push(Reviews.insert(review));
     });
   }
 
@@ -86,20 +88,20 @@ Meteor.startup(() => {
         'profile.informationForSsam.description': '“ 나다운 것이 가장 예쁘다 .”뷰티 숍 김활란 뮤제네프의 원장이자 성신여대 메이크업 디자인학과 교수이기도 한 김활란은 메이크업을 시작한 지 올해로 20년 차인 베테랑 메이크업 아티스트다. 지금까지 김활란 원장은 김효진, 신세경, 하지원, 강혜정 등 핫한 여배우들의 메이크업을 책임지고 있을 뿐 아니라 뷰티 프로그램 ‘겟잇뷰티’ ‘스토리:진’에 출연하며 뷰티 멘토로 자리매김해왔다.',
         'profile.informationForSsam.reviews': [
           {
-            id: '2WFfx59cPre2iAj6A',
+            id: reviewIds[0],
             grade: 3.5
           },
           {
-            id: '5ZxwCprQmd2vWTtL4',
-            grade: 4.5
+            id: reviewIds[1],
+            grade: 0
           },
           {
-            id: 'k3CehqW6nuMLoeSHC',
-            grade: 2.5
+            id: reviewIds[2],
+            grade: 3.5
           },
           {
-            id: '7X4YZarT9YNicChR7',
-            grade: 1.5
+            id: reviewIds[3],
+            grade: 0.5
           }
         ],
         'profile.informationForSsam.portfolios': [
@@ -149,23 +151,23 @@ Meteor.startup(() => {
         'profile.informationForSsam.description': '“ 나다운 것이 가장 예쁘다 .”뷰티 숍 김활란 뮤제네프의 원장이자 성신여대 메이크업 디자인학과 교수이기도 한 김활란은 메이크업을 시작한 지 올해로 20년 차인 베테랑 메이크업 아티스트다. 지금까지 김활란 원장은 김효진, 신세경, 하지원, 강혜정 등 핫한 여배우들의 메이크업을 책임지고 있을 뿐 아니라 뷰티 프로그램 ‘겟잇뷰티’ ‘스토리:진’에 출연하며 뷰티 멘토로 자리매김해왔다.',
         'profile.informationForSsam.reviews': [
           {
-            id: '2WFfx59cPre2iAj6A',
+            id: reviewIds[4],
+            grade: 4
+          },
+          {
+            id: reviewIds[0],
             grade: 3.5
           },
           {
-            id: '5ZxwCprQmd2vWTtL4',
-            grade: 4.5
+            id: reviewIds[1],
+            grade: 0
           },
           {
-            id: 'k3CehqW6nuMLoeSHC',
-            grade: 2.5
+            id:reviewIds[2],
+            grade: 3.5
           },
           {
-            id: 'XETeF8WctCJSDorhz',
-            grade: 1.5
-          },
-          {
-            id: '7X4YZarT9YNicChR7',
+            id: reviewIds[3],
             grade: 0.5
           }
         ],

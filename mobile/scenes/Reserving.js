@@ -95,7 +95,21 @@ export default class Reserving extends Component {
     });
   };
 
+  validate = () => {
+    if (!this.props.service.address) {
+      return false;
+    }
+
+    if (!this.props.service.scheduledAt) {
+      return false;
+    }
+
+    return true;
+  };
+
   render() {
+    const isReservingActive = this.validate();
+
     return (
       <Layout title="예약하기" isKeyboardDismissedOnTouched={false}>
         <View style={{ flex: 1 }}>
@@ -162,7 +176,7 @@ export default class Reserving extends Component {
             </Touchable>
           </ScrollView>
           <View>
-            <Button buttonStyle={{ borderRadius: 0 }} onPress={this.onPressReserving}>예약하기</Button>
+            <Button buttonStyle={{ borderRadius: 0 }} onPress={this.onPressReserving} isActive={isReservingActive}>예약하기</Button>
           </View>
         </View>
       </Layout>

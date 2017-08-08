@@ -19,6 +19,8 @@ import SelectingDateTime from '../scenes/SelectingDateTime';
 import WritingMemo from '../scenes/WritingMemo';
 import Ssams from '../scenes/Ssams';
 import Ssam from '../scenes/Ssam';
+import Portfolio from '../scenes/Portfolio';
+import Reservation from '../scenes/Reservation';
 
 export default class _Router extends Component {
   render() {
@@ -43,6 +45,8 @@ export default class _Router extends Component {
           <Scene key="writingMemo" component={WritingMemo} panHandlers={null} />
           <Scene key="ssams" component={Ssams} panHandlers={null} />
           <Scene key="ssam" component={Ssam} panHandlers={null} />
+          <Scene key="portfolio" component={Portfolio} panHandlers={null} direction="vertical" />
+          <Scene key="reservation" component={Reservation} panHandlers={null} />
         </Scene>
       </Router>
     );

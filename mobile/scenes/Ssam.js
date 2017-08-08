@@ -5,9 +5,11 @@ import PropType from 'prop-types';
 import _ from 'lodash';
 import Meteor, { createContainer } from 'react-native-meteor';
 import moment from 'moment';
+import { Actions } from 'react-native-router-flux';
 
 import Layout from '../layouts/Layout';
 import Button from '../components/Button';
+import Touchable from '../components/Touchable';
 
 class Ssam extends Component {
   static propTypes = {
@@ -30,7 +32,7 @@ class Ssam extends Component {
     return (sum / length).toFixed(1);
   };
 
-  renderGradesLenght = (informationForSsam) => {
+  renderReviewsLength = (informationForSsam) => {
     const length = informationForSsam.reviews.length;
 
     if (length > 99) {
@@ -44,12 +46,14 @@ class Ssam extends Component {
   renderPortfolios = (informationForSsam) => {
     return informationForSsam.portfolios.map((portfolio, index) => {
       return (
-        <View key={index} style={{ marginTop: 10 }}>
-          <Image source={{ uri: portfolio.imageUrl }} style={{ width: '100%', height: 180 }} />
-          <View style={{ position: 'absolute', bottom: 0, width: '100%', height: 45, backgroundColor: 'rgba(0, 0, 0, 0.5)', alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ fontSize: 10, color: '#ffffff' }}>{ portfolio.description }</Text>
+        <Touchable key={index} onPress={() => { Actions.portfolio({ portfolio: portfolio }); }}>
+          <View style={{ marginTop: 10 }}>
+            <Image source={{ uri: portfolio.imageUrl }} style={{ width: '100%', height: 180 }} />
+            <View style={{ position: 'absolute', bottom: 0, width: '100%', height: 45, backgroundColor: 'rgba(0, 0, 0, 0.5)', alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ fontSize: 10, color: '#ffffff' }}>{ portfolio.description }</Text>
+            </View>
           </View>
-        </View>
+        </Touchable>
       );
     });
   };
@@ -61,18 +65,29 @@ class Ssam extends Component {
           <View style={{ flexDirection: 'row', height: 50 }}>
             <View style={{ flex: 2, flexDirection: 'row', alignItems: 'center' }}>
               <View>
-                <Text>{ review.name }</Text>
+                <Text style={{ fontSize: 12, color: '#3c4f5e' }}>{ review.name }</Text>
               </View>
-              <View>
+              <View style={{ width: 55, marginLeft: 5 }}>
                 <StarRating disabled maxStars={5} rating={review.grade} starSize={10} starColor="#f5d56e" emptyStarColor="#f5d56e" />
               </View>
             </View>
             <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
-              <Text>{ moment(review.createAt).format('YYYY.MM.DD') }</Text>
+              <Text style={{ fontSize: 12, color: '#9b9b9b' }}>{ moment(review.createAt).format('YYYY.MM.DD') }</Text>
             </View>
+          </View>
+          <View>
+            <Text style={{ fontSize: 12, color: '#9b9b9b' }}>{ review.comment }</Text>
           </View>
         </View>
       );
+    });
+  };
+
+  onPressSsam = () => {
+    Actions.reservation({
+      flowType: 'from reserving',
+      service: this.props.service,
+      ssam: this.props.ssam
     });
   };
 
@@ -108,7 +123,7 @@ class Ssam extends Component {
                         <StarRating disabled maxStars={5} rating={parseFloat(average)} starSize={10} starColor="#f5d56e" emptyStarColor="#f5d56e" />
                       </View>
                       <View style={{ flex: 2 }}>
-                        <Text style={{ marginLeft: 10, fontSize: 10, color: '#fd614d' }}>{average} ({ this.renderGradesLenght(informationForSsam) })</Text>
+                        <Text style={{ marginLeft: 10, fontSize: 10, color: '#fd614d' }}>{average} ({ this.renderReviewsLength(informationForSsam) })</Text>
                       </View>
                     </View>
                   </View>

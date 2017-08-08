@@ -161,21 +161,21 @@ main
   serviceTypes(abstract)
     services(:serviceTypeId)
       service(:service)
-        selectingServiceQuantity(:service)
+        selectingServiceQuantity(:flowType, :isMainService, :service, :relatedServiceIndex)
           reserving(:service)
-            selectingServiceQuantity(repeated)(:service)
-            selectingAddress
+            selectingServiceQuantity(repeated)(:flowType, :isMainService, :service, :relatedServiceIndex)
+            selectingAddress(:service)
               addingAddress(abstract)
                 enteringAddress
                 enteringAddressDetail
-            selectingDateTime
-            writingMemo
+            selectingDateTime(:service)
+            writingMemo(:service)
             
-            ssams(:reservationInformation)
-              ssam(:id)
-                portfolio(:id)
+            ssams(:service)
+              ssam(:ssam, :service)
+                portfolio(:prtfolio)
                 
-                reservationSummary(:reservationInformation, :ssamId)
+                reservation(repeated)(:flowType, :service, :ssam, :reservation)
                 payment
   brands(abstract)
     brand(:id)
@@ -184,7 +184,7 @@ main
   chat
   drawerMenu(abstract)
     reservations(:userType)
-      reservation(:userType, :id)
+      reservation(repeated)(:flowType, :service, :ssam, :reservation)
         writingReview(repeated)(:id)
     notices(:userType)
       notice(:userType, :id)
@@ -320,13 +320,8 @@ main
 #### reservations collections
 ```
 {
-  ssam: informationForSsam(schema),
-  services: [
-    {
-      service: service(schema),
-      quantity: Number
-    }
-  ],
+  ssam: Object(users schema),
+  service: Object(services schema),
   price: {
     amount: Number,
     unit: String
@@ -336,7 +331,6 @@ main
     unit: String
   },
   isBalanced,
-  address: addresses.0(schema),
   progress: {
     type: String,
     allowedValues: [
@@ -347,8 +341,6 @@ main
       'completed'
     ]
   },
-  requirement: String,
-  scheduledAt: Date,
   createAt: Date
 }
 ```

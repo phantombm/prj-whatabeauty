@@ -4,7 +4,11 @@
     "secret": "903259067d613617551a026c09595a96"
   },
   "google": {
-    "clientId": "634787728690-82bio4n3a2c0jr10638mv5vgbpomesog.apps.googleusercontent.com",
-    "secret": "ltOjna9A2Hn_2yOhfQa0cmXI"
+    "clientId": "195546037436-56kkh1f6t6g5ghtuh2pera68chsvc77b.apps.googleusercontent.com",
+    "secret": "BUiCf0bt5DxxAyrV48sqBh8O"
+  },
+  "iamport": {
+    "restApiKey": "8080616709857758",
+    "restApiSecret": "FKjE0e8Ok0PYbsHeqAKckg0hvSSAN87tSr7SGgG0gwZrYHGpiqBCGCUcuNNiVULNmTF29m3qT2SSJyh1"
   }
 }
