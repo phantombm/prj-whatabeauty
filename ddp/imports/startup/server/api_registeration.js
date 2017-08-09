@@ -7,3 +7,5 @@ import '../../api/services/server/publications';
 import '../../api/reviews/server/publications';
 import '../../api/reservations/server/publications';
 import '../../api/reservations/methods';
+import '../../api/documentsForManagement/documentsForManagement';
+import '../../api/documentsForManagement/server/publications';

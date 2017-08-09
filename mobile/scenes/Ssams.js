@@ -5,6 +5,8 @@ import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
 import Meteor, { createContainer } from 'react-native-meteor';
 import StarRating from 'react-native-star-rating';
+import { Ionicons } from '@expo/vector-icons';
+import moment from 'moment';
 
 import Layout from '../layouts/Layout';
 import Touchable from '../components/Touchable';
@@ -13,6 +15,10 @@ class Ssams extends Component {
   static propTypes = {
     service: PropType.object.isRequired,
     ssams: PropType.array.isRequired
+  };
+
+  state = {
+    orderBy: '별점순'
   };
 
   keyExtractor = (ssam) => {
@@ -45,7 +51,7 @@ class Ssams extends Component {
                 <StarRating disabled maxStars={5} rating={parseFloat(average)} starSize={10} starColor="#f5d56e" emptyStarColor="#f5d56e" />
               </View>
               <View style={{ flex: 3 }}>
-                <Text style={{ marginLeft: 10, fontSize: 10, color: '#fd614d' }}>{average} ({ this.renderGradesLenght(informationForSsam) })</Text>
+                <Text style={{ marginLeft: 10, fontSize: 10, color: '#fd614d' }}>{average} ({ this.renderReviewsLength(informationForSsam) })</Text>
               </View>
             </View>
           </View>
@@ -75,7 +81,7 @@ class Ssams extends Component {
     return (sum / length).toFixed(1);
   };
 
-  renderGradesLenght = (informationForSsam) => {
+  renderReviewsLength = (informationForSsam) => {
     const length = informationForSsam.reviews.length;
 
     if (length > 99) {
@@ -86,15 +92,89 @@ class Ssams extends Component {
     }
   };
 
-  render() {
-    let ssams = this.props.ssams;
+  onPressOrdering = () => {
+    if (this.state.orderBy == '별점순') {
+      this.setState({
+        orderBy: '경력순'
+      });
+    }
+    else if (this.state.orderBy == '경력순') {
+      this.setState({
+        orderBy: '리뷰순'
+      });
+    }
+    else if (this.state.orderBy == '리뷰순') {
+      this.setState({
+        orderBy: '별점순'
+      });
+    }
+  };
 
-    // ssams  = _.sortBy(ssams, [(ssam) => { return -service.ordering; }, 'createAt']);
+  render() {
+    let ssams = null;
+
+    if (this.state.orderBy == '별점순') {
+      ssams = _.sortBy(this.props.ssams, [
+        (ssam) => {
+          return -this.getGradesAverage(ssam.profile.informationForSsam);
+        },
+        (ssam) => {
+          return moment(ssam.createAt).format('YYYYMMDD').split('').reverse().join('')
+        }
+      ]);
+    }
+    else if (this.state.orderBy == '경력순') {
+      ssams = _.sortBy(this.props.ssams, [
+        (ssam) => {
+          return -ssam.profile.informationForSsam.career;
+        },
+        (ssam) => {
+          return moment(ssam.createAt).format('YYYYMMDD').split('').reverse().join('')
+        }
+      ]);
+    }
+    else if (this.state.orderBy == '리뷰순') {
+      ssams = _.sortBy(this.props.ssams, [
+        (ssam) => {
+          return -ssam.profile.informationForSsam.reviews.length;
+        },
+        (ssam) => {
+          return moment(ssam.createAt).format('YYYYMMDD').split('').reverse().join('')
+        }
+      ]);
+    }
 
     return (
       <Layout title="예약 가능한 쌤" isKeyboardDismissedOnTouched={false}>
-        <View style={{ flex: 1 }}>
-          <FlatList data={ssams} keyExtractor={this.keyExtractor} renderItem={this.renderSsam} numColumns={2} contentContainerStyle={{ paddingRight: 16, paddingBottom: 16 }} />
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <View style={{ flex: 1 }}>
+            <FlatList data={ssams} keyExtractor={this.keyExtractor} renderItem={this.renderSsam} numColumns={2} contentContainerStyle={{ paddingRight: 16, paddingBottom: 16 }} />
+          </View>
+          <Touchable onPress={this.onPressOrdering}>
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 50,
+                width: 95,
+                height: 35,
+                borderRadius: 30,
+                backgroundColor: '#fd614d',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                elevation: 5,
+                shadowOpacity: 0.3,
+                shadowRadius: 3,
+                shadowOffset: {
+                  height: 0,
+                  width: 0
+                }
+              }}
+            >
+              <Ionicons name="md-list" size={20} color="#ffffff" />
+              <Text style={{ marginLeft: 5, color: '#ffffff' }}>{ this.state.orderBy }</Text>
+            </View>
+          </Touchable>
         </View>
       </Layout>
     );

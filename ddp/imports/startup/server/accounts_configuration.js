@@ -57,6 +57,7 @@ Accounts.onCreateUser((options, user) => {
         owner: ''
       }
     },
+    isGettingNotificationActive: true,
     isActive: true,
     createAt: new Date()
   }, profile);

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 
-
 export default class PaymentCompletion extends Component {
   static propTypes = {
     location: PropTypes.object.isRequired
@@ -24,7 +23,7 @@ export default class PaymentCompletion extends Component {
       return;
     }
 
-    Meteor.call('completePayment', queryParams.merchant_uid, (error, result) => {
+    Meteor.call('completePayment', queryParams.merchant_uid, (error, status) => {
       if (error) {
         this.setState({
           status: 'fail'
@@ -33,7 +32,7 @@ export default class PaymentCompletion extends Component {
         return;
       }
 
-      if (result.status == 'success') {
+      if (status == 'success') {
         this.setState({
           status: 'success'
         });

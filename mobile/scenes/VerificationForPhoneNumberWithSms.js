@@ -62,7 +62,7 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
       );
 
       this.setState({
-        validationNumberToMatch: result.validationNumber,
+        validationNumberToMatch: validationNumber,
         secondsRemained: 180
       });
     });

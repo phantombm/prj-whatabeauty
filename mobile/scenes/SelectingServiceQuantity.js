@@ -64,7 +64,7 @@ export default class SelectingServiceQuantity extends Component {
   };
 
   renderServiceCommentsForReserving = () => {
-    const commentsForReserving = _.sortBy(this.props.service.commentsForReserving, ['ordering']);
+    const commentsForReserving = this.props.isMainService ? _.sortBy(this.props.service.commentsForReserving, ['ordering']) : _.sortBy(this.props.service.relatedServices[this.props.relatedServiceIndex].commentsForReserving, ['ordering']);
 
     return commentsForReserving.map((comment, index) => {
       return (
@@ -110,12 +110,12 @@ export default class SelectingServiceQuantity extends Component {
 
   render() {
     return (
-      <Layout title={this.props.service.name} leftIcon={<View />} onPressLeftIcon={() => {}} rightIcon={<Ionicons name="ios-close-outline" size={50} />} onPressRightIcon={this.onPressRightIcon}>
+      <Layout title={this.props.isMainService ? this.props.service.name : this.props.service.relatedServices[this.props.relatedServiceIndex].name} leftIcon={<View />} onPressLeftIcon={() => {}} rightIcon={<Ionicons name="ios-close-outline" size={50} />} onPressRightIcon={this.onPressRightIcon}>
         <View style={{ flex: 1 }}>
           <View style={{ height: 260 }}>
             <Image source={{ uri: this.props.isMainService ? this.props.service.imageUrl : this.props.service.relatedServices[this.props.relatedServiceIndex].imageUrl }} style={{ width: '100%', height: 260 }} />
             <View style={{ position: 'absolute', bottom: 0, width: '100%', height: 45, backgroundColor: 'rgba(0, 0, 0, 0.5)', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 18, color: '#ffffff' }}>{ this.props.service.name } | { this.renderPrice(this.props.isMainService ? this.props.service.price.amount : this.props.service.relatedServices[this.props.relatedServiceIndex].price.amount) }</Text>
+              <Text style={{ fontSize: 18, color: '#ffffff' }}>{ this.props.isMainService ? this.props.service.name : this.props.service.relatedServices[this.props.relatedServiceIndex].name } | { this.renderPrice(this.props.isMainService ? this.props.service.price.amount : this.props.service.relatedServices[this.props.relatedServiceIndex].price.amount) }</Text>
             </View>
           </View>
           <View style={{ flex: 1, padding: 16, paddingBottom: 0 }}>

@@ -18,7 +18,7 @@ setCustomText({
 });
 
 // TODO: ddp server ip
-global.ddpServerIp = 'phantomim.com:3000';
+global.ddpServerIp = '192.168.0.36:3000';
 
 Meteor.connect(`ws://${global.ddpServerIp}/websocket`);
 

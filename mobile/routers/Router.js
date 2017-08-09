@@ -21,6 +21,11 @@ import Ssams from '../scenes/Ssams';
 import Ssam from '../scenes/Ssam';
 import Portfolio from '../scenes/Portfolio';
 import Reservation from '../scenes/Reservation';
+import Settings from '../scenes/Settings';
+import TermsOfService from '../scenes/TermsOfService';
+import PrivacyPolicy from '../scenes/PrivacyPolicy';
+import Notices from '../scenes/Notices';
+import Notice from '../scenes/Notice';
 
 export default class _Router extends Component {
   render() {
@@ -47,6 +52,11 @@ export default class _Router extends Component {
           <Scene key="ssam" component={Ssam} panHandlers={null} />
           <Scene key="portfolio" component={Portfolio} panHandlers={null} direction="vertical" />
           <Scene key="reservation" component={Reservation} panHandlers={null} />
+          <Scene key="settings" component={Settings} panHandlers={null} />
+          <Scene key="termsOfService" component={TermsOfService} panHandlers={null} />
+          <Scene key="privacyPolicy" component={PrivacyPolicy} panHandlers={null} />
+          <Scene key="notices" component={Notices} panHandlers={null} />
+          <Scene key="notice" component={Notice} panHandlers={null} />
         </Scene>
       </Router>
     );

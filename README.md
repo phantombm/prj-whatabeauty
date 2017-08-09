@@ -33,7 +33,7 @@ export default class MyComponent extends Compoent {
     // initialization when mounted
   }
   
-  onPress = () => {
+  onPress = (event) => {
     this.setState((previousState) => {
       return {
         clickNumber: previousState.clickNumber + 1
@@ -312,6 +312,7 @@ main
       owner: String
     }
   },
+  isGettingNotificationActive: Boolean,
   isActive: Boolean,
   createAt: Date
 }
@@ -447,17 +448,17 @@ main
 #### documentsForManagement collection
 ```
 {
-  type: 'notices',
+  type: 'notice',
   title: String,
-  content: String,
+  content: String(html),
   createAt: Date
 }
 
 {
-  type: 'faqs',
+  type: 'faq',
   title: String,
-  content: String,
-  ordering: Number
+  content: String(html),
+  ordering: Number,
   createAt: Date
 }
 

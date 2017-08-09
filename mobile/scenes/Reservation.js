@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, Text, ScrollView, Alert } from 'react-native';
 import { SimpleLineIcons, EvilIcons, FontAwesome } from '@expo/vector-icons';
-// import { Actions } from 'react-native-router-flux';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import StarRating from 'react-native-star-rating';
 import _ from 'lodash';
@@ -131,9 +131,23 @@ export default class Reservation extends Component {
         return;
       }
 
-      await WebBrowser.openBrowserAsync(`http://${global.ddpServerIp}/payment/${Meteor.userId()}_${reservationId}/${service.name}/${totalAmount}/${Meteor.user().profile.email}/${Meteor.user().profile.name}/${Meteor.user().profile.phoneNumber}/${service.address.address} ${service.address.detail}`);
+      Meteor.subscribe('reservations', {
+        _id: reservationId
+      });
 
+      const merchantUid = `${Meteor.userId()}_${reservationId}`;
 
+      await WebBrowser.openBrowserAsync(`http://${global.ddpServerIp}/payment/${merchantUid}/${service.name}/${totalAmount}/${Meteor.user().profile.email}/${Meteor.user().profile.name}/${Meteor.user().profile.phoneNumber}/${service.address.address} ${service.address.detail}`);
+
+      const reservations = Meteor.collection('reservations').find({
+        _id: reservationId
+      });
+
+      if (reservations[0].progress == 'reserved') {
+        Actions.main({
+          type: ActionConst.RESET
+        });
+      }
     });
   };
 

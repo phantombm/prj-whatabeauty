@@ -17,8 +17,6 @@ class Main extends Component {
 
   onPressLeftIcon = () => {
     this.drawerRef.openDrawer();
-
-    Meteor.logout();
   };
 
   keyExtractor = (serviceType) => {

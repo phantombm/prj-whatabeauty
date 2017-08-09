@@ -38,20 +38,22 @@ Meteor.methods({
     }).fetch();
 
     if (reservations.length == 0) {
-      return {
-        status: 'fail'
-      }
+      return 'fail';
     }
 
     if (result.data.response.amount == reservations[0].price.amount) {
-      return {
-        status: 'success'
-      }
+      Reservations.update({
+        _id: reservationId
+      }, {
+        $set: {
+          progress: 'reserved'
+        }
+      });
+
+      return 'success';
     }
     else {
-      return {
-        status: 'fail'
-      }
+      return 'fail';
     }
   }
 });
