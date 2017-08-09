@@ -26,6 +26,7 @@ import TermsOfService from '../scenes/TermsOfService';
 import PrivacyPolicy from '../scenes/PrivacyPolicy';
 import Notices from '../scenes/Notices';
 import Notice from '../scenes/Notice';
+import Faqs from '../scenes/Faqs';
 
 export default class _Router extends Component {
   render() {
@@ -57,6 +58,7 @@ export default class _Router extends Component {
           <Scene key="privacyPolicy" component={PrivacyPolicy} panHandlers={null} />
           <Scene key="notices" component={Notices} panHandlers={null} />
           <Scene key="notice" component={Notice} panHandlers={null} />
+          <Scene key="faqs" component={Faqs} panHandlers={null} />
         </Scene>
       </Router>
     );

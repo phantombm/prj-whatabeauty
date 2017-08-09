@@ -15,7 +15,7 @@ export default class DrawerContent extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#fd614d', paddingLeft: 30, paddingBottom: 30 }}>
+      <View style={{ flex: 1, backgroundColor: '#fd614d', paddingBottom: 30 }}>
         <View style={{ flex: 1 }}>
           <View style={{ height: Constants.statusBarHeight }} />
           <View style={{ height: 60, alignItems: 'flex-end', justifyContent: 'center' }}>
@@ -27,55 +27,55 @@ export default class DrawerContent extends Component {
           </View>
           <View style={{ height: 50 }}>
             <Touchable onPress={() => { Actions.main(); this.props.closeDrawer(); }}>
-              <View style={{ flex: 1, justifyContent: 'center' }}>
+              <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 30 }}>
                 <Text style={{ color: '#ffffff', fontSize: 18 }}>Home</Text>
               </View>
             </Touchable>
           </View>
           <View style={{ height: 50 }}>
             <Touchable onPress={() => { Actions.main(); this.props.closeDrawer(); }}>
-              <View style={{ flex: 1, justifyContent: 'center' }}>
+              <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 30 }}>
                 <Text style={{ color: '#ffffff', fontSize: 18 }}>예약내역</Text>
               </View>
             </Touchable>
           </View>
           <View style={{ height: 50 }}>
             <Touchable onPress={() => { Actions.notices(); this.props.closeDrawer(); }}>
-              <View style={{ flex: 1, justifyContent: 'center' }}>
+              <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 30 }}>
                 <Text style={{ color: '#ffffff', fontSize: 18 }}>공지사항</Text>
               </View>
             </Touchable>
           </View>
           <View style={{ height: 50 }}>
-            <Touchable onPress={() => { Actions.main(); this.props.closeDrawer(); }}>
-              <View style={{ flex: 1, justifyContent: 'center' }}>
+            <Touchable onPress={() => { Actions.faqs(); this.props.closeDrawer(); }}>
+              <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 30 }}>
                 <Text style={{ color: '#ffffff', fontSize: 18 }}>FAQ</Text>
               </View>
             </Touchable>
           </View>
           <View style={{ height: 50 }}>
             <Touchable onPress={() => { Actions.main(); this.props.closeDrawer(); }}>
-              <View style={{ flex: 1, justifyContent: 'center' }}>
+              <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 30 }}>
                 <Text style={{ color: '#ffffff', fontSize: 18 }}>친구 초대하기</Text>
               </View>
             </Touchable>
           </View>
           <View style={{ height: 50 }}>
             <Touchable onPress={() => { Actions.settings(); this.props.closeDrawer(); }}>
-              <View style={{ flex: 1, justifyContent: 'center' }}>
+              <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 30 }}>
                 <Text style={{ color: '#ffffff', fontSize: 18 }}>환경설정</Text>
               </View>
             </Touchable>
           </View>
           <View style={{ height: 50 }}>
             <Touchable onPress={() => { Actions.main(); this.props.closeDrawer(); }}>
-              <View style={{ flex: 1, justifyContent: 'center' }}>
+              <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 30 }}>
                 <Text style={{ color: '#ffffff', fontSize: 18 }}>쌤등록하기</Text>
               </View>
             </Touchable>
           </View>
         </View>
-        <View style={{ height: 50 }}>
+        <View style={{ height: 50, paddingLeft: 30 }}>
           <View style={{ flexDirection: 'row' }}>
             <Text style={{ color: '#ffffff', fontSize: 16 }}>
               { Meteor.user().profile.isSsam ?
