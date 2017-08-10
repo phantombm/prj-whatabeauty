@@ -14,7 +14,7 @@ export default class Payment extends Component {
 
     IMP.request_pay({
       pg : 'nice',
-      pay_method : 'card',
+      pay_method : this.props.match.params.payMethod,
       merchant_uid : this.props.match.params.merchantUid,
       name : this.props.match.params.name,
       amount : this.props.match.params.amount,

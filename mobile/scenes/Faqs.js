@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, FlatList } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
 import ProTypes from 'prop-types';
+import moment from 'moment';
+import _ from 'lodash';
 
 import Layout from '../layouts/Layout';
 import Accordion from '../components/Accordion';
@@ -22,10 +24,19 @@ class Faqs extends Component {
   };
 
   render() {
+    const documentsForManagement = _.sortBy(this.props.documentsForManagement, [
+      (documentForManagement) => {
+        return -documentForManagement.order;
+      },
+      (documentForManagement) => {
+        return moment(documentForManagement.createAt).format('YYYYMMDD').split('').reverse().join('')
+      }
+    ]);
+
     return (
       <Layout title="FAQ" isKeyboardDismissedOnTouched={false}>
         <View style={{ flex: 1 }}>
-          <FlatList data={this.props.documentsForManagement} keyExtractor={this.keyExtractor} renderItem={this.renderFaq} />
+          <FlatList data={documentsForManagement} keyExtractor={this.keyExtractor} renderItem={this.renderFaq} />
         </View>
       </Layout>
     );

@@ -14,7 +14,8 @@ export default class Input extends Component {
     onChangeText: PropTypes.func,
     secureTextEntry: PropTypes.bool,
     onFocus: PropTypes.func,
-    onBlur: PropTypes.func
+    onBlur: PropTypes.func,
+    isActive: PropTypes.bool
   };
 
   static defaultProps = {
@@ -29,7 +30,8 @@ export default class Input extends Component {
     onChangeText: () => {},
     secureTextEntry: false,
     onFocus: () => {},
-    onBlur: () => {}
+    onBlur: () => {},
+    isActive: true
   };
 
   state = {
@@ -59,6 +61,12 @@ export default class Input extends Component {
     inputRange: [0, 1],
     outputRange: ['#dbdfe2', this.props.keyColor]
   });
+
+  componentDidMount() {
+    if (this.props.defaultValue) {
+      this.onBlur();
+    }
+  }
 
   onFocus = () => {
     Animated.timing(this.animatedValue, {
@@ -128,7 +136,7 @@ export default class Input extends Component {
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             onChangeText={this.onChangeText}
-            style={{ height: 50, paddingTop: 10, color: '#3c4f5e' }}
+            style={{ height: 50, paddingTop: 10, color: this.props.isActive ? '#3c4f5e' : '#cfcfcf' }}
             defaultValue={this.props.defaultValue}
             maxLength={this.props.maxLength}
             keyboardType={this.props.keyboardType}
@@ -136,6 +144,7 @@ export default class Input extends Component {
             secureTextEntry={this.props.secureTextEntry}
             autoCapitalize="none"
             autoCorrect={false}
+            editable={this.props.isActive}
           />
         </View>
       </Animated.View>

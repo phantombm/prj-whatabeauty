@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { Constants } from 'expo';
-import { EvilIcons } from '@expo/vector-icons';
-import Meteor from 'react-native-meteor';
+import { EvilIcons, SimpleLineIcons } from '@expo/vector-icons';
+import Meteor, { createContainer } from 'react-native-meteor';
 
 import Touchable from '../components/Touchable';
 
-export default class DrawerContent extends Component {
+class DrawerContent extends Component {
   static propTypes = {
+    user: PropTypes.object.isRequired,
     closeDrawer: PropTypes.func.isRequired
   };
 
   render() {
+    if (!this.props.user.profile) {
+      return (
+        <View />
+      );
+    }
+
     return (
       <View style={{ flex: 1, backgroundColor: '#fd614d', paddingBottom: 30 }}>
         <View style={{ flex: 1 }}>
@@ -78,25 +85,31 @@ export default class DrawerContent extends Component {
         <View style={{ height: 50, paddingLeft: 30 }}>
           <View style={{ flexDirection: 'row' }}>
             <Text style={{ color: '#ffffff', fontSize: 16 }}>
-              { Meteor.user().profile.isSsam ?
-                Meteor.user().profile.informationForSsam.name :
-                Meteor.user().profile.name
+              { this.props.user.profile.isSsam ?
+                this.props.user.profile.informationForSsam.name :
+                this.props.user.profile.name
               }
             </Text>
-            { Meteor.user().profile.isSsam &&
-              <Text style={{ color: '#ffffff', fontSize: 16 }}> 쌤</Text>
+            { this.props.user.profile.isSsam &&
+              <Image source={require('../assets/images/ssam_badge.png')} style={{ width: 25, height: 23, marginLeft: 10 }} />
             }
-            <Touchable onPress={this.props.closeDrawer}>
-              <View style={{ width: 35, height: 35, alignItems: 'center', justifyContent: 'center', marginLeft: 30 }}>
-                <EvilIcons name="close" size={30} color="#ffffff" />
+            <Touchable onPress={() => { Actions.account(); this.props.closeDrawer(); }}>
+              <View style={{ width: 35, height: 35, alignItems: 'center', justifyContent: 'center', marginLeft: 20 }}>
+                <SimpleLineIcons name="pencil" size={18} color="#ffffff" />
               </View>
             </Touchable>
           </View>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={{ color: '#ffffff', fontSize: 11 }}>{ Meteor.user().profile.email }</Text>
+            <Text style={{ color: '#ffffff', fontSize: 11 }}>{ this.props.user.profile.email }</Text>
           </View>
         </View>
       </View>
     );
   }
 }
+
+export default createContainer(() => {
+  return {
+    user: Meteor.user() || {}
+  };
+}, DrawerContent);

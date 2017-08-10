@@ -52,7 +52,7 @@ class Services extends Component {
   render() {
     let services = this.props.services;
 
-    services  = _.sortBy(services, [(service) => { return -service.ordering; }, 'createAt']);
+    services  = _.sortBy(services, [(service) => { return -service.order; }, 'createAt']);
 
     services.reverse();
 

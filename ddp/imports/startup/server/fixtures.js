@@ -19,7 +19,7 @@ Meteor.startup(() => {
         type: 'faq',
         title: '자주하는 질문',
         content: '자주하는 질문의 내용',
-        ordering: 1,
+        order: 1,
         createAt: new Date()
       },
       {
@@ -282,7 +282,7 @@ Meteor.startup(() => {
       {
         name: 'WEDDING',
         imageUrl: 'http://file.mk.co.kr/meet/neds/2014/10/image_readtop_2014_1297012_14128986651568541.jpg',
-        ordering: 1,
+        order: 1,
         isVisible: true,
         isActive: true,
         createAt: new Date()
@@ -290,7 +290,7 @@ Meteor.startup(() => {
       {
         name: 'FAMILY',
         imageUrl: 'http://cfile202.uf.daum.net/image/176BFF3E4FBAF0921143E9',
-        ordering: 2,
+        order: 2,
         isVisible: true,
         isActive: true,
         createAt: new Date()
@@ -298,7 +298,7 @@ Meteor.startup(() => {
       {
         name: 'EVENT',
         imageUrl: 'https://i.ytimg.com/vi/r0QKiihUSfQ/maxresdefault.jpg',
-        ordering: 3,
+        order: 3,
         isVisible: true,
         isActive: true,
         createAt: new Date()
@@ -306,7 +306,7 @@ Meteor.startup(() => {
       {
         name: 'PROFILE',
         imageUrl: 'http://cphoto.asiae.co.kr/listimglink/6/2016020110091951094_1.jpg',
-        ordering: 4,
+        order: 4,
         isVisible: true,
         isActive: true,
         createAt: new Date()
@@ -331,15 +331,15 @@ Meteor.startup(() => {
         commentsForReserving: [
           {
             comment: '신랑, 신부 2인 모두에게 서비스 합니다.',
-            ordering: 1
+            order: 1
           },
           {
             comment: '전통혼례 역시 같은 가격입니다.',
-            ordering: 2
+            order: 2
           },
           {
             comment: '신랑, 신부 2인 모두에게 서비스 합니다.',
-            ordering: 3
+            order: 3
           }
         ],
         imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
@@ -371,7 +371,7 @@ Meteor.startup(() => {
           unit: '원'
         },
         duration: 20,
-        ordering: 1,
+        order: 1,
         isVisible: true,
         isActive: true,
         createAt: new Date()
@@ -387,15 +387,15 @@ Meteor.startup(() => {
         commentsForReserving: [
           {
             comment: '신랑, 신부 2인 모두에게 서비스 합니다.',
-            ordering: 1
+            order: 1
           },
           {
             comment: '전통혼례 역시 같은 가격입니다.',
-            ordering: 2
+            order: 2
           },
           {
             comment: '신랑, 신부 2인 모두에게 서비스 합니다.',
-            ordering: 3
+            order: 3
           }
         ],
         imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
@@ -427,7 +427,7 @@ Meteor.startup(() => {
           unit: '원'
         },
         duration: 60,
-        ordering: 2,
+        order: 2,
         isVisible: true,
         isActive: true,
         createAt: new Date()
@@ -443,15 +443,15 @@ Meteor.startup(() => {
         commentsForReserving: [
           {
             comment: '신랑, 신부 2인 모두에게 서비스 합니다.',
-            ordering: 1
+            order: 1
           },
           {
             comment: '전통혼례 역시 같은 가격입니다.',
-            ordering: 2
+            order: 2
           },
           {
             comment: '신랑, 신부 2인 모두에게 서비스 합니다.',
-            ordering: 3
+            order: 3
           }
         ],
         imageUrl: 'http://cfile4.uf.tistory.com/image/2554843C5905D7B211D7E9',
@@ -483,7 +483,7 @@ Meteor.startup(() => {
           unit: '원'
         },
         duration: 30,
-        ordering: 3,
+        order: 3,
         isVisible: true,
         isActive: true,
         createAt: new Date()

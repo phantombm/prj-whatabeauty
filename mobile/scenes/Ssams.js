@@ -166,8 +166,8 @@ class Ssams extends Component {
                 shadowOpacity: 0.3,
                 shadowRadius: 3,
                 shadowOffset: {
-                  height: 0,
-                  width: 0
+                  height: 3,
+                  width: 3
                 }
               }}
             >

@@ -176,7 +176,7 @@ main
                 portfolio(:prtfolio)
                 
                 reservation(repeated)(:flowType, :service, :ssam, :reservation)
-                payment
+                paying(:service, :ssam)
   brands(abstract)
     brand(:id)
       chat(repeated)
@@ -364,7 +364,7 @@ main
 {
   name: String,
   imageUrl: String,
-  ordering: Number,
+  order: Number,
   isVisible: Boolean,
   isActive: Boolean,
   createAt: Date
@@ -384,7 +384,7 @@ main
   commentsForReserving: [
     {
       comment: String,
-      ordering: Number
+      order: Number
     }
   ],
   imageUrl: String,
@@ -400,7 +400,7 @@ main
     unit: String
   },
   duration: Number(minutes),
-  ordering: Number,
+  order: Number,
   isVisible: Boolean,
   isActive: Boolean,
   createAt: Date
@@ -458,7 +458,7 @@ main
   type: 'faq',
   title: String,
   content: String(html),
-  ordering: Number,
+  order: Number,
   createAt: Date
 }
 

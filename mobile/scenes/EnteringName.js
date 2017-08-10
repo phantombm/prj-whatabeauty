@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Alert } from 'react-native';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
-import { Accounts } from 'react-native-meteor';
+import Meteor, { Accounts } from 'react-native-meteor';
 
 import Button from '../components/Button';
 import Layout from '../layouts/Layout';
@@ -20,7 +20,7 @@ export default class EnteringName extends Component {
     nameErrorText: 'blank'
   };
 
-  onPressNext = () => {
+  onPressEnteringName = () => {
     Accounts.createUser({
       email: this.props.email,
       password: this.props.password,
@@ -51,8 +51,25 @@ export default class EnteringName extends Component {
         return;
       }
 
-      Actions.main({
-        type: ActionConst.RESET
+      Meteor.loginWithPassword(this.props.email, this.props.password, (error) => {
+        if (error) {
+          Alert.alert(
+            'whatabeauty',
+            error.reason,
+            [{ text: '확인' }],
+            { cancelable: false }
+          );
+
+          Actions.signIn({
+            type: ActionConst.RESET
+          });
+
+          return;
+        }
+
+        Actions.main({
+          type: ActionConst.RESET
+        });
       });
     });
   };
@@ -83,7 +100,7 @@ export default class EnteringName extends Component {
               <Text style={{ color: '#4990e2', fontSize: 11, textDecorationLine: 'underline' }}>개인정보이용방침</Text>
               <Text style={{ color: '#cfcfcf', fontSize: 11 }}>에 동의합니다.</Text>
             </View>
-            <Button onPress={this.onPressNext} isActive={isValid} marginTop={20}>회원가입 완료</Button>
+            <Button onPress={this.onPressEnteringName} isActive={isValid} marginTop={20}>회원가입 완료</Button>
           </View>
         </View>
       </Layout>

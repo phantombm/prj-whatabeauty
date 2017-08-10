@@ -22,6 +22,8 @@ export default class Layout extends Component {
     title: '',
     leftIcon: <Ionicons name="ios-arrow-round-back-outline" color="#3c4f5e" size={50} />,
     onPressLeftIcon: () => {
+      Keyboard.dismiss();
+
       Actions.pop();
     },
     rightIcon: <View />,

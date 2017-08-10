@@ -64,7 +64,7 @@ export default class SelectingServiceQuantity extends Component {
   };
 
   renderServiceCommentsForReserving = () => {
-    const commentsForReserving = this.props.isMainService ? _.sortBy(this.props.service.commentsForReserving, ['ordering']) : _.sortBy(this.props.service.relatedServices[this.props.relatedServiceIndex].commentsForReserving, ['ordering']);
+    const commentsForReserving = this.props.isMainService ? _.sortBy(this.props.service.commentsForReserving, ['order']) : _.sortBy(this.props.service.relatedServices[this.props.relatedServiceIndex].commentsForReserving, ['order']);
 
     return commentsForReserving.map((comment, index) => {
       return (

@@ -5,6 +5,8 @@ import { View, Text, Keyboard } from 'react-native';
 import { MapView, Location, Permissions } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import { FontAwesome } from '@expo/vector-icons';
+import PropTypes from 'prop-types';
+import Meteor from 'react-native-meteor';
 
 import Layout from '../layouts/Layout';
 import Input from '../components/Input';
@@ -13,6 +15,16 @@ import MagnetView from '../components/MagnetView';
 import Touchable from '../components/Touchable';
 
 export default class EnteringAddress extends Component {
+  static propTypes = {
+    flowType: PropTypes.string,
+    addressesIndex: PropTypes.number
+  };
+
+  static defaultProps = {
+    flowType: 'adding',
+    addressesIndex: 0
+  };
+
   state = {
     initialRegion: null,
     currentRegion: null,
@@ -30,26 +42,54 @@ export default class EnteringAddress extends Component {
   initialize = async () => {
     await this.getLocationPermission();
 
-    const currentPosition = await this.getCurrentPosition();
+    if (this.props.flowType == 'adding') {
+      const currentPosition = await this.getCurrentPosition();
 
-    this.setState({
-      initialRegion: {
-        latitude: currentPosition.coords.latitude,
-        longitude: currentPosition.coords.longitude,
-        latitudeDelta: 0.002,
-        longitudeDelta: 0.002
-      },
-      currentRegion: {
-        latitude: currentPosition.coords.latitude,
-        longitude: currentPosition.coords.longitude,
-        latitudeDelta: 0.002,
-        longitudeDelta: 0.002
-      },
-      markerPosition: {
-        latitude: currentPosition.coords.latitude,
-        longitude: currentPosition.coords.longitude
-      }
-    });
+      this.setState({
+        initialRegion: {
+          latitude: currentPosition.coords.latitude,
+          longitude: currentPosition.coords.longitude,
+          latitudeDelta: 0.002,
+          longitudeDelta: 0.002
+        },
+        currentRegion: {
+          latitude: currentPosition.coords.latitude,
+          longitude: currentPosition.coords.longitude,
+          latitudeDelta: 0.002,
+          longitudeDelta: 0.002
+        },
+        markerPosition: {
+          latitude: currentPosition.coords.latitude,
+          longitude: currentPosition.coords.longitude
+        }
+      });
+    }
+    else if (this.props.flowType == 'editing') {
+      const response = await this.geocode(Meteor.user().profile.addresses[this.props.addressesIndex].address);
+
+      this.setState({
+        initialRegion: {
+          latitude: response.results[0].geometry.location.lat,
+          longitude: response.results[0].geometry.location.lng,
+          latitudeDelta: 0.002,
+          longitudeDelta: 0.002
+        },
+        currentRegion: {
+          latitude: response.results[0].geometry.location.lat,
+          longitude: response.results[0].geometry.location.lng,
+          latitudeDelta: 0.002,
+          longitudeDelta: 0.002
+        },
+        markerPosition: {
+          latitude: response.results[0].geometry.location.lat,
+          longitude: response.results[0].geometry.location.lng,
+        }
+      });
+
+      this.addressRef.setText(Meteor.user().profile.addresses[this.props.addressesIndex].address);
+
+      this.addressRef.onFocus();
+    }
   };
 
   getLocationPermission = async () => {
@@ -165,11 +205,22 @@ export default class EnteringAddress extends Component {
   onPressEnteringAddress = () => {
     Keyboard.dismiss();
 
-    Actions.enteringAddressDetail({
-      region: this.state.currentRegion,
-      markerPosition: this.state.markerPosition,
-      address: this.state.address
-    });
+    if (this.props.flowType == 'adding') {
+      Actions.enteringAddressDetail({
+        region: this.state.currentRegion,
+        markerPosition: this.state.markerPosition,
+        address: this.state.address
+      });
+    }
+    else if (this.props.flowType == 'editing') {
+      Actions.enteringAddressDetail({
+        flowType: this.props.flowType,
+        addressesIndex: this.props.addressesIndex,
+        region: this.state.currentRegion,
+        markerPosition: this.state.markerPosition,
+        address: this.state.address
+      });
+    }
   };
 
   render() {

@@ -126,6 +126,8 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
   };
 
   onPressLeftIcon = () => {
+    Keyboard.dismiss();
+
     if (this.props.signInType == 'external service') {
       Meteor.logout();
     }

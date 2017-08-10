@@ -47,7 +47,7 @@ class Main extends Component {
   render() {
     let serviceTypes = this.props.serviceTypes;
 
-    serviceTypes  = _.sortBy(serviceTypes, [(serviceType) => { return -serviceType.ordering; }, 'createAt']);
+    serviceTypes  = _.sortBy(serviceTypes, [(serviceType) => { return -serviceType.order; }, 'createAt']);
 
     serviceTypes.reverse();
 

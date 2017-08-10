@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { View, Image, Text, ScrollView, Alert } from 'react-native';
+import { View, Image, Text, ScrollView } from 'react-native';
 import { SimpleLineIcons, EvilIcons, FontAwesome } from '@expo/vector-icons';
-import { Actions, ActionConst } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import StarRating from 'react-native-star-rating';
 import _ from 'lodash';
-import { WebBrowser } from 'expo';
-import Meteor from 'react-native-meteor';
 
 import Layout from '../layouts/Layout';
 import Button from '../components/Button';
@@ -97,57 +95,11 @@ export default class Reservation extends Component {
     return totalAmount;
   };
 
-  onPressPayment = (totalAmount) => {
-    const service = _.clone(this.props.service);
-
-    service.scheduledAt = service.scheduledAt.toDate();
-
-    const reservation = {
-      userId: Meteor.userId(),
-      ssamId: this.props.ssam._id,
-      service: service,
-      price: {
-        amount: totalAmount,
-        unit: this.props.service.price.unit
-      },
-      balancedMoney: {
-        amount: 0,
-        unit: '원'
-      },
-      isBalanced: false,
-      progress: 'not paid',
-      createAt: new Date()
-    };
-
-    Meteor.call('reservations.insert', reservation, async (error, reservationId) => {
-      if (error) {
-        Alert.alert(
-          'whatabeauty',
-          error.reason,
-          [{ text: '확인' }],
-          { cancelable: false }
-        );
-
-        return;
-      }
-
-      Meteor.subscribe('reservations', {
-        _id: reservationId
-      });
-
-      const merchantUid = `${Meteor.userId()}_${reservationId}`;
-
-      await WebBrowser.openBrowserAsync(`http://${global.ddpServerIp}/payment/${merchantUid}/${service.name}/${totalAmount}/${Meteor.user().profile.email}/${Meteor.user().profile.name}/${Meteor.user().profile.phoneNumber}/${service.address.address} ${service.address.detail}`);
-
-      const reservations = Meteor.collection('reservations').find({
-        _id: reservationId
-      });
-
-      if (reservations[0].progress == 'reserved') {
-        Actions.main({
-          type: ActionConst.RESET
-        });
-      }
+  onPressPaying = (totalAmount) => {
+    Actions.paying({
+      service: this.props.service,
+      ssam: this.props.ssam,
+      totalAmount: totalAmount
     });
   };
 
@@ -232,7 +184,7 @@ export default class Reservation extends Component {
             </ScrollView>
           </View>
           <View>
-            <Button buttonStyle={{ borderRadius: 0 }} onPress={() => { this.onPressPayment(totalAmount); }}>결제하기</Button>
+            <Button buttonStyle={{ borderRadius: 0 }} onPress={() => { this.onPressPaying(totalAmount); }}>결제하기</Button>
           </View>
         </View>
       </Layout>

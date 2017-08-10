@@ -13,9 +13,16 @@ import MagnetView from '../components/MagnetView';
 
 export default class EnteringAddressDetail extends Component {
   static propTypes = {
+    flowType: PropTypes.string,
+    addressesIndex: PropTypes.number,
     region: PropTypes.object.isRequired,
     markerPosition: PropTypes.object.isRequired,
     address: PropTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    flowType: 'adding',
+    addressesIndex: 0
   };
 
   state = {
@@ -23,7 +30,7 @@ export default class EnteringAddressDetail extends Component {
     markerPosition: this.props.markerPosition,
     addressDetail: '',
     memo: '',
-    isAddingAddressActive: false
+    isAddingAddressActive: this.props.flowType == 'adding' ? false : true
   };
 
   onChangeAddressDetail = (addressDetail) => {
@@ -40,15 +47,32 @@ export default class EnteringAddressDetail extends Component {
   };
 
   onPressAddingAddress = () => {
-    Meteor.call('users.update', {
-      $push: {
-        'profile.addresses': {
-          address: this.props.address,
-          detail: this.state.addressDetail,
-          memo: this.state.memo
+    let modifier = null;
+
+    if (this.props.flowType == 'adding') {
+      modifier = {
+        $push: {
+          'profile.addresses': {
+            address: this.props.address,
+            detail: this.state.addressDetail,
+            memo: this.state.memo
+          }
         }
-      }
-    }, (error) => {
+      };
+    }
+    else if (this.props.flowType == 'editing') {
+      modifier = {
+        $set: {}
+      };
+
+      modifier.$set[`profile.addresses.${this.props.addressesIndex}`] = {
+        address: this.props.address,
+        detail: this.state.addressDetail,
+        memo: this.state.memo
+      };
+    }
+
+    Meteor.call('users.update', modifier, (error) => {
       if (error) {
         Alert.alert(
           'whatabeauty',
@@ -97,7 +121,7 @@ export default class EnteringAddressDetail extends Component {
             </View>
             <View style={{ flex: 1, paddingHorizontal: 30 }}>
               <View>
-                <Input onChangeText={this.onChangeAddressDetail} placeholder="자세한주소를 입력해주세요. (동, 호수, 층수)" />
+                <Input onChangeText={this.onChangeAddressDetail} placeholder="자세한주소를 입력해주세요. (동, 호수, 층수)" defaultValue={this.props.flowType == 'adding' ? '' : Meteor.user().profile.addresses[this.props.addressesIndex].detail} />
               </View>
               <View style={{ flex: 1, paddingVertical: 16 }}>
                 <TextInput
@@ -110,6 +134,7 @@ export default class EnteringAddressDetail extends Component {
                   placeholderTextColor="#cfcfcf"
                   maxLength={200}
                   onChangeText={this.onChangeMemo}
+                  defaultValue={this.props.flowType == 'adding' ? '' : Meteor.user().profile.addresses[this.props.addressesIndex].memo}
                 />
               </View>
             </View>
