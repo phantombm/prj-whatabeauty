@@ -40,7 +40,7 @@ class DrawerContent extends Component {
             </Touchable>
           </View>
           <View style={{ height: 50 }}>
-            <Touchable onPress={() => { Actions.main(); this.props.closeDrawer(); }}>
+            <Touchable onPress={() => { Actions.reservations(); this.props.closeDrawer(); }}>
               <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 30 }}>
                 <Text style={{ color: '#ffffff', fontSize: 18 }}>예약내역</Text>
               </View>

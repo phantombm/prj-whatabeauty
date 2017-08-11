@@ -336,9 +336,10 @@ main
     type: String,
     allowedValues: [
       'not paid',
-      'reserved',
+      'paid',
       'refunded',
       'wating for confirming payment',
+      'wating for reviewing',
       'completed'
     ]
   },

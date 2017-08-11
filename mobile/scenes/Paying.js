@@ -65,7 +65,7 @@ export default class Paying extends Component {
         _id: reservationId
       });
 
-      if (reservations[0].progress == 'reserved') {
+      if (reservations[0].progress == 'paid') {
         Actions.main({
           type: ActionConst.RESET
         });

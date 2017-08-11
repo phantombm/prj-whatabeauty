@@ -46,7 +46,7 @@ Meteor.methods({
         _id: reservationId
       }, {
         $set: {
-          progress: 'reserved'
+          progress: 'paid'
         }
       });
 

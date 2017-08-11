@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Alert, Animated, Dimensions } from 'react-native';
+import { View, Text, Alert, Animated, Dimensions, Easing } from 'react-native';
 import { WebBrowser } from 'expo';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import { FontAwesome, EvilIcons, Entypo } from '@expo/vector-icons';
@@ -23,10 +23,13 @@ export default class SignIn extends Component {
   });
 
   componentDidMount() {
-    Animated.timing(this.animatedValue, {
-      toValue: 1,
-      duration: 20 * 1000
-    }).start();
+    Animated.loop(
+      Animated.timing(this.animatedValue, {
+        toValue: 1,
+        easing: Easing.linear,
+        duration: 20 * 1000
+      })
+    ).start();
   }
 
   onPressSignIn = async (signInType) => {
@@ -77,7 +80,7 @@ export default class SignIn extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <Animated.Image source={require('../assets/images/sign_in_background.png')} style={{ width: Dimensions.get('window').width * 3, height: Dimensions.get('window').width * 3 * 287 / 699, transform: [{ translateX: this.animatedTranslateX }] }} />
+        <Animated.Image source={require('../assets/images/sign_in_background.png')} style={{ width: Dimensions.get('window').width * 3, height: Dimensions.get('window').width * 3 * 187 / 699, transform: [{ translateX: this.animatedTranslateX }] }} />
         <View style={{ flex: 1, padding: 30, justifyContent: 'center' }}>
           <Button onPress={() => { this.onPressSignIn('google'); }} backgroundColor="#dd4b39" icon={<FontAwesome name="google" size={28} color="#ffffff" />}>구글로 쉬운시작</Button>
           <Button onPress={() => { this.onPressSignIn('facebook'); }} backgroundColor="#4267b2" marginTop={8} icon={<EvilIcons name="sc-facebook" size={38} color="#ffffff" />}>페이스북으로 쉬운시작</Button>

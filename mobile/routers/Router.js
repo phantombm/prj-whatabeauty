@@ -31,6 +31,8 @@ import Faqs from '../scenes/Faqs';
 import Account from '../scenes/Account';
 import UpdatingInformation from '../scenes/UpdatingInformation';
 import ChangingPassword from '../scenes/ChangingPassword';
+import Reservations from '../scenes/Reservations';
+
 
 export default class _Router extends Component {
   render() {
@@ -67,6 +69,7 @@ export default class _Router extends Component {
           <Scene key="account" component={Account} panHandlers={null} />
           <Scene key="updatingInformation" component={UpdatingInformation} panHandlers={null} />
           <Scene key="changingPassword" component={ChangingPassword} panHandlers={null} />
+          <Scene key="reservations" component={Reservations} panHandlers={null} />
         </Scene>
       </Router>
     );
