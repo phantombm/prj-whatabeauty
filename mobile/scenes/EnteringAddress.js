@@ -1,7 +1,7 @@
 /* eslint "no-undef": "off" */
 
 import React, { Component } from 'react';
-import { View, Text, Keyboard } from 'react-native';
+import { View, Text, Keyboard, Alert } from 'react-native';
 import { MapView, Location, Permissions } from 'expo';
 import { Actions } from 'react-native-router-flux';
 import { FontAwesome } from '@expo/vector-icons';
@@ -16,12 +16,11 @@ import Touchable from '../components/Touchable';
 
 export default class EnteringAddress extends Component {
   static propTypes = {
-    flowType: PropTypes.string,
+    flowType: PropTypes.string.isRequired,
     addressesIndex: PropTypes.number
   };
 
   static defaultProps = {
-    flowType: 'adding',
     addressesIndex: 0
   };
 
@@ -32,7 +31,7 @@ export default class EnteringAddress extends Component {
     addressPredictions: [],
     address: '',
     isAddressPredictionsVisible: false,
-    isConfirmingActive: false
+    isValid: false
   };
 
   componentDidMount() {
@@ -63,6 +62,8 @@ export default class EnteringAddress extends Component {
           longitude: currentPosition.coords.longitude
         }
       });
+
+      this.onPressCurrentPosition();
     }
     else if (this.props.flowType == 'editing') {
       const response = await this.geocode(Meteor.user().profile.addresses[this.props.addressesIndex].address);
@@ -87,8 +88,6 @@ export default class EnteringAddress extends Component {
       });
 
       this.addressRef.setText(Meteor.user().profile.addresses[this.props.addressesIndex].address);
-
-      this.addressRef.onFocus();
     }
   };
 
@@ -103,7 +102,30 @@ export default class EnteringAddress extends Component {
   };
 
   getCurrentPosition = async () => {
-    const currentPosition = await Location.getCurrentPositionAsync({});
+    const providerStatus = await Location.getProviderStatusAsync();
+
+    let currentPosition = null;
+
+    if (providerStatus.locationServicesEnabled ) {
+      currentPosition = await Location.getCurrentPositionAsync({});
+    }
+    else {
+      Alert.alert(
+        'whatabeauty',
+        '휴대폰의 위치 정보 서비스를 이용할 수 없습니다.',
+        [{ text: '확인' }],
+        { cancelable: false }
+      );
+
+      const response = await this.geocode('서울시청');
+
+      currentPosition = {
+        coords: {
+          latitude: response.results[0].geometry.location.lat,
+          longitude: response.results[0].geometry.location.lng
+        }
+      };
+    }
 
     return currentPosition;
   };
@@ -120,14 +142,12 @@ export default class EnteringAddress extends Component {
     return await response.json();
   };
 
-  onPressGettingCurrentPosition = async () => {
+  onPressCurrentPosition = async () => {
     const response = await this.geocodeReversely(this.state.initialRegion);
 
     const address = response.results[0].formatted_address.replace('대한민국 ', '');
 
     this.addressRef.setText(address);
-
-    this.addressRef.onFocus();
 
     this.setState({
       currentRegion: this.state.initialRegion,
@@ -148,7 +168,7 @@ export default class EnteringAddress extends Component {
 
     this.setState({
       addressPredictions: addressPredictions.predictions,
-      isConfirmingActive: addressErrorText == '' ? true : false
+      isValid: addressErrorText ? false : true
     });
   };
 
@@ -170,7 +190,7 @@ export default class EnteringAddress extends Component {
       },
       markerPosition: {
         latitude: response.results[0].geometry.location.lat,
-        longitude: response.results[0].geometry.location.lng,
+        longitude: response.results[0].geometry.location.lng
       },
       isAddressPredictionsVisible: false
     });
@@ -185,10 +205,10 @@ export default class EnteringAddress extends Component {
       return (
         <Touchable key={addressPrediction.place_id} onPress={() => { this.onPressAddressPrediction(addressPrediction); }}>
           <View style={{ flexDirection: 'row', paddingVertical: 7 }}>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ width: 40, alignItems: 'center', justifyContent: 'center' }}>
               <FontAwesome name="map-marker" size={20} color="#cfcfcf" />
             </View>
-            <View style={{ flex: 8 }}>
+            <View style={{ flex: 1 }}>
               <View>
                 <Text style={{ color: '#9b9b9b' }}>{ addressPrediction.structured_formatting.main_text }</Text>
               </View>
@@ -207,6 +227,7 @@ export default class EnteringAddress extends Component {
 
     if (this.props.flowType == 'adding') {
       Actions.enteringAddressDetail({
+        flowType: this.props.flowType,
         region: this.state.currentRegion,
         markerPosition: this.state.markerPosition,
         address: this.state.address
@@ -235,55 +256,44 @@ export default class EnteringAddress extends Component {
       return (
         <Layout title="주소">
           <View style={{ flex: 1 }}>
-            <View style={{ flex: 1 }}>
-              <MapView
-                style={{ flex: 1 }}
-                region={this.state.currentRegion}
-                onRegionChangeComplete={(region) => { this.setState({ currentRegion: region }) }}
-              >
-                <MapView.Marker
-                  draggable
-                  coordinate={{
-                    latitude: this.state.markerPosition.latitude,
-                    longitude: this.state.markerPosition.longitude
-                  }}
-                  onDragEnd={(event) => { this.setState({ markerPosition: event.nativeEvent.coordinate }) }}
-                />
-              </MapView>
-              <View style={{ position: 'absolute', top: 16, width: '100%', paddingHorizontal: 16 }}>
-                <View style={{ backgroundColor: '#ffffff', borderRadius: 3 }}>
-                  <View style={{ flexDirection: 'row', paddingBottom: 5 }}>
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                      <FontAwesome name="map-marker" size={20} color="#fd614d" />
-                    </View>
-                    <View style={{ flex: 6 }}>
-                      <Input
-                        ref={(ref) => { this.addressRef = ref; }}
-                        placeholder="주소"
-                        onChangeText={this.onChangeAddress}
-                        onFocus={() => { this.setState({ isAddressPredictionsVisible: true }); }}
-                        onBlur={() => { this.setState({ isAddressPredictionsVisible: false }); }}
-                      />
-                    </View>
-                    <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
-                      <Button
-                        onPress={this.onPressGettingCurrentPosition}
-                        buttonStyle={{ width: 58, height: 22 }}
-                        textStyle={{ fontSize: 12 }}
-                        marginTop={5}
-                      >현재위치</Button>
-                    </View>
+            <MapView
+              style={{ flex: 1 }}
+              region={this.state.currentRegion}
+              onRegionChangeComplete={(region) => { this.setState({ currentRegion: region }) }}
+            >
+              <MapView.Marker draggable coordinate={this.state.markerPosition} />
+            </MapView>
+            <View style={{ position: 'absolute', top: 16, width: '100%', paddingHorizontal: 16 }}>
+              <View style={{ backgroundColor: '#ffffff', borderRadius: 3, paddingBottom: 5 }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={{ width: 40, alignItems: 'center', justifyContent: 'center' }}>
+                    <FontAwesome name="map-marker" size={20} color={global.keyColor} />
                   </View>
-                  { this.state.isAddressPredictionsVisible && this.renderAddressPredictions() }
+                  <View style={{ flex: 1 }}>
+                    <Input
+                      ref={(ref) => { this.addressRef = ref; }}
+                      placeholder="주소"
+                      onChangeText={this.onChangeAddress}
+                      onFocus={() => { this.setState({ isAddressPredictionsVisible: true }); }}
+                      onBlur={() => { this.setState({ isAddressPredictionsVisible: false }); }}
+                    />
+                  </View>
+                  <View style={{ width: 80, alignItems: 'center', justifyContent: 'center' }}>
+                    <Button
+                      onPress={this.onPressCurrentPosition}
+                      buttonStyle={{ width: 58, height: 22 }}
+                      textStyle={{ fontSize: 12 }}
+                      marginTop={5}
+                    >현재위치</Button>
+                  </View>
                 </View>
+                { this.state.isAddressPredictionsVisible && this.renderAddressPredictions() }
               </View>
             </View>
-            <View>
-              <MagnetView>
-                <Button buttonStyle={{ borderRadius: 0 }} onPress={this.onPressEnteringAddress} isActive={this.state.isConfirmingActive}>확인</Button>
-              </MagnetView>
-            </View>
           </View>
+          <MagnetView>
+            <Button buttonStyle={{ borderRadius: 0 }} onPress={this.onPressEnteringAddress} isActive={this.state.isValid}>확인</Button>
+          </MagnetView>
         </Layout>
       );
     }

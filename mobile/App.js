@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
+import React, { Component, Image } from 'react';
 import { Asset } from 'expo';
 
 import Splash from './scenes/Splash';
@@ -10,8 +9,8 @@ export default class Application extends Component {
   state = {
     isLoadingAssetsDone: false,
     isApplicationReady: false,
-    isSplashImageDisappearing: true,
-    isSplashImageDisappeared: false
+    isSplashDisappearing: true,
+    isSplashDisappeared: false
   };
 
   componentWillMount() {
@@ -28,23 +27,23 @@ export default class Application extends Component {
             isApplicationReady: true
           });
 
-          this.splashRef.disappearSpalshImage();
+          this.splashRef.disappearSpalsh();
         }
       }, 500);
     }, 2000);
 
     // TODO: assets to preload
-    const assets = [
+    const imageAssets = this.cacheImages([
       require('./assets/images/tutorial_1.png'),
       require('./assets/images/tutorial_2.png'),
       require('./assets/images/tutorial_3.png'),
-      require('./assets/images/splash_inverted.png'),
-      require('./assets/images/ssam_badge.png')
-    ];
+      require('./assets/images/ssam_badge.png'),
+      require('./assets/images/sign_in_background.png')
+    ]);
 
-    for (let asset of assets) {
-      await Asset.fromModule(asset).downloadAsync();
-    }
+    await Promise.all([
+      ...imageAssets
+    ]);
 
     require('./initialization/initialization');
 
@@ -53,24 +52,32 @@ export default class Application extends Component {
     });
   }
 
+  cacheImages = (images) => {
+    return images.map((image) => {
+      if (typeof image == 'string') {
+        return Image.prefetch(image);
+      } else {
+        return Asset.fromModule(image).downloadAsync();
+      }
+    });
+  };
+
   endLoading = () => {
     this.setState({
-      isSplashImageDisappearing: false,
-      isSplashImageDisappeared: true
+      isSplashDisappearing: false,
+      isSplashDisappeared: true
     });
   };
 
   render() {
-    if (!this.state.isLoadingAssetsDone || !this.state.isApplicationReady || this.state.isSplashImageDisappearing || !this.state.isSplashImageDisappeared) {
+    if (!this.state.isLoadingAssetsDone || !this.state.isApplicationReady || this.state.isSplashDisappearing || !this.state.isSplashDisappeared) {
       return (
         <Splash ref={(ref) => { this.splashRef = ref; }} endLoading={this.endLoading} />
       );
     }
 
     return (
-      <View style={{ flex: 1 }}>
-        <Router />
-      </View>
+      <Router />
     );
   }
 }

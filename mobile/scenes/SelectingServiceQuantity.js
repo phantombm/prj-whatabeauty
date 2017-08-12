@@ -34,7 +34,7 @@ export default class SelectingServiceQuantity extends Component {
   onPressMinus = () => {
     let isMinusButtonActive = true;
 
-    if (this.state.quantity == (this.props.isMainService ? 2 : 1)) {
+    if (this.state.quantity < (this.props.isMainService ? 3 : 2)) {
       isMinusButtonActive = false;
     }
 
@@ -50,7 +50,7 @@ export default class SelectingServiceQuantity extends Component {
   onPressPlus = () => {
     let isPlusButtonActive = true;
 
-    if (this.state.quantity == 98) {
+    if (this.state.quantity > 97) {
       isPlusButtonActive = false;
     }
 
@@ -63,25 +63,21 @@ export default class SelectingServiceQuantity extends Component {
     });
   };
 
-  renderServiceCommentsForReserving = () => {
+  renderCommentsForReserving = () => {
     const commentsForReserving = this.props.isMainService ? _.sortBy(this.props.service.commentsForReserving, ['order']) : _.sortBy(this.props.service.relatedServices[this.props.relatedServiceIndex].commentsForReserving, ['order']);
 
-    return commentsForReserving.map((comment, index) => {
+    return commentsForReserving.map((commentForReserving, index) => {
       return (
-        <View key={index} style={{ flexDirection: 'row', paddingLeft: 20, marginTop: index == 0 ? 5 : 0 }}>
-          <View>
-            <Ionicons name="ios-checkmark" size={30} color="#fd614d" style={{ marginTop: -7 }} />
-          </View>
-          <View style={{ marginLeft: 12 }}>
-            <Text style={{ fontSize: 12, color: '#3c4f5e' }}>{ comment.comment }</Text>
-          </View>
+        <View key={index} style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Ionicons name="ios-checkmark" size={30} color={global.keyColor} />
+          <Text style={{ fontSize: 12, color: '#3c4f5e', marginLeft: 10 }}>{ commentForReserving.comment }</Text>
         </View>
       );
     });
   };
 
   renderPrice = (amount) => {
-    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + this.props.service.price.unit;
+    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '원';
   };
 
   onPressSelectingServiceQuantity = () => {
@@ -111,37 +107,33 @@ export default class SelectingServiceQuantity extends Component {
   render() {
     return (
       <Layout title={this.props.isMainService ? this.props.service.name : this.props.service.relatedServices[this.props.relatedServiceIndex].name} leftIcon={<View />} onPressLeftIcon={() => {}} rightIcon={<Ionicons name="ios-close-outline" size={50} />} onPressRightIcon={this.onPressRightIcon}>
-        <View style={{ flex: 1 }}>
-          <View style={{ height: 260 }}>
-            <Image source={{ uri: this.props.isMainService ? this.props.service.imageUrl : this.props.service.relatedServices[this.props.relatedServiceIndex].imageUrl }} style={{ width: '100%', height: 260 }} />
-            <View style={{ position: 'absolute', bottom: 0, width: '100%', height: 45, backgroundColor: 'rgba(0, 0, 0, 0.5)', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 18, color: '#ffffff' }}>{ this.props.isMainService ? this.props.service.name : this.props.service.relatedServices[this.props.relatedServiceIndex].name } | { this.renderPrice(this.props.isMainService ? this.props.service.price.amount : this.props.service.relatedServices[this.props.relatedServiceIndex].price.amount) }</Text>
-            </View>
-          </View>
-          <View style={{ flex: 1, padding: 16, paddingBottom: 0 }}>
-            <View style={{ height: 1, backgroundColor: '#eeeeee' }} />
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-              <IconButton backgroundColor="#fd5739" borderRadius={30} inactiveBackgroundColor="#e0e0e1" onPress={this.onPressMinus} isActive={this.state.isMinusButtonActive}>
-                <MaterialCommunityIcons name="minus" size={25} color="#ffffff" />
-              </IconButton>
-              <Text style={{ fontSize: 22, color: '#24253d' }}>{ this.state.quantity }</Text>
-              <IconButton backgroundColor="#fd5739" borderRadius={30} inactiveBackgroundColor="#e0e0e1" onPress={this.onPressPlus} isActive={this.state.isPlusButtonActive}>
-                <MaterialCommunityIcons name="plus" size={25} color="#ffffff" />
-              </IconButton>
-            </View>
-            <View style={{ height: 1, backgroundColor: '#eeeeee' }} />
-            <View style={{ flex: 5, justifyContent: 'center' }}>
-              { this.renderServiceCommentsForReserving() }
-            </View>
-            <View style={{ height: 1, backgroundColor: '#eeeeee' }} />
-            <View style={{ flex: 3, justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={{ fontSize: 16, color: '#3c4f5e' }}>총 금액 : { this.renderPrice(this.props.isMainService ? this.props.service.price.amount * this.state.quantity : this.props.service.relatedServices[this.props.relatedServiceIndex].price.amount * this.state.quantity) }</Text>
-            </View>
-          </View>
-          <View>
-            <Button buttonStyle={{ borderRadius: 0 }} onPress={this.onPressSelectingServiceQuantity}>선택하기</Button>
+        <View style={{ height: global.width * 11 / 16 }}>
+          <Image source={{ uri: this.props.isMainService ? this.props.service.imageUrl : this.props.service.relatedServices[this.props.relatedServiceIndex].imageUrl }} style={{ width: global.width, height: global.width * 11 / 16 }} />
+          <View style={{ position: 'absolute', bottom: 0, width: '100%', height: 45, backgroundColor: 'rgba(0, 0, 0, 0.5)', alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ fontSize: 18, color: '#ffffff' }}>{ this.props.isMainService ? this.props.service.name : this.props.service.relatedServices[this.props.relatedServiceIndex].name } | { this.renderPrice(this.props.isMainService ? this.props.service.price.amount : this.props.service.relatedServices[this.props.relatedServiceIndex].price.amount) }</Text>
           </View>
         </View>
+        <View style={{ flex: 1, padding: 16, paddingBottom: 0 }}>
+          <View style={{ height: 1, backgroundColor: '#eeeeee' }} />
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', height: 60 }}>
+            <IconButton backgroundColor="#fd5739" borderRadius={30} inactiveBackgroundColor="#e0e0e1" onPress={this.onPressMinus} isActive={this.state.isMinusButtonActive}>
+              <MaterialCommunityIcons name="minus" size={25} color="#ffffff" />
+            </IconButton>
+            <Text style={{ fontSize: 22, color: '#24253d' }}>{ this.state.quantity }</Text>
+            <IconButton backgroundColor="#fd5739" borderRadius={30} inactiveBackgroundColor="#e0e0e1" onPress={this.onPressPlus} isActive={this.state.isPlusButtonActive}>
+              <MaterialCommunityIcons name="plus" size={25} color="#ffffff" />
+            </IconButton>
+          </View>
+          <View style={{ height: 1, backgroundColor: '#eeeeee' }} />
+          <View style={{ flex: 5, justifyContent: 'center', paddingHorizontal: 16 }}>
+            { this.renderCommentsForReserving() }
+          </View>
+          <View style={{ height: 1, backgroundColor: '#eeeeee' }} />
+          <View style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: 16, color: '#3c4f5e' }}>총 금액 : { this.renderPrice(this.props.isMainService ? this.props.service.price.amount * this.state.quantity : this.props.service.relatedServices[this.props.relatedServiceIndex].price.amount * this.state.quantity) }</Text>
+          </View>
+        </View>
+        <Button buttonStyle={{ borderRadius: 0 }} onPress={this.onPressSelectingServiceQuantity}>선택하기</Button>
       </Layout>
     );
   }

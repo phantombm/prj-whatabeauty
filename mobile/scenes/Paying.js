@@ -12,65 +12,88 @@ import Touchable from '../components/Touchable';
 
 export default class Paying extends Component {
   static propTypes = {
-    service: PropTypes.object.isRequired,
-    ssam: PropTypes.object.isRequired,
+    flowType: PropTypes.string.isRequired,
+    service: PropTypes.object,
+    ssam: PropTypes.object,
+    reservation: PropTypes.object,
     totalAmount: PropTypes.number.isRequired
   };
 
-  onPressPaying = (paymentMethod) => {
-    const service = _.clone(this.props.service);
+  static defaultProps = {
+    service: {},
+    ssam: {},
+    reservation: {}
+  };
 
-    service.scheduledAt = service.scheduledAt.toDate();
+  onPressPaying = async (paymentMethod) => {
+    if (this.props.flowType == 'from reserving') {
+      const service = _.clone(this.props.service);
 
-    const reservation = {
-      userId: Meteor.userId(),
-      ssamId: this.props.ssam._id,
-      service: service,
-      price: {
-        amount: this.props.totalAmount,
-        unit: this.props.service.price.unit
-      },
-      balancedMoney: {
-        amount: 0,
-        unit: '원'
-      },
-      isBalanced: false,
-      progress: 'not paid',
-      createAt: new Date()
-    };
+      service.scheduledAt = service.scheduledAt.toDate();
 
-    Meteor.call('reservations.insert', reservation, async (error, reservationId) => {
-      if (error) {
-        Alert.alert(
-          'whatabeauty',
-          error.reason,
-          [{ text: '확인' }],
-          { cancelable: false }
-        );
+      const reservation = {
+        userId: Meteor.userId(),
+        ssamId: this.props.ssam._id,
+        service: service,
+        price: {
+          amount: this.props.totalAmount,
+          unit: this.props.service.price.unit
+        },
+        balancedMoney: {
+          amount: 0,
+          unit: '원'
+        },
+        isBalanced: false,
+        progress: 'not paid',
+        createAt: new Date()
+      };
 
-        return;
-      }
+      Meteor.call('reservations.insert', reservation, async (error, reservationId) => {
+        if (error) {
+          Alert.alert(
+            'whatabeauty',
+            error.reason,
+            [{ text: '확인' }],
+            { cancelable: false }
+          );
 
-      Meteor.subscribe('reservations', {
-        _id: reservationId
+          return;
+        }
+
+        const merchantUid = `${Meteor.userId()}_${reservationId}`;
+
+        const encodedUri = encodeURI(`http://${global.ddpServerIp}/payment/${paymentMethod}/${merchantUid}/${service.name}/${this.props.totalAmount}/${Meteor.user().profile.email}/${Meteor.user().profile.name}/${Meteor.user().profile.phoneNumber}/${service.address.address} ${service.address.detail}`);
+
+        await WebBrowser.openBrowserAsync(encodedUri);
+
+        const reservation = Meteor.collection('reservations').findOne({
+          _id: reservationId
+        });
+
+        if (reservation.progress == 'paid') {
+          Actions.main({
+            type: ActionConst.RESET
+          });
+        }
       });
+    }
+    else if (this.props.flowType == 'from reservations') {
+      const merchantUid = `${Meteor.userId()}_${this.props.reservation._id}`;
 
-      const merchantUid = `${Meteor.userId()}_${reservationId}`;
-
-      const encodedUri = encodeURI(`http://${global.ddpServerIp}/payment/${paymentMethod}/${merchantUid}/${service.name}/${this.props.totalAmount}/${Meteor.user().profile.email}/${Meteor.user().profile.name}/${Meteor.user().profile.phoneNumber}/${service.address.address} ${service.address.detail}`);
+      const encodedUri = encodeURI(`http://${global.ddpServerIp}/payment/${paymentMethod}/${merchantUid}/${this.props.reservation.service.name}/${this.props.totalAmount}/${Meteor.user().profile.email}/${Meteor.user().profile.name}/${Meteor.user().profile.phoneNumber}/${this.props.reservation.service.address.address} ${this.props.reservation.service.address.detail}`);
 
       await WebBrowser.openBrowserAsync(encodedUri);
 
-      const reservations = Meteor.collection('reservations').find({
-        _id: reservationId
+      const reservation = Meteor.collection('reservations').findOne({
+        _id: this.props.reservation._id
       });
 
-      if (reservations[0].progress == 'paid') {
+      if (reservation.progress == 'paid') {
         Actions.main({
           type: ActionConst.RESET
         });
       }
-    });
+    }
   };
 
   renderPaymentMethods = () => {

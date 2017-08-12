@@ -15,7 +15,7 @@ export default class SignInWithEmail extends Component {
     paddwordErrorText: 'blank'
   };
 
-  onPressNext = () => {
+  onPressSignInWithEmail = () => {
     Meteor.loginWithPassword(this.state.email, this.state.password, (error) => {
       if (error) {
         if (error.reason == 'User not found') {
@@ -70,30 +70,27 @@ export default class SignInWithEmail extends Component {
     return (
       <Layout title="로그인">
         <View style={{ flex: 1, padding: 30 }}>
-          <View style={{ flex: 1 }} />
-          <View style={{ flex: 14 }}>
-            <Input
-              placeholder="이메일주소"
-              keyboardType="email-address"
-              validator={(text) => {
-                if (!/[a-z0-1]+@[a-z0-1]+\.[a-z]+/.test(text)) {
-                  return '이메일 형식에 맞지 않습니다.';
-                }
-              }}
-              maxLength={40}
-              onChangeText={(text, errorText) => { this.setState({ email: text, emailErrorText: errorText }); }}
-            />
-            <Input
-              placeholder="비밀번호"
-              marginTop={5}
-              secureTextEntry
-              onChangeText={(text, errorText) => { this.setState({ password: text, paddwordErrorText: errorText }); }}
-            />
-            <Button onPress={this.onPressNext} isActive={isValid} marginTop={30}>다음</Button>
-            <View style={{ flexDirection: 'row', marginTop: 15, justifyContent: 'center' }}>
-              <Text style={{ fontSize: 12, color: '#cfcfcf' }}>비밀번호를 잃어버리셨습니까? </Text>
-              <Text style={{ fontSize: 12, color: '#fd614d' }}>비밀번호찾기</Text>
-            </View>
+          <Input
+            placeholder="이메일주소"
+            keyboardType="email-address"
+            validator={(text) => {
+              if (!/[a-z0-1]+@[a-z0-1]+\.[a-z]+/.test(text)) {
+                return '이메일 형식에 맞지 않습니다.';
+              }
+            }}
+            maxLength={40}
+            onChangeText={(text, errorText) => { this.setState({ email: text, emailErrorText: errorText }); }}
+          />
+          <Input
+            placeholder="비밀번호"
+            marginTop={5}
+            secureTextEntry
+            onChangeText={(text, errorText) => { this.setState({ password: text, paddwordErrorText: errorText }); }}
+          />
+          <Button onPress={this.onPressSignInWithEmail} isActive={isValid} marginTop={30}>로그인</Button>
+          <View style={{ flexDirection: 'row', marginTop: 15, justifyContent: 'center' }}>
+            <Text style={{ fontSize: 12, color: '#cfcfcf' }}>비밀번호를 잃어버리셨습니까? </Text>
+            <Text style={{ fontSize: 12, color: global.keyColor }}>비밀번호 찾기</Text>
           </View>
         </View>
       </Layout>

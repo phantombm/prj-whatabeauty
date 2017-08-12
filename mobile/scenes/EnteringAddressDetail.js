@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Alert } from 'react-native';
+import { View, Text, TextInput, Alert, Keyboard } from 'react-native';
 import { MapView } from 'expo';
 import PropTypes from 'prop-types';
 import { FontAwesome } from '@expo/vector-icons';
@@ -13,7 +13,7 @@ import MagnetView from '../components/MagnetView';
 
 export default class EnteringAddressDetail extends Component {
   static propTypes = {
-    flowType: PropTypes.string,
+    flowType: PropTypes.string.isRequired,
     addressesIndex: PropTypes.number,
     region: PropTypes.object.isRequired,
     markerPosition: PropTypes.object.isRequired,
@@ -21,7 +21,6 @@ export default class EnteringAddressDetail extends Component {
   };
 
   static defaultProps = {
-    flowType: 'adding',
     addressesIndex: 0
   };
 
@@ -30,13 +29,13 @@ export default class EnteringAddressDetail extends Component {
     markerPosition: this.props.markerPosition,
     addressDetail: '',
     memo: '',
-    isAddingAddressActive: this.props.flowType == 'adding' ? false : true
+    isValid: this.props.flowType == 'adding' ? false : true
   };
 
   onChangeAddressDetail = (addressDetail) => {
     this.setState({
       addressDetail: addressDetail,
-      isAddingAddressActive: addressDetail == '' ? false : true
+      isValid: addressDetail == '' ? false : true
     });
   };
 
@@ -47,6 +46,8 @@ export default class EnteringAddressDetail extends Component {
   };
 
   onPressAddingAddress = () => {
+    Keyboard.dismiss();
+
     let modifier = null;
 
     if (this.props.flowType == 'adding') {
@@ -100,22 +101,15 @@ export default class EnteringAddressDetail extends Component {
               region={this.state.region}
               onRegionChangeComplete={(region) => { this.setState({ region: region }) }}
             >
-              <MapView.Marker
-                draggable
-                coordinate={{
-                  latitude: this.state.markerPosition.latitude,
-                  longitude: this.state.markerPosition.longitude
-                }}
-                onDragEnd={(event) => { this.setState({ markerPosition: event.nativeEvent.coordinate }) }}
-              />
+              <MapView.Marker draggable coordinate={this.state.markerPosition} />
             </MapView>
           </View>
           <View style={{ flex: 1 }}>
             <View style={{ flexDirection: 'row', marginTop: 10 }}>
-              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <FontAwesome name="map-marker" size={20} color="#fd614d" />
+              <View style={{ width: 40, alignItems: 'center', justifyContent: 'center' }}>
+                <FontAwesome name="map-marker" size={20} color={global.keyColor} />
               </View>
-              <View style={{ flex: 8, justifyContent: 'center' }}>
+              <View style={{ flex: 1, justifyContent: 'center' }}>
                 <Text style={{ color: '#9b9b9b' }}>{ this.props.address }</Text>
               </View>
             </View>
@@ -125,12 +119,12 @@ export default class EnteringAddressDetail extends Component {
               </View>
               <View style={{ flex: 1, paddingVertical: 16 }}>
                 <TextInput
-                  selectionColor="#fd614d"
+                  selectionColor={global.keyColor}
                   multiline
                   autoCorrect={false}
                   autoCapitalizer="none"
                   placeholder="방문 시 요청사항이 있다면 적어주세요."
-                  style={{ backgroundColor: '#fafafa', height: '100%', color: '#3c4f5e', padding: 12, fontSize: 14 }}
+                  style={{ backgroundColor: '#fafafa', flex: 1, color: '#3c4f5e', padding: 12, fontSize: 14 }}
                   placeholderTextColor="#cfcfcf"
                   maxLength={200}
                   onChangeText={this.onChangeMemo}
@@ -139,9 +133,7 @@ export default class EnteringAddressDetail extends Component {
               </View>
             </View>
           </View>
-          <View>
-            <Button buttonStyle={{ borderRadius: 0 }} onPress={this.onPressAddingAddress} isActive={this.state.isAddingAddressActive}>주소 저장하기</Button>
-          </View>
+          <Button buttonStyle={{ borderRadius: 0 }} onPress={this.onPressAddingAddress} isActive={this.state.isValid}>주소 저장하기</Button>
         </MagnetView>
       </Layout>
     );

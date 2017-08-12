@@ -1,3 +1,5 @@
+/* eslint "no-undef": "off" */
+
 import { Meteor } from 'meteor/meteor';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -29,7 +31,7 @@ export default class Payment extends Component {
 
   render() {
     return (
-      <div>결제가 완료되면 창을 닫아주세요.</div>
+      <div />
     );
   }
 }

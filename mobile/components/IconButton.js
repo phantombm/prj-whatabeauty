@@ -27,8 +27,8 @@ export default class IconButton extends Component {
 
   render() {
     return (
-      <TouchableOpacity onPress={this.props.onPress} disabled={!this.props.isActive} style={{ width: 70, height: 70 }}>
-        <View style={{ width: 70, height: 70, alignItems: 'center', justifyContent: 'center' }}>
+      <TouchableOpacity onPress={this.props.onPress} disabled={!this.props.isActive} style={{ width: 45, height: 45 }}>
+        <View style={{ width: 45, height: 45, alignItems: 'center', justifyContent: 'center' }}>
           <View style={[{ overflow: 'hidden', marginTop: this.props.marginTop, alignItems: 'center', justifyContent: 'center', width: 30, height: 30, borderRadius: this.props.borderRadius, backgroundColor: this.props.isActive ? this.props.backgroundColor : this.props.inactiveBackgroundColor }, this.props.buttonStyle]}>
             { this.props.children }
           </View>

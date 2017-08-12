@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Alert, Keyboard } from 'react-native';
-import { Actions, ActionConst } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import Meteor from 'react-native-meteor';
 import { EvilIcons } from '@expo/vector-icons';
 
@@ -67,7 +67,7 @@ export default class UpdatingInformation extends Component {
     });
   };
 
-  onPressUpdating = () => {
+  onPressUpdatingInformation = () => {
     if (this.state.validationNumber != this.state.validationNumberToMatch) {
       Alert.alert(
         'whatabeauty',
@@ -108,7 +108,7 @@ export default class UpdatingInformation extends Component {
         return false;
       }
 
-      if (this.state.secondsRemained <= 0) {
+      if (this.state.secondsRemained < 1) {
         return false;
       }
     }
@@ -121,6 +121,8 @@ export default class UpdatingInformation extends Component {
   };
 
   onPressLeftIcon = () => {
+    Keyboard.dismiss();
+
     Actions.pop();
   };
 
@@ -176,20 +178,25 @@ export default class UpdatingInformation extends Component {
           }
           { this.state.phoneNumber != Meteor.user().profile.phoneNumber &&
             <View style={{ position: 'absolute', top: 149, right: 30 }}>
-              <Button onPress={this.onPressSendingSms} isActive={!this.state.phoneNumberErrorText} buttonStyle={{ width: 58, height: 22 }} textStyle={{ fontSize: 12 }}>
-                { this.state.secondsRemained == -1 ? '전송' : '재전송' }
-              </Button>
+              <Button
+                onPress={this.onPressSendingSms}
+                isActive={!this.state.phoneNumberErrorText}
+                buttonStyle={{ width: 58, height: 22 }}
+                textStyle={{ fontSize: 12 }}
+              >{ this.state.secondsRemained == -1 ? '전송' : '재전송' }</Button>
             </View>
           }
           { this.state.secondsRemained != -1 &&
-          <View style={{ position: 'absolute', top: 210, right: 42, flexDirection: 'row' }}>
-            <EvilIcons name="clock" size={18} color="#3c4f5e" />
-            <Text style={{ fontSize: 10, color: this.state.secondsRemained > 10 ? '#3c4f5e' : '#fd614d', marginLeft: 3 }}>
-              { Math.floor(this.state.secondsRemained / 60) }:{ this.state.secondsRemained % 60 < 10 ? '0' : '' }{ this.state.secondsRemained % 60 }
-            </Text>
-          </View>
+            <View style={{ position: 'absolute', top: 210, right: 42 }}>
+              { this.state.phoneNumber != Meteor.user().profile.phoneNumber &&
+                <View style={{ flexDirection: 'row' }}>
+                  <EvilIcons name="clock" size={18} color="#3c4f5e" />
+                  <Text style={{ fontSize: 10, color: this.state.secondsRemained > 10 ? '#3c4f5e' : global.keyColor, marginLeft: 3 }}>{ Math.floor(this.state.secondsRemained / 60) }:{ this.state.secondsRemained % 60 < 10 ? '0' : '' }{ this.state.secondsRemained % 60 }</Text>
+                </View>
+              }
+            </View>
           }
-          <Button onPress={this.onPressUpdating} isActive={isValid} marginTop={30}>수정하기</Button>
+          <Button onPress={this.onPressUpdatingInformation} isActive={isValid} marginTop={30}>수정하기</Button>
         </View>
       </Layout>
     );

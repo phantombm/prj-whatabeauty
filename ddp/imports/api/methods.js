@@ -33,27 +33,26 @@ Meteor.methods({
 
     const reservationId = merchantUid.split('_')[1];
 
-    const reservations = Reservations.find({
+    const reservation = Reservations.findOne({
       _id: reservationId
-    }).fetch();
+    });
 
-    if (reservations.length == 0) {
+    if (!reservation) {
       return 'fail';
     }
 
-    if (result.data.response.amount == reservations[0].price.amount) {
-      Reservations.update({
-        _id: reservationId
-      }, {
-        $set: {
-          progress: 'paid'
-        }
-      });
-
-      return 'success';
-    }
-    else {
+    if (result.data.response.amount != reservation.price.amount) {
       return 'fail';
     }
+
+    Reservations.update({
+      _id: reservationId
+    }, {
+      $set: {
+        progress: 'paid'
+      }
+    });
+
+    return 'success';
   }
 });

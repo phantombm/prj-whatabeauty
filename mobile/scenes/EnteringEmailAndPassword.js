@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import Button from '../components/Button';
 import Layout from '../layouts/Layout';
 import Input from '../components/Input';
-import MagnetView from '../components/MagnetView';
 
 export default class EnteringEmailAndPassword extends Component {
   static propTypes = {
@@ -52,42 +51,39 @@ export default class EnteringEmailAndPassword extends Component {
     return (
       <Layout title="E-mail 계정">
         <View style={{ flex: 1, padding: 30 }}>
-          <View style={{ flex: 1 }} />
-          <MagnetView style={{ flex: 14 }} offsetInAndroid={200} isWorkingInIos={false} >
-            <Input
-              placeholder="이메일주소"
-              keyboardType="email-address"
-              validator={(text) => {
-                if (!/^[a-z0-9]+@[a-z]+\.[a-z]+$/.test(text)) {
-                  return '이메일 형식에 맞지 않습니다.';
-                }
-              }}
-              onChangeText={(text, errorText) => { this.setState({ email: text, emailErrorText: errorText }); }}
-            />
-            <Input
-              placeholder="비밀번호"
-              validator={(text) => {
-                if (text.length < 6) {
-                  return '비밀번호는 6자 이상으로 해주세요.';
-                }
-              }}
-              marginTop={5}
-              secureTextEntry
-              onChangeText={(text, errorText) => { this.setState({ password: text, paddwordErrorText: errorText }); }}
-            />
-            <Input
-              placeholder="비밀번호 확인"
-              validator={(text) => {
-                if (text != this.state.password) {
-                  return '비밀번호가 일치하지 않습니다.';
-                }
-              }}
-              marginTop={5}
-              secureTextEntry
-              onChangeText={(text, errorText) => { this.setState({ passwordConfirmed: text, passwordConfirmedErrorText: errorText }); }}
-            />
-            <Button onPress={this.onPressNext} isActive={isValid} marginTop={30}>다음</Button>
-          </MagnetView>
+          <Input
+            placeholder="이메일주소"
+            keyboardType="email-address"
+            validator={(text) => {
+              if (!/^[a-z0-9]+@[a-z]+\.[a-z]+$/.test(text)) {
+                return '이메일 형식에 맞지 않습니다.';
+              }
+            }}
+            onChangeText={(text, errorText) => { this.setState({ email: text, emailErrorText: errorText }); }}
+          />
+          <Input
+            placeholder="비밀번호"
+            validator={(text) => {
+              if (text.length < 6) {
+                return '비밀번호는 6자 이상으로 해주세요.';
+              }
+            }}
+            marginTop={5}
+            secureTextEntry
+            onChangeText={(text, errorText) => { this.setState({ password: text, paddwordErrorText: errorText }); }}
+          />
+          <Input
+            placeholder="비밀번호 확인"
+            validator={(text) => {
+              if (text != this.state.password) {
+                return '비밀번호가 일치하지 않습니다.';
+              }
+            }}
+            marginTop={5}
+            secureTextEntry
+            onChangeText={(text, errorText) => { this.setState({ passwordConfirmed: text, passwordConfirmedErrorText: errorText }); }}
+          />
+          <Button onPress={this.onPressNext} isActive={isValid} marginTop={30}>다음</Button>
         </View>
       </Layout>
     );

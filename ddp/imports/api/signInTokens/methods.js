@@ -5,28 +5,28 @@ import { Accounts } from 'meteor/accounts-base';
 import { SignInTokens } from './signInTokens';
 
 Meteor.methods({
-  'signInTokens.insert'(profile, uuidV1) {
+  'signInTokens.insert'(profile, uuid) {
     check(profile, Object);
-    check(uuidV1, String);
+    check(uuid, String);
 
     const user = Accounts.findUserByUsername(profile.signInId);
 
     if (user) {
-      Accounts.setPassword(user._id, uuidV1, {
+      Accounts.setPassword(user._id, uuid, {
         logout: false
       });
     }
     else {
       Accounts.createUser({
         username: profile.signInId,
-        password: uuidV1,
+        password: uuid,
         profile: profile
       });
     }
 
     return SignInTokens.insert({
       signInId: profile.signInId,
-      uuidV1: uuidV1
+      uuid: uuid
     });
   },
   'signInTokens.findOne'(selector) {

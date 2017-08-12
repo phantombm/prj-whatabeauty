@@ -11,6 +11,7 @@ import Touchable from '../components/Touchable';
 class Services extends Component {
   static propTypes = {
     serviceType: PropType.object.isRequired,
+    isServicesReady: PropType.bool.isRequired,
     services: PropType.array.isRequired
   };
 
@@ -31,7 +32,7 @@ class Services extends Component {
             </View>
             <View style={{ flexDirection: 'row' }}>
               <Text style={{ fontSize: 10, color: '#919191' }}>{ item.comment } | </Text>
-              <Text style={{ fontSize: 10, color: '#fd614d' }}>{ this.renderPrice(item) }</Text>
+              <Text style={{ fontSize: 10, color: global.keyColor }}>{ this.renderPrice(item) }</Text>
             </View>
           </View>
         </View>
@@ -46,32 +47,33 @@ class Services extends Component {
   };
 
   renderPrice = (service) => {
-    return service.price.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + service.price.unit;
+    return service.price.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '원';
   };
 
   render() {
-    let services = this.props.services;
+    if (!this.props.isServicesReady) {
+      return (
+        <View />
+      );
+    }
 
-    services  = _.sortBy(services, [(service) => { return -service.order; }, 'createAt']);
-
-    services.reverse();
+    const services  = _.sortBy(this.props.services, ['order']);
 
     return (
       <Layout title={this.props.serviceType.name} isKeyboardDismissedOnTouched={false}>
-        <View style={{ flex: 1 }}>
-          <FlatList data={services} keyExtractor={this.keyExtractor} renderItem={this.renderService} numColumns={2} contentContainerStyle={{ paddingRight: 16, paddingBottom: 16 }} />
-        </View>
+        <FlatList data={services} keyExtractor={this.keyExtractor} renderItem={this.renderService} numColumns={2} contentContainerStyle={{ paddingRight: 16, paddingBottom: 16 }} />
       </Layout>
     );
   }
 }
 
 export default createContainer((props) => {
-  Meteor.subscribe('services', {
+  const servicesHandle = Meteor.subscribe('services', {
     serviceTypeId: props.serviceType._id
   });
 
   return {
+    isServicesReady: servicesHandle.ready(),
     services: Meteor.collection('services').find({
       serviceTypeId: props.serviceType._id
     })

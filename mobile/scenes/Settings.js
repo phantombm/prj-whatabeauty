@@ -13,10 +13,10 @@ class Settings extends Component {
     user: ProTypes.object.isRequired
   };
 
-  onChangeValueForGettingNotifications = (isGettingNotificationActive) => {
+  onChangeValueForGettingNotifications = (isGettingNotificationsActive) => {
     Meteor.call('users.update', {
       $set: {
-        'profile.isGettingNotificationActive': isGettingNotificationActive
+        'profile.isGettingNotificationActive': isGettingNotificationsActive
       }
     });
   };
@@ -24,42 +24,40 @@ class Settings extends Component {
   render() {
     return (
       <Layout title="환경설정">
-        <View style={{ flex: 1 }}>
-          <View style={{ height: 60, flexDirection: 'row' }}>
+        <View style={{ height: 60, flexDirection: 'row' }}>
+          <View style={{ flex: 1, paddingLeft: 16, justifyContent: 'center' }}>
+            <Text>푸쉬알람 받기</Text>
+          </View>
+          <View style={{ flex: 1, paddingRight: 16, alignItems: 'flex-end', justifyContent: 'center' }}>
+            <Switch onValueChange={this.onChangeValueForGettingNotifications} value={this.props.user.profile.isGettingNotificationActive} />
+          </View>
+        </View>
+        <Touchable onPress={Actions.termsOfService}>
+          <View style={{ height: 60, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#eeeeee' }}>
             <View style={{ flex: 1, paddingLeft: 16, justifyContent: 'center' }}>
-              <Text>푸쉬알람 받기</Text>
+              <Text>서비스 이용약관</Text>
             </View>
             <View style={{ flex: 1, paddingRight: 16, alignItems: 'flex-end', justifyContent: 'center' }}>
-              <Switch onValueChange={this.onChangeValueForGettingNotifications} value={this.props.user.profile.isGettingNotificationActive} />
+              <SimpleLineIcons name="arrow-right" size={23} />
             </View>
           </View>
-          <Touchable onPress={Actions.termsOfService}>
-            <View style={{ height: 60, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#eeeeee' }}>
-              <View style={{ flex: 1, paddingLeft: 16, justifyContent: 'center' }}>
-                <Text>서비스 이용약관</Text>
-              </View>
-              <View style={{ flex: 1, paddingRight: 16, alignItems: 'flex-end', justifyContent: 'center' }}>
-                <SimpleLineIcons name="arrow-right" size={23} />
-              </View>
-            </View>
-          </Touchable>
-          <Touchable onPress={Actions.privacyPolicy}>
-            <View style={{ height: 60, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#eeeeee' }}>
-              <View style={{ flex: 1, paddingLeft: 16, justifyContent: 'center' }}>
-                <Text>개인정보 취급방침</Text>
-              </View>
-              <View style={{ flex: 1, paddingRight: 16, alignItems: 'flex-end', justifyContent: 'center' }}>
-                <SimpleLineIcons name="arrow-right" size={23} />
-              </View>
-            </View>
-          </Touchable>
-          <View style={{ height: 60, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#eeeeee', borderBottomWidth: 1, borderBottomColor: '#eeeeee' }}>
+        </Touchable>
+        <Touchable onPress={Actions.privacyPolicy}>
+          <View style={{ height: 60, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#eeeeee' }}>
             <View style={{ flex: 1, paddingLeft: 16, justifyContent: 'center' }}>
-              <Text>버전정보</Text>
+              <Text>개인정보 취급방침</Text>
             </View>
             <View style={{ flex: 1, paddingRight: 16, alignItems: 'flex-end', justifyContent: 'center' }}>
-              <Text>1.0.0</Text>
+              <SimpleLineIcons name="arrow-right" size={23} />
             </View>
+          </View>
+        </Touchable>
+        <View style={{ height: 60, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#eeeeee', borderBottomWidth: 1, borderBottomColor: '#eeeeee' }}>
+          <View style={{ flex: 1, paddingLeft: 16, justifyContent: 'center' }}>
+            <Text>버전정보</Text>
+          </View>
+          <View style={{ flex: 1, paddingRight: 16, alignItems: 'flex-end', justifyContent: 'center' }}>
+            <Text>1.0.0</Text>
           </View>
         </View>
       </Layout>

@@ -20,7 +20,7 @@ export default class EnteringName extends Component {
     nameErrorText: 'blank'
   };
 
-  onPressEnteringName = () => {
+  onPressSignInWithEmail = () => {
     Accounts.createUser({
       email: this.props.email,
       password: this.props.password,
@@ -88,20 +88,17 @@ export default class EnteringName extends Component {
     return (
       <Layout title="이름 입력">
         <View style={{ flex: 1, padding: 30 }}>
-          <View style={{ flex: 1 }} />
-          <View style={{ flex: 14 }}>
-            <Input
-              placeholder="이름"
-              onChangeText={(text, errorText) => { this.setState({ name: text, nameErrorText: errorText }); }}
-            />
-            <View style={{ flexDirection: 'row', marginTop: 30 }}>
-              <Text style={{ color: '#4990e2', fontSize: 11, textDecorationLine: 'underline' }}>서비스이용약관</Text>
-              <Text style={{ color: '#cfcfcf', fontSize: 11 }}>과 </Text>
-              <Text style={{ color: '#4990e2', fontSize: 11, textDecorationLine: 'underline' }}>개인정보이용방침</Text>
-              <Text style={{ color: '#cfcfcf', fontSize: 11 }}>에 동의합니다.</Text>
-            </View>
-            <Button onPress={this.onPressEnteringName} isActive={isValid} marginTop={20}>회원가입 완료</Button>
+          <Input
+            placeholder="이름"
+            onChangeText={(text, errorText) => { this.setState({ name: text, nameErrorText: errorText }); }}
+          />
+          <View style={{ flexDirection: 'row', marginTop: 30 }}>
+            <Text style={{ color: '#4990e2', fontSize: 11, textDecorationLine: 'underline' }} onPress={Actions.termsOfService}>서비스 이용약관</Text>
+            <Text style={{ color: '#cfcfcf', fontSize: 11 }}>과 </Text>
+            <Text style={{ color: '#4990e2', fontSize: 11, textDecorationLine: 'underline' }} onPress={Actions.privacyPolicy}>개인정보 이용방침</Text>
+            <Text style={{ color: '#cfcfcf', fontSize: 11 }}>에 동의합니다.</Text>
           </View>
+          <Button onPress={this.onPressSignInWithEmail} isActive={isValid} marginTop={20}>회원가입 완료</Button>
         </View>
       </Layout>
     );

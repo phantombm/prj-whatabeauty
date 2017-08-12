@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { View, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import Meteor, { createContainer } from 'react-native-meteor';
 import ProTypes from 'prop-types';
-import moment from 'moment';
 import _ from 'lodash';
 
 import Layout from '../layouts/Layout';
@@ -25,27 +24,18 @@ class Faqs extends Component {
 
   render() {
     const documentsForManagement = _.sortBy(this.props.documentsForManagement, [
-      (documentForManagement) => {
-        return -documentForManagement.order;
-      },
-      (documentForManagement) => {
-        return moment(documentForManagement.createAt).format('YYYYMMDD').split('').reverse().join('')
-      }
+      'order'
     ]);
 
     return (
       <Layout title="FAQ" isKeyboardDismissedOnTouched={false}>
-        <View style={{ flex: 1 }}>
-          <FlatList data={documentsForManagement} keyExtractor={this.keyExtractor} renderItem={this.renderFaq} />
-        </View>
+        <FlatList data={documentsForManagement} keyExtractor={this.keyExtractor} renderItem={this.renderFaq} />
       </Layout>
     );
   }
 }
 
 export default createContainer(() => {
-  Meteor.subscribe('documentsForManagement', {});
-
   return {
     documentsForManagement: Meteor.collection('documentsForManagement').find({
       type: 'faq'

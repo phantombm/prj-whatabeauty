@@ -45,17 +45,15 @@ class Main extends Component {
   };
 
   render() {
-    let serviceTypes = this.props.serviceTypes;
-
-    serviceTypes  = _.sortBy(serviceTypes, [(serviceType) => { return -serviceType.order; }, 'createAt']);
-
-    serviceTypes.reverse();
+    const serviceTypes  = _.sortBy(this.props.serviceTypes, [
+      'order'
+    ]);
 
     return (
       <Drawer ref={(ref) => { this.drawerRef = ref; }}>
         <View style={{ flex: 1 }}>
           <View style={{ height: Constants.statusBarHeight }} />
-          <View style={{ flex: 1 }}>
+          <View style={{ height: 60 }}>
             <Header
               title="main"
               leftIcon={<Ionicons name="ios-menu" color="#1d1d1b" size={32} />}
@@ -63,7 +61,7 @@ class Main extends Component {
               rightIcon={<SimpleLineIcons name="bell" color="#1d1d1b" size={26} />}
             />
           </View>
-          <View style={{ flex: 10 }}>
+          <View style={{ flex: 1 }}>
             <FlatList data={serviceTypes} keyExtractor={this.keyExtractor} renderItem={this.renderServiceType} />
           </View>
         </View>
@@ -73,8 +71,6 @@ class Main extends Component {
 }
 
 export default createContainer(() => {
-  Meteor.subscribe('serviceTypes', {});
-
   return {
     serviceTypes: Meteor.collection('serviceTypes').find({})
   };

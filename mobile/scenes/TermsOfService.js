@@ -11,26 +11,17 @@ class TermsOfService extends Component {
   };
 
   render() {
-    if (this.props.documentsForManagement[0]) {
-      return (
-        <Layout title={this.props.documentsForManagement[0].title} isKeyboardDismissedOnTouched={false}>
-          <View style={{ flex: 1, padding: 30 }}>
-            <WebView source={{ html: this.props.documentsForManagement[0].content }} />
-          </View>
-        </Layout>
-      );
-    }
-    else {
-      return (
-        <View />
-      );
-    }
+    return (
+      <Layout title={this.props.documentsForManagement[0].title} isKeyboardDismissedOnTouched={false}>
+        <View style={{ flex: 1, padding: 16 }}>
+          <WebView source={{ html: this.props.documentsForManagement[0].content }} />
+        </View>
+      </Layout>
+    );
   }
 }
 
 export default createContainer(() => {
-  Meteor.subscribe('documentsForManagement', {});
-
   return {
     documentsForManagement: Meteor.collection('documentsForManagement').find({
       type: 'terms of service'

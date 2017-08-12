@@ -20,24 +20,20 @@ class Notices extends Component {
   renderNotice = ({ item, index }) => {
     return (
       <Touchable onPress={() => { this.onPressNotice(item); }}>
-        <View style={{ paddingHorizontal: 30, paddingVertical: 12, borderBottomColor: '#eeeeee', borderBottomWidth: 1, borderTopColor: '#eeeeee', borderTopWidth: index == 0 ? 1 : 0 }}>
-          <View>
-            <Text style={{ color: '#3c4f5e' }}>{ item.title }</Text>
-          </View>
-          <View>
-            <Text style={{ color: '#cfcfcf', fontSize: 12 }}>{ this.renderDate(item) }</Text>
-          </View>
+        <View style={{ justifyContent: 'center', paddingHorizontal: 30, height: 60, borderBottomColor: '#eeeeee', borderBottomWidth: 1, borderTopColor: '#eeeeee', borderTopWidth: index == 0 ? 1 : 0 }}>
+          <Text style={{ color: '#3c4f5e' }}>{ item.title }</Text>
+          <Text style={{ color: '#cfcfcf', fontSize: 12 }}>{ this.renderDate(item) }</Text>
         </View>
       </Touchable>
     );
   };
 
   renderDate = (item) => {
-    if (moment(item.createAt).diff(moment(), 'days') > 5) {
-      return moment(item.createAt).format('YYYY.MM.DD');
+    if (moment(item.createAt).diff(moment(), 'days') < 5) {
+      return moment(item.createAt).fromNow();
     }
     else {
-      return moment(item.createAt).fromNow();
+      return moment(item.createAt).format('YYYY.MM.DD');
     }
   };
 
@@ -50,17 +46,13 @@ class Notices extends Component {
   render() {
     return (
       <Layout title="공지사항" isKeyboardDismissedOnTouched={false}>
-        <View style={{ flex: 1 }}>
-          <FlatList data={this.props.documentsForManagement} keyExtractor={this.keyExtractor} renderItem={this.renderNotice} />
-        </View>
+        <FlatList data={this.props.documentsForManagement} keyExtractor={this.keyExtractor} renderItem={this.renderNotice} />
       </Layout>
     );
   }
 }
 
 export default createContainer(() => {
-  Meteor.subscribe('documentsForManagement', {});
-
   return {
     documentsForManagement: Meteor.collection('documentsForManagement').find({
       type: 'notice'

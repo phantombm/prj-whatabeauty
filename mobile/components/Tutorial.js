@@ -17,14 +17,13 @@ export default class Tutorial extends Component {
 
   state = {
     pageCount: this.props.children.length,
-    width: Dimensions.get('window').width,
     isLastPage: false
   };
 
   animatedScrollX = new Animated.Value(0);
 
   animatedValue = this.animatedScrollX.interpolate({
-    inputRange: [0, this.state.width * (this.state.pageCount - 1)],
+    inputRange: [0, global.width * (this.state.pageCount - 1)],
     outputRange: [0, this.state.pageCount - 1]
   });
 
@@ -37,7 +36,7 @@ export default class Tutorial extends Component {
     return (
       this.props.children.map((page, index) => {
         return (
-          <View key={index} style={{ flex: 1, width: this.state.width }}>
+          <View key={index} style={{ flex: 1, width: global.width }}>
             { this.renderPageItems(page, index) }
           </View>
         );
@@ -53,7 +52,7 @@ export default class Tutorial extends Component {
 
     const animatedPageBarTranslateX = this.animatedValue.interpolate({
       inputRange: [index, index + 1],
-      outputRange: [0, this.state.width * 2]
+      outputRange: [0, global.width * 2]
     });
 
     const animatedPageDescriptionTranslateX = this.animatedValue.interpolate({
@@ -62,14 +61,13 @@ export default class Tutorial extends Component {
     });
 
     return (
-
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ flex: 1, alignItems: 'center' }}>
         { page.props.children[0] }
-        <Animated.View style={{ position: 'absolute', transform: [{ translateX: animatedPageTitleTranslateX }, { translateY: 75 }] }}>
+        <Animated.View style={{ marginTop: 300, position: 'absolute', transform: [{ translateX: animatedPageTitleTranslateX }] }}>
           { page.props.children[1] }
         </Animated.View>
-        <Animated.View style={{ position: 'absolute', transform: [{ translateX: animatedPageBarTranslateX }, { translateY: 100 }], width: 60, height: 2, backgroundColor: '#fd614d' }} />
-        <Animated.View style={{ position: 'absolute', transform: [{ translateX: animatedPageDescriptionTranslateX }, { translateY: 140 }] }}>
+        <Animated.View style={{ marginTop: 330, position: 'absolute', transform: [{ translateX: animatedPageBarTranslateX }], width: 60, height: 2, backgroundColor: global.keyColor }} />
+        <Animated.View style={{ marginTop: 340, position: 'absolute', transform: [{ translateX: animatedPageDescriptionTranslateX }] }}>
           { page.props.children[2] }
         </Animated.View>
       </View>
@@ -119,16 +117,16 @@ export default class Tutorial extends Component {
       <View style={{ flex: 1, backgroundColor: this.props.backgroundColor }}>
         <View style={{ height: Constants.statusBarHeight }} />
         <View style={{ flex: 1, paddingVertical: 30 }}>
-          <View style={{ flex: 450 }}>
+          <View style={{ flex: 10 }}>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal pagingEnabled onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: this.animatedScrollX } } }], { listener: this.onScrollScrollView })} scrollEventThrottle={1}>
               { this.renderPages() }
             </ScrollView>
           </View>
-          <View style={{ flex: 35, flexDirection: 'row' }}>
-            <View style={{ flex: 1, alignItems: 'flex-end' }}>
+          <View style={{ flex: 1, flexDirection: 'row', paddingHorizontal: 30 }}>
+            <View style={{ flex: 1 }}>
               { this.state.isLastPage ||
                 <TouchableWithoutFeedback onPress={this.props.onPressSkip}>
-                  <View style={{ width: 50, height: '100%', alignItems: 'center', justifyContent: 'center' }}>
+                  <View style={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
                     <Text style={{ color: '#ffffff' }}>Skip</Text>
                   </View>
                 </TouchableWithoutFeedback>
@@ -140,14 +138,13 @@ export default class Tutorial extends Component {
             <View style={{ flex: 1 }}>
               { this.state.isLastPage &&
                 <TouchableWithoutFeedback onPress={this.props.onPressSkip}>
-                  <View style={{ width: 50, height: '100%', alignItems: 'center', justifyContent: 'center' }}>
+                  <View style={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
                     <Text style={{ color: '#ffffff' }}>Done</Text>
                   </View>
                 </TouchableWithoutFeedback>
               }
             </View>
           </View>
-          <View style={{ flex: 20 }} />
         </View>
       </View>
     );

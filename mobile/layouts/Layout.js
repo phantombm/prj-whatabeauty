@@ -9,7 +9,10 @@ import Header from '../components/Header';
 
 export default class Layout extends Component {
   static propTypes = {
-    children: PropTypes.element.isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.array
+    ]).isRequired,
     title: PropTypes.string,
     leftIcon: PropTypes.element,
     onPressLeftIcon: PropTypes.func,
@@ -41,28 +44,27 @@ export default class Layout extends Component {
         <TouchableWithoutFeedback onPress={this.onPressView}>
           <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
             <View style={{ height: Constants.statusBarHeight }} />
-            <View style={{ flex: 1 }}>
+            <View style={{ height: 60 }}>
               <Header title={this.props.title} leftIcon={this.props.leftIcon} onPressLeftIcon={this.props.onPressLeftIcon} rightIcon={this.props.rightIcon} onPressRightIcon={this.props.onPressRightIcon} />
             </View>
-            <View style={{ flex: 10 }}>
+            <View style={{ flex: 1 }}>
               { this.props.children }
             </View>
           </View>
         </TouchableWithoutFeedback>
       );
     }
-    else {
-      return (
-        <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
-          <View style={{ height: Constants.statusBarHeight }} />
-          <View style={{ flex: 1 }}>
-            <Header title={this.props.title} leftIcon={this.props.leftIcon} onPressLeftIcon={this.props.onPressLeftIcon} rightIcon={this.props.rightIcon} onPressRightIcon={this.props.onPressRightIcon} />
-          </View>
-          <View style={{ flex: 10 }}>
-            { this.props.children }
-          </View>
+
+    return (
+      <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
+        <View style={{ height: Constants.statusBarHeight }} />
+        <View style={{ height: 60 }}>
+          <Header title={this.props.title} leftIcon={this.props.leftIcon} onPressLeftIcon={this.props.onPressLeftIcon} rightIcon={this.props.rightIcon} onPressRightIcon={this.props.onPressRightIcon} />
         </View>
-      );
-    }
+        <View style={{ flex: 1 }}>
+          { this.props.children }
+        </View>
+      </View>
+    );
   }
 }

@@ -99,7 +99,7 @@ export default class Input extends Component {
   };
 
   onChangeText = (text) => {
-    let errorText = text ? this.props.validator(text) : 'blank';
+    const errorText = text ? this.props.validator(text) : 'blank';
 
     this.setState({
       text: text,
@@ -115,6 +115,10 @@ export default class Input extends Component {
     });
 
     this.onChangeText(text);
+
+    this.onFocus();
+
+    this.onBlur();
   };
 
   render() {
@@ -125,7 +129,7 @@ export default class Input extends Component {
             { this.props.placeholder }
           </Animated.Text>
           { this.state.errorText == 'blank' ||
-            <Text style={{ fontSize: 10, color: '#fd614d', marginLeft: 5 }}>
+            <Text style={{ fontSize: 10, color: global.keyColor, marginLeft: 5 }}>
               { this.state.errorText }
             </Text>
           }

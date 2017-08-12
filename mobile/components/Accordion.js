@@ -69,10 +69,10 @@ export default class Accordion extends Component {
       <View>
         <Touchable onPress={this.onPressAccordion}>
           <View style={[{ height: 60, flexDirection: 'row' }, this.props.titleStyle]}>
-            <View style={{ flex: 5, paddingLeft: 16, justifyContent: 'center' }}>
+            <View style={{ flex: 1, paddingHorizontal: 16, justifyContent: 'center' }}>
               <Text style={{ color: '#3c4f5e' }}>{ this.props.title }</Text>
             </View>
-            <Animated.View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', transform: [{ rotateZ: this.animatedRotateZ }] }}>
+            <Animated.View style={{ width: 60, alignItems: 'center', justifyContent: 'center', transform: [{ rotateZ: this.animatedRotateZ }] }}>
               <SimpleLineIcons name="arrow-right" size={23} color="#3c4f5e" style={{ transform: [{ rotateZ: '90deg' }] }} />
             </Animated.View>
           </View>

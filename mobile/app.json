@@ -15,14 +15,8 @@
       "icon": "./assets/images/fake_splash.png",
       "hideExponentText": true
     },
-    "packagerOpts": {
-      "assetExts": [
-        "ttf"
-      ]
-    },
     "ios": {
-      "bundleIdentifier": "io.smartlink.whatabeauty",
-      "supportsTablet": true
+      "bundleIdentifier": "io.smartlink.whatabeauty"
     },
     "android": {
       "package": "io.smartlink.whatabeauty"

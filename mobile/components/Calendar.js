@@ -20,10 +20,10 @@ export default class _Calendar extends Component {
 
   renderArrow = (direction) => {
     if (direction == 'left') {
-      return <SimpleLineIcons name="arrow-left" size={28} color="#fd614d" />
+      return <SimpleLineIcons name="arrow-left" size={28} color={global.keyColor} />
     }
     else if (direction == 'right') {
-      return <SimpleLineIcons name="arrow-right" size={28} color="#fd614d" />
+      return <SimpleLineIcons name="arrow-right" size={28} color={global.keyColor} />
     }
   };
 
@@ -36,11 +36,11 @@ export default class _Calendar extends Component {
           renderArrow={this.renderArrow}
           theme={{
             textSectionTitleColor: '#3c4f5e',
-            selectedDayBackgroundColor: '#fd614d',
+            selectedDayBackgroundColor: global.keyColor,
             todayTextColor: '#f5d56e',
             dayTextColor: '#3c4f5e',
-            dotColor: '#fd614d',
-            monthTextColor: '#fd614d',
+            dotColor: global.keyColor,
+            monthTextColor: global.keyColor,
             textDayFontFamily: Platform.OS == 'ios' ? 'Apple SD Gothic Neo' : 'sans-serif',
             textMonthFontFamily: Platform.OS == 'ios' ? 'Apple SD Gothic Neo' : 'sans-serif',
             textDayHeaderFontFamily: Platform.OS == 'ios' ? 'Apple SD Gothic Neo' : 'sans-serif',
@@ -49,7 +49,7 @@ export default class _Calendar extends Component {
             textDayHeaderFontSize: 14
           }}
         />
-        <View style={{ width: 50, height: 1, backgroundColor: '#fd614d', position: 'absolute', top: 45, left: '50%', transform: [{ translateX: -25 }] }} />
+        <View style={{ width: 50, height: 1, backgroundColor: global.keyColor, position: 'absolute', top: 45, left: '50%', transform: [{ translateX: -25 }] }} />
       </View>
     );
   }

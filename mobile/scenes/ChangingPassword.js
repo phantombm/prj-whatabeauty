@@ -71,39 +71,36 @@ export default class ChangingPassword extends Component {
     const isValid = this.validate();
 
     return (
-      <Layout title="E-mail 계정">
+      <Layout title="비밀번호 재설정">
         <View style={{ flex: 1, padding: 30 }}>
-          <View style={{ flex: 1 }} />
-          <MagnetView style={{ flex: 14 }} offsetInAndroid={200} isWorkingInIos={false} >
-            <Input
-              placeholder="현재 비밀번호"
-              secureTextEntry
-              onChangeText={(text, errorText) => { this.setState({ oldPassword: text, oldPasswordErrorText: errorText }); }}
-            />
-            <Input
-              placeholder="비밀번호"
-              validator={(text) => {
-                if (text.length < 6) {
-                  return '비밀번호는 6자 이상으로 해주세요.';
-                }
-              }}
-              marginTop={5}
-              secureTextEntry
-              onChangeText={(text, errorText) => { this.setState({ password: text, paddwordErrorText: errorText }); }}
-            />
-            <Input
-              placeholder="비밀번호 확인"
-              validator={(text) => {
-                if (text != this.state.password) {
-                  return '비밀번호가 일치하지 않습니다.';
-                }
-              }}
-              marginTop={5}
-              secureTextEntry
-              onChangeText={(text, errorText) => { this.setState({ passwordConfirmed: text, passwordConfirmedErrorText: errorText }); }}
-            />
-            <Button onPress={this.onPressChangingPassword} isActive={isValid} marginTop={30}>변경하기</Button>
-          </MagnetView>
+          <Input
+            placeholder="현재 비밀번호"
+            secureTextEntry
+            onChangeText={(text, errorText) => { this.setState({ oldPassword: text, oldPasswordErrorText: errorText }); }}
+          />
+          <Input
+            placeholder="비밀번호"
+            validator={(text) => {
+              if (text.length < 6) {
+                return '비밀번호는 6자 이상으로 해주세요.';
+              }
+            }}
+            marginTop={5}
+            secureTextEntry
+            onChangeText={(text, errorText) => { this.setState({ password: text, paddwordErrorText: errorText }); }}
+          />
+          <Input
+            placeholder="비밀번호 확인"
+            validator={(text) => {
+              if (text != this.state.password) {
+                return '비밀번호가 일치하지 않습니다.';
+              }
+            }}
+            marginTop={5}
+            secureTextEntry
+            onChangeText={(text, errorText) => { this.setState({ passwordConfirmed: text, passwordConfirmedErrorText: errorText }); }}
+          />
+          <Button onPress={this.onPressChangingPassword} isActive={isValid} marginTop={30}>변경하기</Button>
         </View>
       </Layout>
     );

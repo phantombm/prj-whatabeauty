@@ -19,16 +19,12 @@ class SelectingAddress extends Component {
       return (
         <Touchable key={index} onPress={() => { this.onPressAddress(address) }}>
           <View style={{ height: 60, flexDirection: 'row', borderTopColor: '#eeeeee', borderTopWidth: 1 }}>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <FontAwesome name="map-marker" size={20} color="#fd614d" />
+            <View style={{ width: 40, alignItems: 'center', justifyContent: 'center' }}>
+              <FontAwesome name="map-marker" size={20} color={global.keyColor} />
             </View>
-            <View style={{ flex: 8, justifyContent: 'center' }}>
-              <View>
-                <Text style={{ color: '#9b9b9b' }}>{ address.address }</Text>
-              </View>
-              <View>
-                <Text style={{ fontSize: 12, color: '#cfcfcf' }}>{ address.detail }</Text>
-              </View>
+            <View style={{ flex: 1, justifyContent: 'center' }}>
+              <Text style={{ color: '#9b9b9b' }}>{ address.address }</Text>
+              <Text style={{ fontSize: 12, color: '#cfcfcf' }}>{ address.detail }</Text>
             </View>
           </View>
         </Touchable>
@@ -51,11 +47,11 @@ class SelectingAddress extends Component {
       <Layout title="주소 선택하기" isKeyboardDismissedOnTouched={false}>
         <ScrollView>
           { this.renderAddresses() }
-          <Touchable onPress={Actions.enteringAddress}>
+          <Touchable onPress={() => { Actions.enteringAddress({ flowType: 'adding' }); }}>
             <View style={{ height: 60, flexDirection: 'row', borderTopColor: '#eeeeee', borderTopWidth: 1, borderBottomColor: '#eeeeee', borderBottomWidth: 1 }}>
-              <View style={{ flex: 1 }} />
-              <View style={{ flex: 8, justifyContent: 'center' }}>
-                <Text style={{ fontSize: 12, color: '#fd614d' }}>+ 주소 추가하기</Text>
+              <View style={{ width: 40 }} />
+              <View style={{ flex: 1, justifyContent: 'center' }}>
+                <Text style={{ fontSize: 12, color: global.keyColor }}>+ 주소 추가하기</Text>
               </View>
             </View>
           </Touchable>

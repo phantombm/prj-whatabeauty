@@ -22,7 +22,7 @@ class DrawerContent extends Component {
     }
 
     return (
-      <View style={{ flex: 1, backgroundColor: '#fd614d', paddingBottom: 30 }}>
+      <View style={{ flex: 1, backgroundColor: global.keyColor, paddingBottom: 30 }}>
         <View style={{ flex: 1 }}>
           <View style={{ height: Constants.statusBarHeight }} />
           <View style={{ height: 60, alignItems: 'flex-end', justifyContent: 'center' }}>

@@ -6,7 +6,6 @@ import _ from 'lodash';
 import Meteor, { createContainer } from 'react-native-meteor';
 import StarRating from 'react-native-star-rating';
 import { Ionicons } from '@expo/vector-icons';
-import moment from 'moment';
 
 import Layout from '../layouts/Layout';
 import Touchable from '../components/Touchable';
@@ -33,26 +32,16 @@ class Ssams extends Component {
     return (
       <Touchable onPress={() => { this.onPressSsam(item); }}>
         <View style={{ width: '50%', paddingLeft: 16, marginTop: 16 }}>
-          <View>
-            <Image source={{ uri: informationForSsam.imageUrl }} style={{ width: '100%', height: 130 }} />
-          </View>
+          <Image source={{ uri: informationForSsam.imageUrl }} style={{ width: (global.width - 48) / 2, height: (global.width - 48) / 2 * 6 / 7 }} />
           <View style={{ borderBottomLeftRadius: 5, borderBottomRightRadius: 5, borderWidth: 1, borderColor: '#eeeeee', flex: 1, justifyContent: 'center', paddingVertical: 7, paddingHorizontal: 10 }}>
-            <View>
-              <Text style={{ fontSize: 13, color: '#666666' }}>{ informationForSsam.name }</Text>
-            </View>
-            <View>
-              <Text style={{ fontSize: 10, color: '#3c4f5e' }}>{ informationForSsam.region } | 경력 { informationForSsam.career }년</Text>
-            </View>
-            <View>
-              <Text style={{ fontSize: 10, color: '#9b9b9b' }}>{ informationForSsam.comment }</Text>
-            </View>
-            <View style={{ flexDirection: 'row' }}>
-              <View style={{ flex: 2, justifyContent: 'center' }}>
+            <Text style={{ fontSize: 13, color: '#666666' }}>{ informationForSsam.name }</Text>
+            <Text style={{ fontSize: 10, color: '#3c4f5e' }}>{ informationForSsam.region } | 경력 { informationForSsam.career }년</Text>
+            <Text style={{ fontSize: 10, color: '#9b9b9b' }}>{ informationForSsam.comment }</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{ width: 55 }}>
                 <StarRating disabled maxStars={5} rating={parseFloat(average)} starSize={10} starColor="#f5d56e" emptyStarColor="#f5d56e" />
               </View>
-              <View style={{ flex: 3 }}>
-                <Text style={{ marginLeft: 10, fontSize: 10, color: '#fd614d' }}>{average} ({ this.renderReviewsLength(informationForSsam) })</Text>
-              </View>
+              <Text style={{ marginLeft: 10, fontSize: 10, color: global.keyColor }}>{average} ({ this.renderReviewsLength(informationForSsam) })</Text>
             </View>
           </View>
         </View>
@@ -117,9 +106,6 @@ class Ssams extends Component {
       ssams = _.sortBy(this.props.ssams, [
         (ssam) => {
           return -this.getGradesAverage(ssam.profile.informationForSsam);
-        },
-        (ssam) => {
-          return moment(ssam.createAt).format('YYYYMMDD').split('').reverse().join('')
         }
       ]);
     }
@@ -127,9 +113,6 @@ class Ssams extends Component {
       ssams = _.sortBy(this.props.ssams, [
         (ssam) => {
           return -ssam.profile.informationForSsam.career;
-        },
-        (ssam) => {
-          return moment(ssam.createAt).format('YYYYMMDD').split('').reverse().join('')
         }
       ]);
     }
@@ -137,9 +120,6 @@ class Ssams extends Component {
       ssams = _.sortBy(this.props.ssams, [
         (ssam) => {
           return -ssam.profile.informationForSsam.reviews.length;
-        },
-        (ssam) => {
-          return moment(ssam.createAt).format('YYYYMMDD').split('').reverse().join('')
         }
       ]);
     }
@@ -147,9 +127,7 @@ class Ssams extends Component {
     return (
       <Layout title="예약 가능한 쌤" isKeyboardDismissedOnTouched={false}>
         <View style={{ flex: 1, alignItems: 'center' }}>
-          <View style={{ flex: 1 }}>
-            <FlatList data={ssams} keyExtractor={this.keyExtractor} renderItem={this.renderSsam} numColumns={2} contentContainerStyle={{ paddingRight: 16, paddingBottom: 16 }} />
-          </View>
+          <FlatList data={ssams} keyExtractor={this.keyExtractor} renderItem={this.renderSsam} numColumns={2} contentContainerStyle={{ paddingRight: 16, paddingBottom: 16 }} />
           <Touchable onPress={this.onPressOrdering}>
             <View
               style={{
@@ -158,7 +136,7 @@ class Ssams extends Component {
                 width: 95,
                 height: 35,
                 borderRadius: 30,
-                backgroundColor: '#fd614d',
+                backgroundColor: global.keyColor,
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -182,10 +160,6 @@ class Ssams extends Component {
 }
 
 export default createContainer(() => {
-  Meteor.subscribe('ssams', {
-    'profile.isSsam': true
-  });
-
   return {
     ssams: Meteor.collection('users').find({
       'profile.isSsam': true

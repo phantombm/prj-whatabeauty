@@ -27,3 +27,4 @@ accounts-google
 service-configuration
 reywood:publish-composite
 http
+aldeed:simple-schema

@@ -9,7 +9,7 @@ import Button from '../components/Button';
 import Layout from '../layouts/Layout';
 import Input from '../components/Input';
 
-export default class VerificationForCellPhoneNumberWithSms extends Component {
+export default class VerifyingForCellPhoneNumberWithSms extends Component {
   static propTypes = {
     signInType: PropTypes.string.isRequired
   };
@@ -118,7 +118,7 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
       return false;
     }
 
-    if (this.state.secondsRemained <= 0) {
+    if (this.state.secondsRemained < 1) {
       return false;
     }
 
@@ -128,7 +128,7 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
   onPressLeftIcon = () => {
     Keyboard.dismiss();
 
-    if (this.props.signInType == 'external service') {
+    if (this.props.signInType != 'password') {
       Meteor.logout();
     }
 
@@ -141,48 +141,44 @@ export default class VerificationForCellPhoneNumberWithSms extends Component {
     return (
       <Layout title="SMS 인증" onPressLeftIcon={this.onPressLeftIcon}>
         <View style={{ flex: 1, padding: 30 }}>
-          <View style={{ flex: 1 }} />
-          <View style={{ flex: 14 }}>
-            <Input
-              placeholder="핸드폰번호"
-              keyboardType="numeric"
-              validator={(text) => {
-                if (/[^0-9]/.test(text)) {
-                  return '숫자만 입력해주세요.';
-                }
+          <Input
+            placeholder="핸드폰번호"
+            keyboardType="numeric"
+            validator={(text) => {
+              if (/[^0-9]/.test(text)) {
+                return '숫자만 입력해주세요.';
+              }
 
-                if (!/^[0-9]{10,11}$/.test(text)) {
-                  return '10~11자리로 입력해주세요.';
-                }
-              }}
-              maxLength={11}
-              onChangeText={(text, errorText) => { this.setState({ phoneNumber: text, phoneNumberErrorText: errorText, validationNumberToMatch: '' }); }}
-            />
-            <Input
-              ref={(ref) => { this.validationNumberRef = ref; }}
-              placeholder="인증번호"
-              keyboardType="numeric"
-              marginTop={5}
-              maxLength={6}
-              onChangeText={(text, errorText) => { this.setState({ validationNumber: text, validationNumberErrorText: errorText }); }}
-            />
-            <View style={{ position: 'absolute', top: 19, right: 0 }}>
-              <Button onPress={this.onPressSendingSms} isActive={!this.state.phoneNumberErrorText} buttonStyle={{ width: 58, height: 22 }} textStyle={{ fontSize: 12 }}>
-                { this.state.secondsRemained == -1 ? '전송' : '재전송' }
-              </Button>
-            </View>
-            { this.state.secondsRemained != -1 &&
-              <View style={{ position: 'absolute', top: 80, right: 12, flexDirection: 'row' }}>
-                <EvilIcons name="clock" size={18} color="#3c4f5e" />
-                <Text style={{ fontSize: 10, color: this.state.secondsRemained > 10 ? '#3c4f5e' : '#fd614d', marginLeft: 3 }}>
-                  { Math.floor(this.state.secondsRemained / 60) }:{ this.state.secondsRemained % 60 < 10 ? '0' : '' }{ this.state.secondsRemained % 60 }
-                </Text>
-              </View>
-            }
-            <Button onPress={this.onPressNext} isActive={isValid} marginTop={30}>
-              { this.props.signInType == 'password' ? '다음' : '회원가입 완료' }
-            </Button>
+              if (!/^[0-9]{10,11}$/.test(text)) {
+                return '10~11자리로 입력해주세요.';
+              }
+            }}
+            maxLength={11}
+            onChangeText={(text, errorText) => { this.setState({ phoneNumber: text, phoneNumberErrorText: errorText, validationNumberToMatch: '' }); }}
+          />
+          <Input
+            ref={(ref) => { this.validationNumberRef = ref; }}
+            placeholder="인증번호"
+            keyboardType="numeric"
+            marginTop={5}
+            maxLength={6}
+            onChangeText={(text, errorText) => { this.setState({ validationNumber: text, validationNumberErrorText: errorText }); }}
+          />
+          <View style={{ position: 'absolute', top: 43, right: 30 }}>
+            <Button
+              onPress={this.onPressSendingSms}
+              isActive={!this.state.phoneNumberErrorText}
+              buttonStyle={{ width: 58, height: 22 }}
+              textStyle={{ fontSize: 12 }}
+            >{ this.state.secondsRemained == -1 ? '전송' : '재전송' }</Button>
           </View>
+          { this.state.secondsRemained != -1 &&
+            <View style={{ position: 'absolute', top: 104, right: 42, flexDirection: 'row' }}>
+              <EvilIcons name="clock" size={18} color="#3c4f5e" />
+              <Text style={{ fontSize: 10, color: this.state.secondsRemained > 10 ? '#3c4f5e' : global.keyColor, marginLeft: 3 }}>{ Math.floor(this.state.secondsRemained / 60) }:{ this.state.secondsRemained % 60 < 10 ? '0' : '' }{ this.state.secondsRemained % 60 }</Text>
+            </View>
+          }
+          <Button onPress={this.onPressNext} isActive={isValid} marginTop={30}>{ this.props.signInType == 'password' ? '다음' : '회원가입 완료' }</Button>
         </View>
       </Layout>
     );

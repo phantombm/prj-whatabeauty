@@ -11,7 +11,7 @@ const browserHistory = createBrowserHistory();
 export const renderRoutes = () => (
   <Router history={browserHistory}>
     <div>
-      <Route exact path="/signInWithExternalService/:signInType/:uuidV1" component={SignInWithExternalService} />
+      <Route exact path="/signInWithExternalService/:signInType/:uuid" component={SignInWithExternalService} />
       <Route exact path="/payment/:payMethod/:merchantUid/:name/:amount/:buyerEmail/:buyerName/:buyerTel/:buyerAddr" component={Payment} />
       <Route path="/paymentCompletion" component={PaymentCompletion} />
     </div>

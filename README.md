@@ -143,11 +143,11 @@ tutorial
 signIn
   signInWithEmail
   signInWithFacebook
-    verificationForPhoneNumberWithSms(repeated)(:signInType)
+    verifyingPhoneNumberWithSms(repeated)(:signInType)
   signInWithGoogle
-    verificationForPhoneNumberWithSms(repeated)(:signInType)
+    verifyingPhoneNumberWithSms(repeated)(:signInType)
   signUp(abstract)
-    verificationForPhoneNumberWithSms(:signInType)
+    verifyingPhoneNumberWithSms(:signInType)
     enteringEmailAndPassword(:signInType, :phoneNumber)
     enteringName(:signInType, :phoneNumber, :email, :password)
   recoveringPassword
@@ -338,8 +338,8 @@ main
       'not paid',
       'paid',
       'refunded',
-      'wating for confirming payment',
-      'wating for reviewing',
+      'wating for approving payment',
+      'wating for writing review',
       'completed'
     ]
   },

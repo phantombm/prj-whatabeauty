@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { Platform, Dimensions } from 'react-native';
 import Meteor from 'react-native-meteor';
 import { setCustomText, setCustomTextInput } from 'react-native-global-props';
 import 'moment/locale/ko';
@@ -17,10 +17,17 @@ setCustomText({
   }
 });
 
+global.width = Dimensions.get('window').width;
+global.height = Dimensions.get('window').height;
+
 // TODO: ddp server ip
-global.ddpServerIp = '192.168.0.36:3000';
+global.ddpServerIp = '221.167.202.216:3000';
 
 Meteor.connect(`ws://${global.ddpServerIp}/websocket`);
+
+Meteor.subscribe('serviceTypes', {});
+Meteor.subscribe('ssams', {});
+Meteor.subscribe('documentsForManagement', {});
 
 // TODO: custom default props
 global.keyColor = '#fd614d';

@@ -10,16 +10,12 @@ export default class Splash extends Component {
   componentDidMount() {
     setTimeout(() => {
       Animated.parallel([
-        Animated.timing(
-          this.animatedValue,
-          {
+        Animated.timing(this.animatedValue, {
             toValue: 1,
             duration: 500
           }
         ),
-        Animated.timing(
-          this.animatedOpacity,
-          {
+        Animated.timing(this.animatedOpacity, {
             toValue: 1,
             duration: 500
           }
@@ -37,10 +33,8 @@ export default class Splash extends Component {
     outputRange: [30, 0]
   });
 
-  disappearSpalshImage = () => {
-    Animated.timing(
-      this.animatedOpacity,
-      {
+  disappearSpalsh = () => {
+    Animated.timing(this.animatedOpacity, {
         toValue: 0,
         duration: 500
       }
@@ -53,11 +47,8 @@ export default class Splash extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: global.keyColor }}>
-        <View style={{ flex: 7, alignItems: 'center', justifyContent: 'center' }}>
-          <Animated.Image source={require('../assets/images/splash.png')} style={{ width: 100, height: 100, opacity: this.animatedOpacity, transform: [{ translateY: this.animatedTranslateY }] }} />
-        </View>
-        <View style={{ flex: 3 }} />
+      <View style={{ flex: 1, backgroundColor: global.keyColor, alignItems: 'center' }}>
+        <Animated.Image source={require('../assets/images/splash.png')} style={{ marginTop: '50%', width: 100, height: 100, opacity: this.animatedOpacity, transform: [{ translateY: this.animatedTranslateY }] }} />
       </View>
     );
   }
