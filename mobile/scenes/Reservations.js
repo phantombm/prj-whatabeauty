@@ -11,6 +11,7 @@ import Touchable from '../components/Touchable';
 
 class Reservations extends Component {
   static propTypes = {
+    flowType: PropTypes.string.isRequired,
     isReservationsReady: PropTypes.bool.isRequired,
     reservations: PropTypes.array.isRequired,
     ssams: PropTypes.array.isRequired
@@ -27,40 +28,78 @@ class Reservations extends Component {
       <Touchable onPress={() => { this.onPressReservation(item); }}>
         <View style={{ padding: 16, flexDirection: 'row' }}>
           <View style={{ width: 90 }}>
-            <Image source={{ uri: item.ssam.profile.informationForSsam.imageUrl }} style={{ width: 90, height: 90 * 6 / 7 }} />
-            { progress == 'not paid' &&
-              <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: global.keyColor, alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
-                <Text style={{ fontSize: 12, color: '#ffffff' }}>결제대기</Text>
+            { this.props.flowType == 'from main' &&
+              <View>
+                <Image source={{ uri: item.ssam.profile.informationForSsam.imageUrl }} style={{ width: 90, height: 90 * 6 / 7 }} />
+                { progress == 'not paid' &&
+                  <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: global.keyColor, alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
+                    <Text style={{ fontSize: 12, color: '#ffffff' }}>결제대기</Text>
+                  </View>
+                }
+                { progress == 'paid' &&
+                  <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: global.keyColor, alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
+                    <Text style={{ fontSize: 12, color: '#ffffff' }}>예약중</Text>
+                  </View>
+                }
+                { progress == 'refunded' &&
+                  <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: '#3c4f5e', alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
+                    <Text style={{ fontSize: 12, color: '#ffffff' }}>환불</Text>
+                  </View>
+                }
+                { progress == 'waiting for approving payment' &&
+                  <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: '#3c4f5e', alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
+                    <Text style={{ fontSize: 12, color: '#ffffff' }}>결제승인대기</Text>
+                  </View>
+                }
+                { item.progress == 'waiting for writing review' &&
+                  <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: '#f5d56e', alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
+                    <Text style={{ fontSize: 12, color: '#ffffff' }}>별점 | 리뷰</Text>
+                  </View>
+                }
+                { item.progress == 'completed' &&
+                  <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: '#f5d56e', alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
+                    <Text style={{ fontSize: 12, color: '#ffffff' }}>완료</Text>
+                  </View>
+                }
               </View>
             }
-            { progress == 'paid' &&
-              <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: global.keyColor, alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
-                <Text style={{ fontSize: 12, color: '#ffffff' }}>예약중</Text>
-              </View>
-            }
-            { progress == 'refunded' &&
-              <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: '#3c4f5e', alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
-                <Text style={{ fontSize: 12, color: '#ffffff' }}>환불</Text>
-              </View>
-            }
-            { progress == 'waiting for approving payment' &&
-              <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: '#3c4f5e', alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
-                <Text style={{ fontSize: 12, color: '#ffffff' }}>결제승인대기</Text>
-              </View>
-            }
-            { item.progress == 'waiting for writing review' &&
-              <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: '#f5d56e', alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
-                <Text style={{ fontSize: 12, color: '#ffffff' }}>별점 | 리뷰</Text>
-              </View>
-            }
-            { item.progress == 'completed' &&
-              <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: '#f5d56e', alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
-                <Text style={{ fontSize: 12, color: '#ffffff' }}>완료</Text>
+            { this.props.flowType == 'from menuForSsam' &&
+              <View style={{ flex: 1, justifyContent: 'center' }}>
+                { progress == 'not paid' &&
+                  <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: global.keyColor, alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
+                    <Text style={{ fontSize: 12, color: '#ffffff' }}>결제대기</Text>
+                  </View>
+                }
+                { progress == 'paid' &&
+                  <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: global.keyColor, alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
+                    <Text style={{ fontSize: 12, color: '#ffffff' }}>예약중</Text>
+                  </View>
+                }
+                { progress == 'refunded' &&
+                  <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: '#3c4f5e', alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
+                    <Text style={{ fontSize: 12, color: '#ffffff' }}>환불</Text>
+                  </View>
+                }
+                { progress == 'waiting for approving payment' &&
+                  <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: '#3c4f5e', alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
+                    <Text style={{ fontSize: 12, color: '#ffffff' }}>결제승인대기</Text>
+                  </View>
+                }
+                { item.progress == 'completed' &&
+                  <View style={{ width: 90, height: 23, borderRadius: 3, backgroundColor: '#f5d56e', alignItems: 'center', justifyContent: 'center', marginTop: 3 }}>
+                    <Text style={{ fontSize: 12, color: '#ffffff' }}>완료</Text>
+                  </View>
+                }
               </View>
             }
           </View>
           <View style={{ flex: 1, paddingLeft: 10 }}>
-            <Text style={{ color: '#3c4f5e' }}>{ item.ssam.profile.informationForSsam.comment } | { item.ssam.profile.informationForSsam.name }</Text>
+            { this.props.flowType == 'from main' &&
+              <Text style={{ color: '#3c4f5e' }}>{ item.ssam.profile.informationForSsam.comment } | { item.ssam.profile.informationForSsam.name }</Text>
+            }
+            { this.props.flowType == 'from menuForSsam' &&
+              <Text style={{ color: '#3c4f5e' }}>{ item.user.profile.name }</Text>
+            }
             <Text style={{ color: '#9b9b9b', marginTop: 10, fontSize: 12 }}>내용 : { item.service.name }</Text>
             <Text style={{ color: '#9b9b9b', marginTop: 2, fontSize: 12 }}>금액 : { this.renderPrice(item.price.amount) }</Text>
             <Text style={{ color: '#9b9b9b', marginTop: 2, fontSize: 12 }}>예약 : { moment(item.service.scheduledAt).format('YYYY.MM.DD dddd H시 m분') }</Text>
@@ -73,7 +112,7 @@ class Reservations extends Component {
 
   onPressReservation = (reservation) => {
     Actions.reservation({
-      flowType: 'from reservations',
+      flowType: this.props.flowType,
       reservation: reservation
     });
   };
@@ -167,14 +206,39 @@ class Reservations extends Component {
   }
 }
 
-export default createContainer(() => {
-  const reservationsHandle = Meteor.subscribe('reservations', {});
+export default createContainer((props) => {
+  let reservationsHandle = null;
+
+  if (props.flowType == 'from main') {
+    reservationsHandle = Meteor.subscribe('reservations', {});
+  }
+  else if (props.flowType == 'from menuForSsam') {
+    reservationsHandle = Meteor.subscribe('reservationsForSsam', {});
+  }
+
+  let reservations = null;
+
+  if (props.flowType == 'from main') {
+    reservations = Meteor.collection('reservations').find({});
+  }
+  else if (props.flowType == 'from menuForSsam') {
+    reservations = Meteor.collection('reservations').find({});
+  }
+
+  let ssams = null;
+
+  if (props.flowType == 'from main') {
+    ssams = Meteor.collection('users').find({
+      'profile.isSsam': true
+    });
+  }
+  else if (props.flowType == 'from menuForSsam') {
+    ssams = [Meteor.user()];
+  }
 
   return {
     isReservationsReady: reservationsHandle.ready(),
-    reservations: Meteor.collection('reservations').find({}),
-    ssams: Meteor.collection('users').find({
-      'profile.isSsam': true
-    })
+    reservations: reservations,
+    ssams: ssams
   };
 }, Reservations);

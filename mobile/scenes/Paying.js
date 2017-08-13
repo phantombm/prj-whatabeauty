@@ -34,6 +34,12 @@ export default class Paying extends Component {
       const reservation = {
         userId: Meteor.userId(),
         ssamId: this.props.ssam._id,
+        user: {
+          profile: {
+            name: Meteor.user().profile.name,
+            phoneNumber: Meteor.user().profile.phoneNumber
+          }
+        },
         service: service,
         price: {
           amount: this.props.totalAmount,

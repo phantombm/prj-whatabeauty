@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Image, Text, ScrollView } from 'react-native';
-import { SimpleLineIcons, EvilIcons, FontAwesome } from '@expo/vector-icons';
+import { View, Image, Text, ScrollView, TouchableWithoutFeedback, Linking } from 'react-native';
+import { SimpleLineIcons, EvilIcons, FontAwesome, Foundation, Entypo } from '@expo/vector-icons';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import StarRating from 'react-native-star-rating';
@@ -23,6 +23,22 @@ export default class Reservation extends Component {
     ssam: {},
     reservation: {}
   };
+
+  state = {
+    now: moment()
+  };
+
+  componentDidMount() {
+    this.intervalId = setInterval(() => {
+      this.setState({
+        now: moment()
+      });
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
 
   getGradesAverage = (informationForSsam) => {
     const length = informationForSsam.reviews.length;
@@ -116,7 +132,7 @@ export default class Reservation extends Component {
       service = this.props.service;
       progress = 'not paid';
     }
-    else if (this.props.flowType == 'from reservations') {
+    else if (this.props.flowType == 'from main' || this.props.flowType == 'from menuForSsam') {
       informationForSsam = this.props.reservation.ssam.profile.informationForSsam;
       service = this.props.reservation.service;
       progress = this.props.reservation.progress;
@@ -129,26 +145,42 @@ export default class Reservation extends Component {
     const average = this.getGradesAverage(informationForSsam);
 
     const totalAmount = this.getTotalAmount(service);
-    
+
+    const scheduledAt = moment(service.scheduledAt);
+
     return (
       <Layout title="예약 내용" isKeyboardDismissedOnTouched={false}>
+        { this.props.flowType == 'from menuForSsam' &&
+          <View style={{ height: 156, backgroundColor: global.keyColor, justifyContent: 'center', alignItems: 'center' }}>
+            { scheduledAt.diff(this.state.now) > 0 ?
+              <Text style={{ fontSize: 24, color: '#ffffff' }}>D - { scheduledAt.diff(this.state.now, 'days') }</Text> :
+              <Text style={{ fontSize: 24, color: '#ffffff' }}>D - 0</Text>
+            }
+            { scheduledAt.diff(this.state.now) > 0 ?
+              <Text style={{ fontSize: 24, color: '#ffffff' }}>{ scheduledAt.diff(this.state.now, 'hours') % 24 } : { scheduledAt.diff(this.state.now, 'minutes') % 60 } : { scheduledAt.diff(this.state.now, 'seconds') % 60 }</Text> :
+              <Text style={{ fontSize: 24, color: '#ffffff' }}>00 : 00 : 00</Text>
+            }
+          </View>
+        }
         <ScrollView>
-          <View style={{ flexDirection: 'row', padding: 16 }}>
-            <View style={{ flex: 1 }}>
-              <Image source={{ uri: informationForSsam.imageUrl }} style={{ width: 140, height: 120, borderRadius: 5 }} />
-            </View>
-            <View style={{ flex: 1, justifyContent: 'center' }}>
-              <Text style={{ color: '#666666' }}>{ informationForSsam.name }</Text>
-              <Text style={{ marginTop: 10, fontSize: 10, color: '#3c4f5e' }}>{ informationForSsam.region } | 경력 { informationForSsam.career }년</Text>
-              <Text style={{ fontSize: 10, color: '#9b9b9b' }}>{ informationForSsam.comment }</Text>
-              <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center' }}>
-                <View style={{ width: 55 }}>
-                  <StarRating disabled maxStars={5} rating={parseFloat(average)} starSize={10} starColor="#f5d56e" emptyStarColor="#f5d56e" />
+          { this.props.flowType != 'from menuForSsam' &&
+            <View style={{ flexDirection: 'row', padding: 16 }}>
+              <View style={{ flex: 1 }}>
+                <Image source={{ uri: informationForSsam.imageUrl }} style={{ width: 140, height: 120, borderRadius: 5 }} />
+              </View>
+              <View style={{ flex: 1, justifyContent: 'center' }}>
+                <Text style={{ color: '#666666' }}>{ informationForSsam.name }</Text>
+                <Text style={{ marginTop: 10, fontSize: 10, color: '#3c4f5e' }}>{ informationForSsam.region } | 경력 { informationForSsam.career }년</Text>
+                <Text style={{ fontSize: 10, color: '#9b9b9b' }}>{ informationForSsam.comment }</Text>
+                <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center' }}>
+                  <View style={{ width: 55 }}>
+                    <StarRating disabled maxStars={5} rating={parseFloat(average)} starSize={10} starColor="#f5d56e" emptyStarColor="#f5d56e" />
+                  </View>
+                  <Text style={{ marginLeft: 10, fontSize: 10, color: global.keyColor }}>{average} ({ this.renderReviewsLength(informationForSsam) })</Text>
                 </View>
-                <Text style={{ marginLeft: 10, fontSize: 10, color: global.keyColor }}>{average} ({ this.renderReviewsLength(informationForSsam) })</Text>
               </View>
             </View>
-          </View>
+          }
           <View style={{ height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', flexDirection: 'row' }}>
             <View style={{ width: 60, alignItems: 'center', justifyContent: 'center' }}>
               <SimpleLineIcons name="home" size={23} color="#4a4a4a" />
@@ -173,12 +205,54 @@ export default class Reservation extends Component {
           </View>
           { this.renderService(true, service) }
           { this.renderRelatedServices(service) }
-          <View style={{ height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 16, color: '#3c4f5e', fontWeight: 'bold' }}>총 금액 : { this.renderPrice(totalAmount) }</Text>
-          </View>
-          <View style={{ minHeight: 100, borderTopWidth: 1, borderTopColor: '#eeeeee', paddingLeft: 20, justifyContent: 'center' }}>
-            <Text style={{ fontSize: 12, color: '#cfcfcf' }}>아직 할인 혜택이 없습니다.</Text>
-          </View>
+          { this.props.flowType != 'from menuForSsam' &&
+            <View style={{ height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', justifyContent: 'center', alignItems: 'center' }}>
+              <Text style={{ fontSize: 16, color: '#3c4f5e', fontWeight: 'bold' }}>총 금액 : { this.renderPrice(totalAmount) }</Text>
+            </View>
+          }
+          { this.props.flowType != 'from menuForSsam' &&
+            <View style={{ minHeight: 100, borderTopWidth: 1, borderTopColor: '#eeeeee', paddingLeft: 20, justifyContent: 'center' }}>
+              <Text style={{ fontSize: 12, color: '#cfcfcf' }}>아직 할인 혜택이 없습니다.</Text>
+            </View>
+          }
+          { this.props.flowType == 'from menuForSsam' &&
+            <View style={{ padding: 16, borderTopWidth: 1, borderTopColor: '#eeeeee', borderBottomWidth: 1, borderBottomColor: '#eeeeee' }}>
+              <View style={{ alignItems: 'center' }}>
+                <Text>고객과의 소통</Text>
+              </View>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}>
+                <View style={{ alignItems: 'center' }}>
+                  <TouchableWithoutFeedback onPress={() => { Linking.openURL(`sms:${this.props.reservation.user.profile.phoneNumber}`); }}>
+                    <View style={{ width: 50, height: 50, borderRadius: 25, borderWidth: 1, borderColor: 'rgba(155, 155, 155, 0.2)', alignItems: 'center', justifyContent: 'center' }}>
+                      <FontAwesome name="envelope" size={22} color={global.keyColor} />
+                    </View>
+                  </TouchableWithoutFeedback>
+                  <Text style={{ marginTop: 5, fontSize: 12, color: '#cfcfcf' }}>문자보내기</Text>
+                </View>
+                <View style={{ alignItems: 'center' }}>
+                  <TouchableWithoutFeedback onPress={() => { Linking.openURL(`tel:${this.props.reservation.user.profile.phoneNumber}`); }}>
+                    <View style={{ width: 50, height: 50, borderRadius: 25, borderWidth: 1, borderColor: 'rgba(155, 155, 155, 0.2)', alignItems: 'center', justifyContent: 'center' }}>
+                      <Foundation name="telephone" size={30} color={global.keyColor} />
+                    </View>
+                  </TouchableWithoutFeedback>
+                  <Text style={{ marginTop: 5, fontSize: 12, color: '#cfcfcf' }}>전화걸기</Text>
+                </View>
+                <View style={{ alignItems: 'center' }}>
+                  <TouchableWithoutFeedback>
+                    <View style={{ width: 50, height: 50, borderRadius: 25, backgroundColor: global.keyColor, alignItems: 'center', justifyContent: 'center' }}>
+                      <Entypo name="back-in-time" size={30} color="#ffffff" />
+                    </View>
+                  </TouchableWithoutFeedback>
+                  <Text style={{ marginTop: 5, fontSize: 12, color: '#cfcfcf' }}>일정수정</Text>
+                </View>
+              </View>
+            </View>
+          }
+          { this.props.flowType == 'from menuForSsam' &&
+            <View style={{ padding: 16 }}>
+              <Text style={{ fontSize: 12, color: '#9b9b9b' }}>{ service.memo }</Text>
+            </View>
+          }
         </ScrollView>
         { progress == 'not paid' &&
           <Button buttonStyle={{ borderRadius: 0 }} onPress={() => { this.onPressPaying(totalAmount); }}>결제하기</Button>
