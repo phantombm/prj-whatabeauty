@@ -19,7 +19,6 @@ import SelectingDateTime from '../scenes/SelectingDateTime';
 import WritingMemo from '../scenes/WritingMemo';
 import Ssams from '../scenes/Ssams';
 import Ssam from '../scenes/Ssam';
-import Portfolio from '../scenes/Portfolio';
 import Reservation from '../scenes/Reservation';
 import Paying from '../scenes/Paying';
 import Settings from '../scenes/Settings';
@@ -32,7 +31,7 @@ import Account from '../scenes/Account';
 import UpdatingInformation from '../scenes/UpdatingInformation';
 import ChangingPassword from '../scenes/ChangingPassword';
 import Reservations from '../scenes/Reservations';
-
+import MenuForSsam from '../scenes/MenuForSsam';
 
 export default class _Router extends Component {
   render() {
@@ -57,7 +56,6 @@ export default class _Router extends Component {
           <Scene key="writingMemo" component={WritingMemo} panHandlers={null} />
           <Scene key="ssams" component={Ssams} panHandlers={null} />
           <Scene key="ssam" component={Ssam} panHandlers={null} />
-          <Scene key="portfolio" component={Portfolio} panHandlers={null} direction="vertical" />
           <Scene key="reservation" component={Reservation} panHandlers={null} />
           <Scene key="paying" component={Paying} panHandlers={null} />
           <Scene key="settings" component={Settings} panHandlers={null} />
@@ -70,6 +68,7 @@ export default class _Router extends Component {
           <Scene key="updatingInformation" component={UpdatingInformation} panHandlers={null} />
           <Scene key="changingPassword" component={ChangingPassword} panHandlers={null} />
           <Scene key="reservations" component={Reservations} panHandlers={null} />
+          <Scene key="menuForSsam" component={MenuForSsam} panHandlers={null} />
         </Scene>
       </Router>
     );

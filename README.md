@@ -173,7 +173,6 @@ main
             
             ssams(:service)
               ssam(:ssam, :service)
-                portfolio(:prtfolio)
                 
                 reservation(repeated)(:flowType, :service, :ssam, :reservation)
                 paying(:service, :ssam)
@@ -189,7 +188,6 @@ main
     notices(:userType)
       notice(:userType, :id)
     faqs
-    sharing
     settings
       termsOfService
       privacyPolicy
@@ -209,8 +207,7 @@ main
       notices(repeated)(:userType)
         notice(repeated)(:userType, :id)
       belonging
-      informationForSsam
-        portfolio(repeated)(:id)
+      ssam(repeated)(:flowType, :ssam)
         complainingReview(:id)
         updatingInformationForSsam
       reservations(repeated)(:userType)
@@ -262,14 +259,14 @@ main
   name: String,
   email: String,
   cellPhoneNumber: String,
-  addresses: [
+  addresses: [ // embeded
     {
       address: String,
       detail: String,
       memo: String
     }
   ],
-  reservations: [String(_id)],
+  reservations: [String(reservation id)], // child reference
   notificationTokens: [String],
   isOwner: Boolean,
   isManager: Boolean,
@@ -280,70 +277,64 @@ main
     region: String,
     career: Number(month),
     comment: String,
-    description: String,
-    reviews: [Object],
+    introduction: String,
+    reviews: [ // denormalized child reference
+      {
+        reviewId: String,
+        grade: Number
+      }
+    ],
     belonging: {
       brandId: String,
-      name: String(brandName)
+      brandName: String
     },
-    portfolios: [
+    portfolios: [ // embeded
       {
         imageUrl: String,
         description: String
       }
     ],
-    notAvailableDates: [Date],
+    notAvailableAts: [Date],
     isAvailable: Boolean,
-    reservations: [String(_id)],
-    balancedMoney: [
-      {
-        yearMonth: Date,
-        balancedMoney: {
-          amount: Number,
-          unit: String
-        },
-        reservations: [String(reservationId)],
-        createAt: Date
-      }
-    ],
+    reservations: [String(reservation id)], // child reference
+    balancedMoneys: [String(balancedMoney id)], // child reference
     bankAccount: {
       bank: String,
       number: String,
       owner: String
     }
   },
-  isGettingNotificationActive: Boolean,
+  isGettingNotificationsOn: Boolean,
   isActive: Boolean,
-  createAt: Date
+  createdAt: Date
+}
+```
+
+#### balancedMoneys collections
+```
+{
+  yearMonth: Date,
+  balancedMoney: {
+    amount: Number,
+    unit: String
+  },
+  reservations: [String(reservation id)], // child reference
+  createdAt: Date
 }
 ```
 
 #### reservations collections
 ```
 {
-  ssam: Object(users schema),
-  service: Object(services schema),
+  userId: String // parent reference
+  ssamId: String // parent reference
+  service: Object, // embeded
   price: {
     amount: Number,
     unit: String
   },
-  balancedMoney: {
-    amount: Number,
-    unit: String
-  },
-  isBalanced,
-  progress: {
-    type: String,
-    allowedValues: [
-      'not paid',
-      'paid',
-      'refunded',
-      'wating for approving payment',
-      'wating for writing review',
-      'completed'
-    ]
-  },
-  createAt: Date
+  progress: String('not paid', 'paid', 'refunded', 'wating for approving payment', 'wating for writing review', 'completed'),
+  createdAt: Date
 }
 ```
 
@@ -351,12 +342,14 @@ main
 ```
 {
   userId: String,
+  ssamId: String,
+  reservationId: String,
   name: String,
   grade: Number,
   comment: String,
   isVisible: Boolean,
   isActive: Boolean,
-  createAt: Date
+  createdAt: Date
 }
 ```
 
@@ -368,14 +361,14 @@ main
   order: Number,
   isVisible: Boolean,
   isActive: Boolean,
-  createAt: Date
+  createdAt: Date
 }
 ```
 
 #### services collection
 ```
 {
-  serviceTypeId: String,
+  serviceTypeId: String, // parent reference
   name: String,
   comment: String,
   description: {
@@ -395,7 +388,7 @@ main
       description: String
     }
   ],
-  relatedServices: [String(serviceId)],
+  relatedServices: [String(service id)], // child reference
   price: {
     amount: Number,
     unit: String
@@ -404,24 +397,20 @@ main
   order: Number,
   isVisible: Boolean,
   isActive: Boolean,
-  createAt: Date
+  createdAt: Date
 }
 ```
 
 #### notifications
 ```
 {
-  type: {
-    type: String,
-    allowedValues: [
-      'chat',
-      'reservation'
-    ]
-  },
-  reservationId: String,
+  type: String('chat', 'reservation'),
+  userId: String, // parent reference
+  reservationId: String, // parent reference
   title: String,
-  description: String,
-  createAt: Date
+  content: String,
+  isRead: Boolean,
+  createdAt: Date
 }
 ```
 
@@ -430,7 +419,7 @@ main
 {
   title: String,
   description: String,
-  createAt: Date
+  createdAt: Date
 }
 ```
 
@@ -438,11 +427,10 @@ main
 ```
 {
   type: String('text', 'image'),
-  from: String(userId),
-  to: String(userId),
+  userId: String, // parent reference
   message: String,
   imageUrl: String,
-  createAt: Date
+  createdAt: Date
 }
 ```
 
@@ -452,7 +440,7 @@ main
   type: 'notice',
   title: String,
   content: String(html),
-  createAt: Date
+  createdAt: Date
 }
 
 {
@@ -460,17 +448,17 @@ main
   title: String,
   content: String(html),
   order: Number,
-  createAt: Date
+  createdAt: Date
 }
 
 {
-  type: 'termsOfService',
+  type: 'terms of service',
   title: String,
   content: String(html)
 }
 
 {
-  type: 'privacyPolicy',
+  type: 'privacy policy',
   title: String,
   content: String(html)
 }

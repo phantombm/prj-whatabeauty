@@ -149,53 +149,56 @@ export default class UpdatingInformation extends Component {
             defaultValue={Meteor.user().profile.email}
             isActive={Meteor.user().profile.signInType == 'password' ? true : false}
           />
-          <Input
-            placeholder="핸드폰번호"
-            keyboardType="numeric"
-            validator={(text) => {
-              if (/[^0-9]/.test(text)) {
-                return '숫자만 입력해주세요.';
-              }
-
-              if (!/^[0-9]{10,11}$/.test(text)) {
-                return '10~11자리로 입력해주세요.';
-              }
-            }}
-            marginTop={5}
-            maxLength={11}
-            onChangeText={(text, errorText) => { this.setState({ phoneNumber: text, phoneNumberErrorText: errorText, validationNumberToMatch: '' }); }}
-            defaultValue={Meteor.user().profile.phoneNumber}
-          />
-          { this.state.phoneNumber != Meteor.user().profile.phoneNumber &&
+          <View>
             <Input
-              ref={(ref) => { this.validationNumberRef = ref; }}
-              placeholder="인증번호"
+              placeholder="핸드폰번호"
               keyboardType="numeric"
+              validator={(text) => {
+                if (/[^0-9]/.test(text)) {
+                  return '숫자만 입력해주세요.';
+                }
+
+                if (!/^[0-9]{10,11}$/.test(text)) {
+                  return '10~11자리로 입력해주세요.';
+                }
+              }}
               marginTop={5}
-              maxLength={6}
-              onChangeText={(text, errorText) => { this.setState({ validationNumber: text, validationNumberErrorText: errorText }); }}
+              maxLength={11}
+              onChangeText={(text, errorText) => { this.setState({ phoneNumber: text, phoneNumberErrorText: errorText, validationNumberToMatch: '' }); }}
+              defaultValue={Meteor.user().profile.phoneNumber}
             />
-          }
-          { this.state.phoneNumber != Meteor.user().profile.phoneNumber &&
-            <View style={{ position: 'absolute', top: 149, right: 30 }}>
-              <Button
-                onPress={this.onPressSendingSms}
-                isActive={!this.state.phoneNumberErrorText}
-                buttonStyle={{ width: 58, height: 22 }}
-                textStyle={{ fontSize: 12 }}
-              >{ this.state.secondsRemained == -1 ? '전송' : '재전송' }</Button>
-            </View>
-          }
-          { this.state.secondsRemained != -1 &&
-            <View style={{ position: 'absolute', top: 210, right: 42 }}>
-              { this.state.phoneNumber != Meteor.user().profile.phoneNumber &&
-                <View style={{ flexDirection: 'row' }}>
-                  <EvilIcons name="clock" size={18} color="#3c4f5e" />
-                  <Text style={{ fontSize: 10, color: this.state.secondsRemained > 10 ? '#3c4f5e' : global.keyColor, marginLeft: 3 }}>{ Math.floor(this.state.secondsRemained / 60) }:{ this.state.secondsRemained % 60 < 10 ? '0' : '' }{ this.state.secondsRemained % 60 }</Text>
-                </View>
-              }
-            </View>
-          }
+            { this.state.phoneNumber != Meteor.user().profile.phoneNumber &&
+              <View style={{ position: 'absolute', top: 20, right: 0 }}>
+                <Button
+                  onPress={this.onPressSendingSms}
+                  isActive={!this.state.phoneNumberErrorText}
+                  buttonStyle={{ width: 58, height: 22 }}
+                  textStyle={{ fontSize: 12 }}
+                >{ this.state.secondsRemained == -1 ? '전송' : '재전송' }</Button>
+              </View>
+            }
+          </View>
+          <View style={{ marginTop: 5 }}>
+            { this.state.phoneNumber != Meteor.user().profile.phoneNumber &&
+              <Input
+                ref={(ref) => { this.validationNumberRef = ref; }}
+                placeholder="인증번호"
+                keyboardType="numeric"
+                maxLength={6}
+                onChangeText={(text, errorText) => { this.setState({ validationNumber: text, validationNumberErrorText: errorText }); }}
+              />
+            }
+            { this.state.secondsRemained != -1 &&
+              <View style={{ position: 'absolute', top: 20, right: 10 }}>
+                { this.state.phoneNumber != Meteor.user().profile.phoneNumber &&
+                  <View style={{ flexDirection: 'row' }}>
+                    <EvilIcons name="clock" size={18} color="#3c4f5e" />
+                    <Text style={{ fontSize: 10, color: this.state.secondsRemained > 10 ? '#3c4f5e' : global.keyColor, marginLeft: 3 }}>{ Math.floor(this.state.secondsRemained / 60) }:{ this.state.secondsRemained % 60 < 10 ? '0' : '' }{ this.state.secondsRemained % 60 }</Text>
+                  </View>
+                }
+              </View>
+            }
+          </View>
           <Button onPress={this.onPressUpdatingInformation} isActive={isValid} marginTop={30}>수정하기</Button>
         </View>
       </Layout>

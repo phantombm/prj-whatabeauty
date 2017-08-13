@@ -5,29 +5,29 @@ Accounts.onCreateUser((options, user) => {
   let profile = options.profile;
 
   if (user.services.facebook) {
-    profile = _.extend({
+    _.extend(profile, {
       signInType: 'facebook',
       signInId: user.services.facebook.id,
       email: user.services.facebook.email,
       phoneNumber: ''
-    }, profile)
+    })
   }
   else if (user.services.google) {
-    profile = _.extend({
+    _.extend(profile, {
       signInType: 'google',
       signInId: user.services.google.id,
       email: user.services.google.email,
       phoneNumber: ''
-    }, profile)
+    })
   }
   else {
-    profile = _.extend({
+    _.extend(profile, {
       signInType: 'password',
       signInId: ''
-    }, profile)
+    })
   }
 
-  profile = _.extend({
+  _.extend(profile, {
     addresses: [],
     reservations: [],
     notificationTokens: [],
@@ -40,27 +40,27 @@ Accounts.onCreateUser((options, user) => {
       region: '',
       career: 0,
       comment: '',
-      description: '',
+      introduction: '',
       reviews: [],
       belonging: {
         brandId: '',
         name: ''
       },
       portfolios: [],
-      notAvailableDates: [],
+      notAvailableAts: [],
       isAvailable: true,
       reservations: [],
-      balancedMoney: [],
+      balancedMoneys: [],
       bankAccount: {
         bank: '',
         number: '',
         owner: ''
       }
     },
-    isGettingNotificationActive: true,
+    isGettingNotificationsOn: true,
     isActive: true,
-    createAt: new Date()
-  }, profile);
+    createdAt: new Date()
+  });
 
   user.profile = profile;
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, Share } from 'react-native';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { Constants } from 'expo';
@@ -12,6 +12,13 @@ class DrawerContent extends Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
     closeDrawer: PropTypes.func.isRequired
+  };
+
+  onPressSharing = () => {
+    Share.share({
+      title: 'what a beauty!',
+      message: '\n최고의 메이크업 출장 예약 어플! what a beauty를 공유합니다!\nhttp://naver.com'
+    });
   };
 
   render() {
@@ -61,9 +68,9 @@ class DrawerContent extends Component {
             </Touchable>
           </View>
           <View style={{ height: 50 }}>
-            <Touchable onPress={() => { Actions.main(); this.props.closeDrawer(); }}>
+            <Touchable onPress={this.onPressSharing}>
               <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 30 }}>
-                <Text style={{ color: '#ffffff', fontSize: 18 }}>친구 초대하기</Text>
+                <Text style={{ color: '#ffffff', fontSize: 18 }}>어플 공유하기</Text>
               </View>
             </Touchable>
           </View>
@@ -74,13 +81,24 @@ class DrawerContent extends Component {
               </View>
             </Touchable>
           </View>
-          <View style={{ height: 50 }}>
-            <Touchable onPress={() => { Actions.main(); this.props.closeDrawer(); }}>
-              <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 30 }}>
-                <Text style={{ color: '#ffffff', fontSize: 18 }}>쌤등록하기</Text>
-              </View>
-            </Touchable>
-          </View>
+          { Meteor.user().profile.isSsam ||
+            <View style={{ height: 50 }}>
+              <Touchable onPress={() => { Actions.main(); this.props.closeDrawer(); }}>
+                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 30 }}>
+                  <Text style={{ color: '#ffffff', fontSize: 18 }}>쌤 등록하기</Text>
+                </View>
+              </Touchable>
+            </View>
+          }
+          { Meteor.user().profile.isSsam &&
+            <View style={{ height: 50 }}>
+              <Touchable onPress={() => { Actions.menuForSsam(); this.props.closeDrawer(); }}>
+                <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 30 }}>
+                  <Text style={{ color: '#ffffff', fontSize: 18 }}>쌤 메뉴</Text>
+                </View>
+              </Touchable>
+            </View>
+          }
         </View>
         <View style={{ height: 50, paddingLeft: 30 }}>
           <View style={{ flexDirection: 'row' }}>

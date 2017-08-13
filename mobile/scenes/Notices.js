@@ -29,11 +29,11 @@ class Notices extends Component {
   };
 
   renderDate = (item) => {
-    if (moment(item.createAt).diff(moment(), 'days') < 5) {
-      return moment(item.createAt).fromNow();
+    if (moment(item.createdAt).diff(moment(), 'days') < 5) {
+      return moment(item.createdAt).fromNow();
     }
     else {
-      return moment(item.createAt).format('YYYY.MM.DD');
+      return moment(item.createdAt).format('YYYY.MM.DD');
     }
   };
 

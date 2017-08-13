@@ -7,6 +7,24 @@ Meteor.methods({
   'reservations.insert'(document) {
     check(document, Object);
 
-    return Reservations.insert(document);
+    const reservationId = Reservations.insert(document);
+
+    Meteor.users.update({
+      _id: this.userId
+    }, {
+      $push: {
+        'profile.reservations': reservationId
+      }
+    });
+
+    Meteor.users.update({
+      _id: document.ssamId
+    }, {
+      $push: {
+        'profile.informationForSsam.reservations': reservationId
+      }
+    });
+
+    return reservationId;
   }
 });

@@ -13,14 +13,66 @@ Meteor.startup(() => {
         type: 'notice',
         title: '공지사항 제목',
         content: '공지사항의 내용',
-        createAt: new Date()
+        createdAt: new Date()
+      },
+      {
+        type: 'notice',
+        title: '공지사항 제목2',
+        content: '공지사항의 내용',
+        createdAt: new Date()
+      },
+      {
+        type: 'notice',
+        title: '공지사항 제목3',
+        content: '공지사항의 내용',
+        createdAt: new Date()
+      },
+      {
+        type: 'notice',
+        title: '공지사항 제목4',
+        content: '공지사항의 내용',
+        createdAt: new Date()
+      },
+      {
+        type: 'notice',
+        title: '공지사항 제목5',
+        content: '공지사항의 내용',
+        createdAt: new Date()
       },
       {
         type: 'faq',
-        title: '자주하는 질문',
+        title: '자주하는 질문1',
         content: '자주하는 질문의 내용',
         order: 1,
-        createAt: new Date()
+        createdAt: new Date()
+      },
+      {
+        type: 'faq',
+        title: '자주하는 질문2',
+        content: '자주하는 질문의 내용',
+        order: 2,
+        createdAt: new Date()
+      },
+      {
+        type: 'faq',
+        title: '자주하는 질문3',
+        content: '자주하는 질문의 내용',
+        order: 3,
+        createdAt: new Date()
+      },
+      {
+        type: 'faq',
+        title: '자주하는 질문4',
+        content: '자주하는 질문의 내용',
+        order: 5,
+        createdAt: new Date()
+      },
+      {
+        type: 'faq',
+        title: '자주하는 질문5',
+        content: '자주하는 질문의 내용',
+        order: 4,
+        createdAt: new Date()
       },
       {
         type: 'terms of service',
@@ -50,7 +102,7 @@ Meteor.startup(() => {
         comment: '믿고 맡기는 김활란 뮤지네프 13년째 단골로 다니고 있어요. 제 결혼식은 물론이고, 각종 가족행사에서부터 가끔 기분전환하고 싶을 때도 역시 김활란 뮤제네프에 예약한답니다. 제가 원래 빈말을 잘 못하는데…네 맞아요, 이런거 지어내느라고 아주 그냥 죽겠어여 :)',
         isVisible: true,
         isActive: true,
-        createAt: new Date()
+        createdAt: new Date()
       },
       {
         userId: '',
@@ -59,7 +111,7 @@ Meteor.startup(() => {
         comment: '믿고 맡기는 김활란 뮤지네프 13년째 단골로 다니고 있어요. 제 결혼식은 물론이고, 각종 가족행사에서부터 가끔 기분전환하고 싶을 때도 역시 김활란 뮤제네프에 예약한답니다. 제가 원래 빈말을 잘 못하는데…네 맞아요, 이런거 지어내느라고 아주 그냥 죽겠어여 :)',
         isVisible: true,
         isActive: true,
-        createAt: new Date()
+        createdAt: new Date()
       },
       {
         userId: '',
@@ -68,7 +120,7 @@ Meteor.startup(() => {
         comment: '믿고 맡기는 김활란 뮤지네프 13년째 단골로 다니고 있어요. 제 결혼식은 물론이고, 각종 가족행사에서부터 가끔 기분전환하고 싶을 때도 역시 김활란 뮤제네프에 예약한답니다. 제가 원래 빈말을 잘 못하는데…네 맞아요, 이런거 지어내느라고 아주 그냥 죽겠어여 :)',
         isVisible: true,
         isActive: true,
-        createAt: new Date()
+        createdAt: new Date()
       },
       {
         userId: '',
@@ -77,7 +129,7 @@ Meteor.startup(() => {
         comment: '믿고 맡기는 김활란 뮤지네프 13년째 단골로 다니고 있어요. 제 결혼식은 물론이고, 각종 가족행사에서부터 가끔 기분전환하고 싶을 때도 역시 김활란 뮤제네프에 예약한답니다. 제가 원래 빈말을 잘 못하는데…네 맞아요, 이런거 지어내느라고 아주 그냥 죽겠어여 :)',
         isVisible: true,
         isActive: true,
-        createAt: new Date()
+        createdAt: new Date()
       },
       {
         userId: '',
@@ -86,7 +138,7 @@ Meteor.startup(() => {
         comment: '믿고 맡기는 김활란 뮤지네프 13년째 단골로 다니고 있어요. 제 결혼식은 물론이고, 각종 가족행사에서부터 가끔 기분전환하고 싶을 때도 역시 김활란 뮤제네프에 예약한답니다. 제가 원래 빈말을 잘 못하는데…네 맞아요, 이런거 지어내느라고 아주 그냥 죽겠어여 :)',
         isVisible: true,
         isActive: true,
-        createAt: new Date()
+        createdAt: new Date()
       }
     ];
 
@@ -118,7 +170,7 @@ Meteor.startup(() => {
         'profile.informationForSsam.region': '서울',
         'profile.informationForSsam.career': 26,
         'profile.informationForSsam.comment': '신부화장의 끝판왕',
-        'profile.informationForSsam.description': '“ 나다운 것이 가장 예쁘다 .”뷰티 숍 김활란 뮤제네프의 원장이자 성신여대 메이크업 디자인학과 교수이기도 한 김활란은 메이크업을 시작한 지 올해로 20년 차인 베테랑 메이크업 아티스트다. 지금까지 김활란 원장은 김효진, 신세경, 하지원, 강혜정 등 핫한 여배우들의 메이크업을 책임지고 있을 뿐 아니라 뷰티 프로그램 ‘겟잇뷰티’ ‘스토리:진’에 출연하며 뷰티 멘토로 자리매김해왔다.',
+        'profile.informationForSsam.introduction': '“ 나다운 것이 가장 예쁘다 .”뷰티 숍 김활란 뮤제네프의 원장이자 성신여대 메이크업 디자인학과 교수이기도 한 김활란은 메이크업을 시작한 지 올해로 20년 차인 베테랑 메이크업 아티스트다. 지금까지 김활란 원장은 김효진, 신세경, 하지원, 강혜정 등 핫한 여배우들의 메이크업을 책임지고 있을 뿐 아니라 뷰티 프로그램 ‘겟잇뷰티’ ‘스토리:진’에 출연하며 뷰티 멘토로 자리매김해왔다.',
         'profile.informationForSsam.reviews': [
           {
             id: reviewIds[0],
@@ -151,7 +203,7 @@ Meteor.startup(() => {
             description: '3일전 했어요'
           }
         ],
-        'profile.informationForSsam.notAvailableDates': [new Date()],
+        'profile.informationForSsam.notAvailableAts': [new Date()],
         'profile.informationForSsam.isAvailable': true,
         'profile.informationForSsam.bankAccount': {
           bank: '국민',
@@ -181,7 +233,7 @@ Meteor.startup(() => {
         'profile.informationForSsam.region': '서울',
         'profile.informationForSsam.career': 26,
         'profile.informationForSsam.comment': '신부화장의 끝판왕',
-        'profile.informationForSsam.description': '“ 나다운 것이 가장 예쁘다 .”뷰티 숍 김활란 뮤제네프의 원장이자 성신여대 메이크업 디자인학과 교수이기도 한 김활란은 메이크업을 시작한 지 올해로 20년 차인 베테랑 메이크업 아티스트다. 지금까지 김활란 원장은 김효진, 신세경, 하지원, 강혜정 등 핫한 여배우들의 메이크업을 책임지고 있을 뿐 아니라 뷰티 프로그램 ‘겟잇뷰티’ ‘스토리:진’에 출연하며 뷰티 멘토로 자리매김해왔다.',
+        'profile.informationForSsam.introduction': '“ 나다운 것이 가장 예쁘다 .”뷰티 숍 김활란 뮤제네프의 원장이자 성신여대 메이크업 디자인학과 교수이기도 한 김활란은 메이크업을 시작한 지 올해로 20년 차인 베테랑 메이크업 아티스트다. 지금까지 김활란 원장은 김효진, 신세경, 하지원, 강혜정 등 핫한 여배우들의 메이크업을 책임지고 있을 뿐 아니라 뷰티 프로그램 ‘겟잇뷰티’ ‘스토리:진’에 출연하며 뷰티 멘토로 자리매김해왔다.',
         'profile.informationForSsam.reviews': [
           {
             id: reviewIds[4],
@@ -218,7 +270,7 @@ Meteor.startup(() => {
             description: '3일전 했어요'
           }
         ],
-        'profile.informationForSsam.notAvailableDates': [new Date()],
+        'profile.informationForSsam.notAvailableAts': [new Date()],
         'profile.informationForSsam.isAvailable': true,
         'profile.informationForSsam.bankAccount': {
           bank: '국민',
@@ -248,7 +300,7 @@ Meteor.startup(() => {
         'profile.informationForSsam.region': '서울',
         'profile.informationForSsam.career': 26,
         'profile.informationForSsam.comment': '신부화장의 끝판왕',
-        'profile.informationForSsam.description': '“ 나다운 것이 가장 예쁘다 .”뷰티 숍 김활란 뮤제네프의 원장이자 성신여대 메이크업 디자인학과 교수이기도 한 김활란은 메이크업을 시작한 지 올해로 20년 차인 베테랑 메이크업 아티스트다. 지금까지 김활란 원장은 김효진, 신세경, 하지원, 강혜정 등 핫한 여배우들의 메이크업을 책임지고 있을 뿐 아니라 뷰티 프로그램 ‘겟잇뷰티’ ‘스토리:진’에 출연하며 뷰티 멘토로 자리매김해왔다.',
+        'profile.informationForSsam.introduction': '“ 나다운 것이 가장 예쁘다 .”뷰티 숍 김활란 뮤제네프의 원장이자 성신여대 메이크업 디자인학과 교수이기도 한 김활란은 메이크업을 시작한 지 올해로 20년 차인 베테랑 메이크업 아티스트다. 지금까지 김활란 원장은 김효진, 신세경, 하지원, 강혜정 등 핫한 여배우들의 메이크업을 책임지고 있을 뿐 아니라 뷰티 프로그램 ‘겟잇뷰티’ ‘스토리:진’에 출연하며 뷰티 멘토로 자리매김해왔다.',
         'profile.informationForSsam.reviews': [],
         'profile.informationForSsam.portfolios': [
           {
@@ -264,7 +316,7 @@ Meteor.startup(() => {
             description: '3일전 했어요'
           }
         ],
-        'profile.informationForSsam.notAvailableDates': [],
+        'profile.informationForSsam.notAvailableAts': [],
         'profile.informationForSsam.isAvailable': true,
         'profile.informationForSsam.bankAccount': {
           bank: '국민',
@@ -275,8 +327,6 @@ Meteor.startup(() => {
     });
   }
 
-
-
   if (ServiceTypes.find({}).count() == 0) {
     const serviceTypes = [
       {
@@ -285,7 +335,7 @@ Meteor.startup(() => {
         order: 1,
         isVisible: true,
         isActive: true,
-        createAt: new Date()
+        createdAt: new Date()
       },
       {
         name: 'FAMILY',
@@ -293,7 +343,7 @@ Meteor.startup(() => {
         order: 2,
         isVisible: true,
         isActive: true,
-        createAt: new Date()
+        createdAt: new Date()
       },
       {
         name: 'EVENT',
@@ -301,7 +351,7 @@ Meteor.startup(() => {
         order: 3,
         isVisible: true,
         isActive: true,
-        createAt: new Date()
+        createdAt: new Date()
       },
       {
         name: 'PROFILE',
@@ -309,7 +359,7 @@ Meteor.startup(() => {
         order: 4,
         isVisible: true,
         isActive: true,
-        createAt: new Date()
+        createdAt: new Date()
       }
     ];
 
@@ -374,7 +424,7 @@ Meteor.startup(() => {
         order: 1,
         isVisible: true,
         isActive: true,
-        createAt: new Date()
+        createdAt: new Date()
       },
       {
         serviceTypeId: serviceTypeIds[0],
@@ -430,7 +480,7 @@ Meteor.startup(() => {
         order: 2,
         isVisible: true,
         isActive: true,
-        createAt: new Date()
+        createdAt: new Date()
       },
       {
         serviceTypeId: serviceTypeIds[0],
@@ -486,7 +536,7 @@ Meteor.startup(() => {
         order: 3,
         isVisible: true,
         isActive: true,
-        createAt: new Date()
+        createdAt: new Date()
       }
     ];
 

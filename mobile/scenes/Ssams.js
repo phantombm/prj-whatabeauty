@@ -51,6 +51,7 @@ class Ssams extends Component {
 
   onPressSsam = (ssam) => {
     Actions.ssam({
+      flowType: 'from ssams',
       service: this.props.service,
       ssam: ssam
     });

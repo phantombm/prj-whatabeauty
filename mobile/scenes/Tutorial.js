@@ -21,10 +21,6 @@ export default class _Tutorial extends Component {
     }
   });
 
-  componentDidMount() {
-    Meteor.subscribe('reservations', {});
-  }
-
   onPressSkip = () => {
     const user = Meteor.user();
 

@@ -39,13 +39,8 @@ export default class Paying extends Component {
           amount: this.props.totalAmount,
           unit: this.props.service.price.unit
         },
-        balancedMoney: {
-          amount: 0,
-          unit: '원'
-        },
-        isBalanced: false,
         progress: 'not paid',
-        createAt: new Date()
+        createdAt: new Date()
       };
 
       Meteor.call('reservations.insert', reservation, async (error, reservationId) => {
@@ -59,6 +54,10 @@ export default class Paying extends Component {
 
           return;
         }
+
+        Meteor.subscribe('reservations', {
+          _id: reservationId
+        });
 
         const merchantUid = `${Meteor.userId()}_${reservationId}`;
 

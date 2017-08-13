@@ -11,19 +11,10 @@ import Touchable from '../components/Touchable';
 
 class Reservations extends Component {
   static propTypes = {
+    isReservationsReady: PropTypes.bool.isRequired,
     reservations: PropTypes.array.isRequired,
     ssams: PropTypes.array.isRequired
   };
-
-  componentWillMount() {
-    this.props.reservations.map((reservation) => {
-      const index = _.findIndex(this.props.ssams, (ssam) => {
-        return ssam._id == reservation.ssamId;
-      });
-
-      reservation.ssam = this.props.ssams[index];
-    });
-  }
 
   renderReservation = ({ item }) => {
     let progress = item.progress;
@@ -94,15 +85,15 @@ class Reservations extends Component {
   renderAddress = (item) => {
     let address = item.service.address.address;
 
-    if (address.length > 18) {
-      address = address.slice(0, 16) + ' ...';
+    if (address.length > 20) {
+      address = address.slice(0, 18) + ' ...';
     }
 
     return address;
   };
 
   renderSectionHeader = ({ section }) => {
-    if (section.title == 'new') {
+    if (section.title == 'new' || section.data.length == 0) {
       return (
         <View />
       );
@@ -128,9 +119,23 @@ class Reservations extends Component {
   };
 
   render() {
+    if (!this.props.isReservationsReady) {
+      return (
+        <View />
+      );
+    }
+
+    this.props.reservations.map((reservation) => {
+      const index = _.findIndex(this.props.ssams, (ssam) => {
+        return ssam._id == reservation.ssamId;
+      });
+
+      reservation.ssam = this.props.ssams[index];
+    });
+
     const reservations = _.sortBy(this.props.reservations, [
       (reservation) => {
-        return -reservation.service.scheduledAt.getTime();
+        return reservation.service.scheduledAt.getTime();
       }
     ]);
 
@@ -163,7 +168,10 @@ class Reservations extends Component {
 }
 
 export default createContainer(() => {
+  const reservationsHandle = Meteor.subscribe('reservations', {});
+
   return {
+    isReservationsReady: reservationsHandle.ready(),
     reservations: Meteor.collection('reservations').find({}),
     ssams: Meteor.collection('users').find({
       'profile.isSsam': true

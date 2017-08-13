@@ -7,9 +7,19 @@ import { Reservations } from '../reservations';
 Meteor.publish('reservations', function(selector) {
   check(selector, Object);
 
-  const assignedSelector = _.assign(selector, {
-    userId: this.userId
+  const user = Meteor.users.findOne({
+    _id: this.userId
   });
 
-  return Reservations.find(assignedSelector);
+  if (!user) {
+    return this.ready();
+  }
+
+  _.extend(selector, {
+    _id: {
+      $in: user.profile.reservations
+    }
+  });
+
+  return Reservations.find(selector);
 });

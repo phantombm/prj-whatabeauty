@@ -11,11 +11,11 @@ export default class Notice extends Component {
   };
 
   renderDate = () => {
-    if (moment(this.props.notice.createAt).diff(moment(), 'days') < 5) {
-      return moment(this.props.notice.createAt).fromNow();
+    if (moment(this.props.notice.createdAt).diff(moment(), 'days') < 5) {
+      return moment(this.props.notice.createdAt).fromNow();
     }
     else {
-      return moment(this.props.notice.createAt).format('YYYY.MM.DD');
+      return moment(this.props.notice.createdAt).format('YYYY.MM.DD');
     }
   };
 

@@ -6,6 +6,7 @@ import _ from 'lodash';
 import Meteor, { createContainer } from 'react-native-meteor';
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
+import ZoomImage from 'react-native-zoom-image';
 
 import Layout from '../layouts/Layout';
 import Button from '../components/Button';
@@ -13,10 +14,15 @@ import Touchable from '../components/Touchable';
 
 class Ssam extends Component {
   static propTypes = {
-    service: PropType.object.isRequired,
+    flowType: PropType.string.isRequired,
+    service: PropType.object,
     ssam: PropType.object.isRequired,
     isReviewsReady: PropType.bool.isRequired,
     reviews: PropType.array.isRequired
+  };
+
+  static defaultProps = {
+    service: {}
   };
 
   getGradesAverage = (informationForSsam) => {
@@ -47,14 +53,16 @@ class Ssam extends Component {
   renderPortfolios = (informationForSsam) => {
     return informationForSsam.portfolios.map((portfolio, index) => {
       return (
-        <Touchable key={index} onPress={() => { Actions.portfolio({ portfolio: portfolio }); }}>
-          <View style={{ marginTop: 10 }}>
-            <Image source={{ uri: portfolio.imageUrl }} style={{ width: global.width - 32, height: (global.width - 32) * 75 / 144 }} />
-            <View style={{ position: 'absolute', bottom: 0, width: '100%', height: 45, backgroundColor: 'rgba(0, 0, 0, 0.5)', alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 10, color: '#ffffff' }}>{ portfolio.description }</Text>
-            </View>
+        <View key={index} style={{ marginTop: 10 }}>
+          <ZoomImage
+            source={{ uri: portfolio.imageUrl }}
+            imgStyle={{ width: global.width - 32, height: (global.width - 32) * 75 / 144 }}
+            enableScaling
+          />
+          <View style={{ position: 'absolute', bottom: 0, width: '100%', height: 45, backgroundColor: 'rgba(0, 0, 0, 0.5)', alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={{ fontSize: 10, color: '#ffffff' }}>{ portfolio.description }</Text>
           </View>
-        </Touchable>
+        </View>
       );
     });
   };
@@ -73,7 +81,7 @@ class Ssam extends Component {
               </View>
             </View>
             <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
-              <Text style={{ fontSize: 12, color: '#9b9b9b' }}>{ moment(review.createAt).format('YYYY.MM.DD') }</Text>
+              <Text style={{ fontSize: 12, color: '#9b9b9b' }}>{ moment(review.createdAt).format('YYYY.MM.DD') }</Text>
             </View>
           </View>
           <Text style={{ fontSize: 12, color: '#9b9b9b' }}>{ review.comment }</Text>
@@ -123,7 +131,7 @@ class Ssam extends Component {
                 </View>
               </View>
             </View>
-            <Text style={{ marginTop: 20, fontSize: 12, color: '#9b9b9b' }}>{ informationForSsam.description }</Text>
+            <Text style={{ marginTop: 20, fontSize: 12, color: '#9b9b9b' }}>{ informationForSsam.introduction }</Text>
             <View style={{ height: 40, borderBottomColor: '#eeeeee', borderBottomWidth: 1, alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
               <Text style={{ color: '#3c4f5e' }}>포트폴리오</Text>
             </View>
@@ -142,7 +150,12 @@ class Ssam extends Component {
             </View>
           </View>
         </ScrollView>
-        <Button buttonStyle={{ borderRadius: 0 }} onPress={this.onPressSsam}>쌤 선택하기</Button>
+        { this.props.flowType == 'from ssams' &&
+          <Button buttonStyle={{ borderRadius: 0 }} onPress={this.onPressSsam}>쌤 선택하기</Button>
+        }
+        { this.props.flowType == 'from menuForSsam' &&
+          <Button buttonStyle={{ borderRadius: 0 }}>쌤 정보 수정</Button>
+        }
       </Layout>
     );
   }
