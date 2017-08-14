@@ -41,7 +41,7 @@ export default class MenuForSsam extends Component {
             </View>
           </View>
         </Touchable>
-        <Touchable>
+        <Touchable onPress={Actions.schedule}>
           <View style={{ height: 60, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#eeeeee', borderBottomWidth: 1, borderBottomColor: '#eeeeee' }}>
             <View style={{ flex: 1, paddingLeft: 16, justifyContent: 'center' }}>
               <Text>일정 관리</Text>

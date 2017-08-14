@@ -32,6 +32,7 @@ import UpdatingInformation from '../scenes/UpdatingInformation';
 import ChangingPassword from '../scenes/ChangingPassword';
 import Reservations from '../scenes/Reservations';
 import MenuForSsam from '../scenes/MenuForSsam';
+import Schedule from '../scenes/Schedule';
 
 export default class _Router extends Component {
   render() {
@@ -69,6 +70,7 @@ export default class _Router extends Component {
           <Scene key="changingPassword" component={ChangingPassword} panHandlers={null} />
           <Scene key="reservations" component={Reservations} panHandlers={null} />
           <Scene key="menuForSsam" component={MenuForSsam} panHandlers={null} />
+          <Scene key="schedule" component={Schedule} panHandlers={null} />
         </Scene>
       </Router>
     );
