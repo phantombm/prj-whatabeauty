@@ -73,11 +73,13 @@ export default class Reservation extends Component {
     }
 
     return (
-      <View key={service._id} style={{ height: 60, borderTopWidth: isMainService ? 0 : 1, borderTopColor: '#eeeeee', flexDirection: 'row', paddingHorizontal: 20 }}>
+      <View key={service._id} style={{ height: 60, borderBottomWidth: 1, borderBottomColor: '#eeeeee', flexDirection: 'row', paddingHorizontal: 20 }}>
         <View style={{ flex: 7, flexDirection: 'row', alignItems: 'center' }}>
           <View>
-            { isMainService ?
-              <Text style={{ fontSize: 16, color: '#3c4f5e', fontWeight: 'bold' }}>{ service.name }</Text> :
+            { isMainService &&
+              <Text style={{ fontSize: 16, color: '#3c4f5e', fontWeight: 'bold' }}>{ service.name }</Text>
+            }
+            { !isMainService &&
               <Text style={{ color: '#3c4f5e' }}>{ service.name }</Text>
             }
           </View>
@@ -152,12 +154,16 @@ export default class Reservation extends Component {
       <Layout title="예약 내용" isKeyboardDismissedOnTouched={false}>
         { this.props.flowType == 'from menuForSsam' &&
           <View style={{ height: 156, backgroundColor: global.keyColor, justifyContent: 'center', alignItems: 'center' }}>
-            { scheduledAt.diff(this.state.now) > 0 ?
-              <Text style={{ fontSize: 24, color: '#ffffff' }}>D - { scheduledAt.diff(this.state.now, 'days') }</Text> :
+            { scheduledAt.diff(this.state.now) > 0 &&
+              <Text style={{ fontSize: 24, color: '#ffffff' }}>D - { scheduledAt.diff(this.state.now, 'days') }</Text>
+            }
+            { scheduledAt.diff(this.state.now) > 0 ||
               <Text style={{ fontSize: 24, color: '#ffffff' }}>D - 0</Text>
             }
-            { scheduledAt.diff(this.state.now) > 0 ?
-              <Text style={{ fontSize: 24, color: '#ffffff' }}>{ scheduledAt.diff(this.state.now, 'hours') % 24 } : { scheduledAt.diff(this.state.now, 'minutes') % 60 } : { scheduledAt.diff(this.state.now, 'seconds') % 60 }</Text> :
+            { scheduledAt.diff(this.state.now) > 0 &&
+              <Text style={{ fontSize: 24, color: '#ffffff' }}>{ scheduledAt.diff(this.state.now, 'hours') % 24 } : { scheduledAt.diff(this.state.now, 'minutes') % 60 } : { scheduledAt.diff(this.state.now, 'seconds') % 60 }</Text>
+            }
+            { scheduledAt.diff(this.state.now) > 0 ||
               <Text style={{ fontSize: 24, color: '#ffffff' }}>00 : 00 : 00</Text>
             }
           </View>
@@ -181,7 +187,7 @@ export default class Reservation extends Component {
               </View>
             </View>
           }
-          <View style={{ height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', flexDirection: 'row' }}>
+          <View style={{ height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', borderBottomWidth: 1, borderBottomColor: '#eeeeee', flexDirection: 'row' }}>
             <View style={{ width: 60, alignItems: 'center', justifyContent: 'center' }}>
               <SimpleLineIcons name="home" size={23} color="#4a4a4a" />
             </View>
@@ -190,13 +196,23 @@ export default class Reservation extends Component {
               <Text style={{ fontSize: 12, color: '#cfcfcf' }}>{ service.address.detail }</Text>
             </View>
           </View>
-          <View style={{ height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', flexDirection: 'row' }}>
+          <View style={{ height: 60, flexDirection: 'row' }}>
             <View style={{ width: 60, alignItems: 'center', justifyContent: 'center' }}>
               <EvilIcons name="calendar" size={35} color="#4a4a4a" />
             </View>
             <View style={{ flex: 1, justifyContent: 'center' }}>
-              <Text style={{ color: '#3c4f5e' }}>{ this.props.flowType == 'from reserving' ? service.scheduledAt.format('YYYY년 M월 D일 dddd') : moment(service.scheduledAt).format('YYYY년 M월 D일 dddd') }</Text>
-              <Text style={{ fontSize: 12, color: '#cfcfcf' }}>{ this.props.flowType == 'from reserving' ? service.scheduledAt.format('H시 m분') : moment(service.scheduledAt).format('H시 m분') }</Text>
+              { this.props.flowType == 'from reserving' &&
+                <Text style={{ color: '#3c4f5e' }}>{ service.scheduledAt.format('YYYY년 M월 D일 dddd') }</Text>
+              }
+              { this.props.flowType != 'from reserving' &&
+                <Text style={{ color: '#3c4f5e' }}>{ moment(service.scheduledAt).format('YYYY년 M월 D일 dddd') }</Text>
+              }
+              { this.props.flowType == 'from reserving' &&
+                <Text style={{ fontSize: 12, color: '#cfcfcf' }}>{ service.scheduledAt.format('H시 m분') }</Text>
+              }
+              { this.props.flowType != 'from reserving' &&
+                <Text style={{ fontSize: 12, color: '#cfcfcf' }}>{ moment(service.scheduledAt).format('H시 m분') }</Text>
+              }
             </View>
           </View>
           <View style={{ height: 35, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: "#fafafa" }}>
@@ -206,17 +222,17 @@ export default class Reservation extends Component {
           { this.renderService(true, service) }
           { this.renderRelatedServices(service) }
           { this.props.flowType != 'from menuForSsam' &&
-            <View style={{ height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ height: 60, borderBottomWidth: 1, borderBottomColor: '#eeeeee', justifyContent: 'center', alignItems: 'center' }}>
               <Text style={{ fontSize: 16, color: '#3c4f5e', fontWeight: 'bold' }}>총 금액 : { this.renderPrice(totalAmount) }</Text>
             </View>
           }
           { this.props.flowType != 'from menuForSsam' &&
-            <View style={{ minHeight: 100, borderTopWidth: 1, borderTopColor: '#eeeeee', paddingLeft: 20, justifyContent: 'center' }}>
+            <View style={{ minHeight: 100, paddingLeft: 20, justifyContent: 'center' }}>
               <Text style={{ fontSize: 12, color: '#cfcfcf' }}>아직 할인 혜택이 없습니다.</Text>
             </View>
           }
           { this.props.flowType == 'from menuForSsam' &&
-            <View style={{ padding: 16, borderTopWidth: 1, borderTopColor: '#eeeeee', borderBottomWidth: 1, borderBottomColor: '#eeeeee' }}>
+            <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: '#eeeeee' }}>
               <View style={{ alignItems: 'center' }}>
                 <Text>고객과의 소통</Text>
               </View>
@@ -238,7 +254,7 @@ export default class Reservation extends Component {
                   <Text style={{ marginTop: 5, fontSize: 12, color: '#cfcfcf' }}>전화걸기</Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
-                  <TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback onPress={() => { Actions.selectingDateTime({ flowType: 'from reservation', reservation: this.props.reservation }) }}>
                     <View style={{ width: 50, height: 50, borderRadius: 25, backgroundColor: global.keyColor, alignItems: 'center', justifyContent: 'center' }}>
                       <Entypo name="back-in-time" size={30} color="#ffffff" />
                     </View>

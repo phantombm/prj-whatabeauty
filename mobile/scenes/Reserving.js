@@ -16,11 +16,13 @@ export default class Reserving extends Component {
   renderService = (isMainService, service, relatedServiceIndex) => {
     return (
       <Touchable key={service._id} onPress={() => { this.onPressService(isMainService, relatedServiceIndex); }}>
-        <View style={{ height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', flexDirection: 'row', paddingHorizontal: 20 }}>
+        <View style={{ height: 60, borderTopWidth: isMainService ? 1 : 0, borderTopColor: '#eeeeee', borderBottomWidth: 1, borderBottomColor: '#eeeeee', flexDirection: 'row', paddingHorizontal: 20 }}>
           <View style={{ flex: 7, flexDirection: 'row', alignItems: 'center' }}>
             <View>
-              { isMainService ?
-                <Text style={{ fontSize: 16, color: '#3c4f5e', fontWeight: 'bold' }}>{ service.name }</Text> :
+              { isMainService &&
+                <Text style={{ fontSize: 16, color: '#3c4f5e', fontWeight: 'bold' }}>{ service.name }</Text>
+              }
+              { !isMainService &&
                 <Text style={{ color: '#3c4f5e' }}>{ service.name }</Text>
               }
             </View>
@@ -30,10 +32,12 @@ export default class Reserving extends Component {
               </View>
             }
           </View>
-          { service.quantity == 0 ?
+          { service.quantity == 0 &&
             <View style={{ flex: 3, alignItems: 'flex-end', justifyContent: 'center' }}>
               <Text style={{ color: global.keyColor }}>+ 추가</Text>
-            </View> :
+            </View>
+          }
+          { service.quantity != 0 &&
             <View style={{ flex: 3, alignItems: 'flex-end', justifyContent: 'center' }}>
               <Text style={{ fontSize: 16, color: global.keyColor }}>{ this.renderPrice(service.price.amount * service.quantity) }</Text>
             </View>
@@ -106,17 +110,19 @@ export default class Reserving extends Component {
         <ScrollView>
           { this.renderService(true, this.props.service, 0) }
           { this.renderRelatedServices() }
-          <View style={{ minHeight: 100, borderTopWidth: 1, borderTopColor: '#eeeeee', paddingLeft: 20, justifyContent: 'center' }}>
+          <View style={{ minHeight: 100, borderBottomWidth: 1, borderBottomColor: '#eeeeee', paddingLeft: 20, justifyContent: 'center' }}>
             <Text style={{ fontSize: 12, color: '#cfcfcf' }}>아직 할인 혜택이 없습니다.</Text>
           </View>
           <Touchable onPress={() => { Actions.selectingAddress({ service: this.props.service }) }}>
-            <View style={{ height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', flexDirection: 'row' }}>
+            <View style={{ height: 60, borderBottomWidth: 1, borderBottomColor: '#eeeeee', flexDirection: 'row' }}>
               <View style={{ width: 60, alignItems: 'center', justifyContent: 'center' }}>
                 <SimpleLineIcons name="home" size={23} color="#4a4a4a" />
               </View>
               <View style={{ flex: 1, justifyContent: 'center' }}>
-                { !this.props.service.address ?
-                  <Text style={{ color: '#3c4f5e' }}>서비스를 받을 주소를 입력해 주세요.</Text> :
+                { !this.props.service.address &&
+                  <Text style={{ color: '#3c4f5e' }}>서비스를 받을 주소를 입력해 주세요.</Text>
+                }
+                { this.props.service.address &&
                   <View>
                     <Text style={{ color: '#3c4f5e' }}>{ this.props.service.address.address }</Text>
                     <Text style={{ fontSize: 12, color: '#cfcfcf' }}>{ this.props.service.address.detail }</Text>
@@ -125,14 +131,16 @@ export default class Reserving extends Component {
               </View>
             </View>
           </Touchable>
-          <Touchable onPress={() => { Actions.selectingDateTime({ service: this.props.service }) }}>
-            <View style={{ height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', flexDirection: 'row' }}>
+          <Touchable onPress={() => { Actions.selectingDateTime({ flowType: 'from reserving', service: this.props.service }) }}>
+            <View style={{ height: 60, borderBottomWidth: 1, borderBottomColor: '#eeeeee', flexDirection: 'row' }}>
               <View style={{ width: 60, alignItems: 'center', justifyContent: 'center' }}>
                 <EvilIcons name="calendar" size={35} color="#4a4a4a" />
               </View>
               <View style={{ flex: 1, justifyContent: 'center' }}>
-                { !this.props.service.scheduledAt ?
-                  <Text style={{ color: '#3c4f5e' }}>일정을 입력해 주세요.</Text> :
+                { !this.props.service.scheduledAt &&
+                  <Text style={{ color: '#3c4f5e' }}>일정을 입력해 주세요.</Text>
+                }
+                { this.props.service.scheduledAt &&
                   <View>
                     <Text style={{ color: '#3c4f5e' }}>{ this.props.service.scheduledAt.format('YYYY년 M월 D일 dddd') }</Text>
                     <Text style={{ fontSize: 12, color: '#cfcfcf' }}>{ this.props.service.scheduledAt.format('H시 m분') }</Text>
@@ -142,7 +150,7 @@ export default class Reserving extends Component {
             </View>
           </Touchable>
           <Touchable onPress={() => { Actions.writingMemo({ service: this.props.service }) }}>
-            <View style={{ height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', flexDirection: 'row' }}>
+            <View style={{ height: 60, borderBottomWidth: 1, borderBottomColor: '#eeeeee', flexDirection: 'row' }}>
               <View style={{ width: 60, alignItems: 'center', justifyContent: 'center' }}>
                 <SimpleLineIcons name="pencil" size={20} color="#4a4a4a" />
               </View>

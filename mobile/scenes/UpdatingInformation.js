@@ -188,7 +188,7 @@ export default class UpdatingInformation extends Component {
                 onChangeText={(text, errorText) => { this.setState({ validationNumber: text, validationNumberErrorText: errorText }); }}
               />
             }
-            { this.state.secondsRemained != -1 &&
+            { this.state.secondsRemained > -1 &&
               <View style={{ position: 'absolute', top: 20, right: 10 }}>
                 { this.state.phoneNumber != Meteor.user().profile.phoneNumber &&
                   <View style={{ flexDirection: 'row' }}>

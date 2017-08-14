@@ -13,10 +13,10 @@ class Settings extends Component {
     user: ProTypes.object.isRequired
   };
 
-  onChangeValueForGettingNotifications = (isGettingNotificationsActive) => {
+  onChangeValueForGettingNotifications = (isGettingNotificationsOn) => {
     Meteor.call('users.update', {
       $set: {
-        'profile.isGettingNotificationActive': isGettingNotificationsActive
+        'profile.isGettingNotificationsOn': isGettingNotificationsOn
       }
     });
   };
@@ -24,16 +24,16 @@ class Settings extends Component {
   render() {
     return (
       <Layout title="환경설정">
-        <View style={{ height: 60, flexDirection: 'row' }}>
+        <View style={{ height: 60, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#eeeeee', borderTopWidth: 1, borderTopColor: '#eeeeee' }}>
           <View style={{ flex: 1, paddingLeft: 16, justifyContent: 'center' }}>
             <Text>푸쉬알람 받기</Text>
           </View>
           <View style={{ flex: 1, paddingRight: 16, alignItems: 'flex-end', justifyContent: 'center' }}>
-            <Switch onValueChange={this.onChangeValueForGettingNotifications} value={this.props.user.profile.isGettingNotificationActive} />
+            <Switch onValueChange={this.onChangeValueForGettingNotifications} value={this.props.user.profile.isGettingNotificationsOn} />
           </View>
         </View>
         <Touchable onPress={Actions.termsOfService}>
-          <View style={{ height: 60, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#eeeeee' }}>
+          <View style={{ height: 60, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#eeeeee' }}>
             <View style={{ flex: 1, paddingLeft: 16, justifyContent: 'center' }}>
               <Text>서비스 이용약관</Text>
             </View>
@@ -43,7 +43,7 @@ class Settings extends Component {
           </View>
         </Touchable>
         <Touchable onPress={Actions.privacyPolicy}>
-          <View style={{ height: 60, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#eeeeee' }}>
+          <View style={{ height: 60, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#eeeeee' }}>
             <View style={{ flex: 1, paddingLeft: 16, justifyContent: 'center' }}>
               <Text>개인정보 취급방침</Text>
             </View>
@@ -52,7 +52,7 @@ class Settings extends Component {
             </View>
           </View>
         </Touchable>
-        <View style={{ height: 60, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#eeeeee', borderBottomWidth: 1, borderBottomColor: '#eeeeee' }}>
+        <View style={{ height: 60, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#eeeeee' }}>
           <View style={{ flex: 1, paddingLeft: 16, justifyContent: 'center' }}>
             <Text>버전정보</Text>
           </View>

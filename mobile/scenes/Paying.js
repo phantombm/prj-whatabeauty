@@ -32,9 +32,9 @@ export default class Paying extends Component {
       service.scheduledAt = service.scheduledAt.toDate();
 
       const reservation = {
-        userId: Meteor.userId(),
         ssamId: this.props.ssam._id,
         user: {
+          userId: Meteor.userId(),
           profile: {
             name: Meteor.user().profile.name,
             phoneNumber: Meteor.user().profile.phoneNumber

@@ -10,7 +10,6 @@ import ZoomImage from 'react-native-zoom-image';
 
 import Layout from '../layouts/Layout';
 import Button from '../components/Button';
-import Touchable from '../components/Touchable';
 
 class Ssam extends Component {
   static propTypes = {

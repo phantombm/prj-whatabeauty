@@ -114,8 +114,7 @@ export default class SelectingServiceQuantity extends Component {
           </View>
         </View>
         <View style={{ flex: 1, padding: 16, paddingBottom: 0 }}>
-          <View style={{ height: 1, backgroundColor: '#eeeeee' }} />
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', height: 60 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', borderBottomWidth: 1, borderBottomColor: '#eeeeee' }}>
             <IconButton backgroundColor="#fd5739" borderRadius={30} inactiveBackgroundColor="#e0e0e1" onPress={this.onPressMinus} isActive={this.state.isMinusButtonActive}>
               <MaterialCommunityIcons name="minus" size={25} color="#ffffff" />
             </IconButton>
@@ -124,11 +123,9 @@ export default class SelectingServiceQuantity extends Component {
               <MaterialCommunityIcons name="plus" size={25} color="#ffffff" />
             </IconButton>
           </View>
-          <View style={{ height: 1, backgroundColor: '#eeeeee' }} />
-          <View style={{ flex: 5, justifyContent: 'center', paddingHorizontal: 16 }}>
+          <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 16, borderBottomWidth: 1, borderBottomColor: '#eeeeee' }}>
             { this.renderCommentsForReserving() }
           </View>
-          <View style={{ height: 1, backgroundColor: '#eeeeee' }} />
           <View style={{ height: 45, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ fontSize: 16, color: '#3c4f5e' }}>총 금액 : { this.renderPrice(this.props.isMainService ? this.props.service.price.amount * this.state.quantity : this.props.service.relatedServices[this.props.relatedServiceIndex].price.amount * this.state.quantity) }</Text>
           </View>

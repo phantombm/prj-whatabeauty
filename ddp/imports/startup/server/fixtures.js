@@ -151,7 +151,7 @@ Meteor.startup(() => {
       'profile.isSsam': true
     }).count() == 0) {
     let userId = Accounts.createUser({
-      email: 'ssam4@test.com',
+      email: 'ssam1@test.com',
       password: '123456',
       profile: {
         name: '쌤1',
@@ -165,7 +165,7 @@ Meteor.startup(() => {
     }, {
       $set: {
         'profile.isSsam': true,
-        'profile.informationForSsam.name': '잘하는 쌤',
+        'profile.informationForSsam.name': '잘하는 쌤1',
         'profile.informationForSsam.imageUrl': 'http://file.mk.co.kr/meet/neds/2014/10/image_readtop_2014_1297012_14128986651568541.jpg',
         'profile.informationForSsam.region': '서울',
         'profile.informationForSsam.career': 26,
@@ -209,7 +209,8 @@ Meteor.startup(() => {
           bank: '국민',
           number: '010-2833-1122',
           owner: '쌤1'
-        }
+        },
+        'profile.informationForSsam.registeredAt': new Date()
       }
     });
 
@@ -276,7 +277,8 @@ Meteor.startup(() => {
           bank: '국민',
           number: '010-2833-1122',
           owner: '쌤2'
-        }
+        },
+        'profile.informationForSsam.registeredAt': new Date()
       }
     });
 
@@ -322,7 +324,8 @@ Meteor.startup(() => {
           bank: '국민',
           number: '010-2833-1122',
           owner: '쌤3'
-        }
+        },
+        'profile.informationForSsam.registeredAt': new Date()
       }
     });
   }

@@ -174,7 +174,7 @@ export default class VerifyingForCellPhoneNumberWithSms extends Component {
               maxLength={6}
               onChangeText={(text, errorText) => { this.setState({ validationNumber: text, validationNumberErrorText: errorText }); }}
             />
-            { this.state.secondsRemained != -1 &&
+            { this.state.secondsRemained > -1 &&
               <View style={{ position: 'absolute', top: 20, right: 10, flexDirection: 'row' }}>
                 <EvilIcons name="clock" size={18} color="#3c4f5e" />
                 <Text style={{ fontSize: 10, color: this.state.secondsRemained > 10 ? '#3c4f5e' : global.keyColor, marginLeft: 3 }}>{ Math.floor(this.state.secondsRemained / 60) }:{ this.state.secondsRemained % 60 < 10 ? '0' : '' }{ this.state.secondsRemained % 60 }</Text>

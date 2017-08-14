@@ -21,7 +21,7 @@ global.width = Dimensions.get('window').width;
 global.height = Dimensions.get('window').height;
 
 // TODO: ddp server ip
-global.ddpServerIp = '221.167.202.216:3000';
+global.ddpServerIp = '192.168.0.36:3000';
 
 Meteor.connect(`ws://${global.ddpServerIp}/websocket`);
 

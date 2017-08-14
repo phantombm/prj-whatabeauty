@@ -26,5 +26,17 @@ Meteor.methods({
     });
 
     return reservationId;
+  },
+  'reservations.update'(selector, modifier) {
+    check(selector, Object);
+    check(modifier, Object);
+
+    const reservation = Reservations.findOne(selector);
+
+    if (reservation.ssamId != this.userId) {
+      return;
+    }
+
+    Reservations.update(selector, modifier);
   }
 });

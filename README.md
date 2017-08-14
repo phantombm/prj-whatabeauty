@@ -302,7 +302,8 @@ main
       bank: String,
       number: String,
       owner: String
-    }
+    },
+    registeredAt: Date
   },
   isGettingNotificationsOn: Boolean,
   isActive: Boolean,
@@ -326,8 +327,14 @@ main
 #### reservations collections
 ```
 {
-  userId: String // parent reference
-  ssamId: String // parent reference
+  user: { // denormalized parent reference
+    userId: String,
+    profile: {
+      name: String,
+      phoneNumber: String    
+    }
+  },
+  ssamId: String, // parent reference
   service: Object, // embeded
   price: {
     amount: Number,

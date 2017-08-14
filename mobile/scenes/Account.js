@@ -61,7 +61,7 @@ class Account extends Component {
         </View>
         { this.props.user.profile.signInType == 'password' &&
           <Touchable onPress={Actions.changingPassword}>
-            <View style={{ height: 60, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#eeeeee' }}>
+            <View style={{ height: 60, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#eeeeee', borderBottomColor: '#eeeeee', borderBottomWidth: 1 }}>
               <View style={{ flex: 1, paddingLeft: 16, justifyContent: 'center' }}>
                 <Text>비밀번호 변경하기</Text>
               </View>
@@ -72,14 +72,14 @@ class Account extends Component {
           </Touchable>
         }
         <Touchable onPress={() => { Meteor.logout(); Actions.signIn({ type: ActionConst.RESET }); }}>
-          <View style={{ height: 60, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#eeeeee' }}>
+          <View style={{ height: 60, flexDirection: 'row', borderBottomColor: '#eeeeee', borderBottomWidth: 1 }}>
             <View style={{ flex: 1, paddingLeft: 16, justifyContent: 'center' }}>
               <Text>로그아웃</Text>
             </View>
           </View>
         </Touchable>
         <Touchable>
-          <View style={{ height: 60, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#eeeeee', borderBottomWidth: 1, borderBottomColor: '#eeeeee' }}>
+          <View style={{ height: 60, flexDirection: 'row', borderBottomColor: '#eeeeee', borderBottomWidth: 1 }}>
             <View style={{ flex: 1, paddingLeft: 16, justifyContent: 'center' }}>
               <Text>회원 탈퇴하기</Text>
             </View>

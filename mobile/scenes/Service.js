@@ -126,7 +126,7 @@ class Service extends Component {
           <View style={{ marginTop: 10, height: 170 }}>
             <WebView scrollEnabled={false} source={{ html: this.props.service.description.progress }} />
           </View>
-          { this.props.service.relatedServiceIds.length != 0 &&
+          { this.props.service.relatedServiceIds.length > 0 &&
             <View>
               <View style={this.styleSheet.title}>
                 <Text style={{ color: '#3c4f5e' }}>관련 서비스</Text>

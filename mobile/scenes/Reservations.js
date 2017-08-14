@@ -200,7 +200,13 @@ class Reservations extends Component {
 
     return (
       <Layout title="예약 내역" isKeyboardDismissedOnTouched={false}>
-        <SectionList ItemSeparatorComponent={this.renderItemSeparatorComponent} keyExtractor={this.keyExtractor} renderItem={this.renderReservation} renderSectionHeader={this.renderSectionHeader} sections={sections} />
+        <SectionList
+          ItemSeparatorComponent={this.renderItemSeparatorComponent}
+          keyExtractor={this.keyExtractor}
+          renderItem={this.renderReservation}
+          renderSectionHeader={this.renderSectionHeader}
+          sections={sections}
+        />
       </Layout>
     );
   }

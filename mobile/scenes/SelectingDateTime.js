@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { EvilIcons } from '@expo/vector-icons';
 import { Actions } from 'react-native-router-flux';
 import moment from 'moment';
+import Meteor from 'react-native-meteor';
 
 import Layout from '../layouts/Layout';
 import Calendar from '../components/Calendar';
@@ -12,7 +13,14 @@ import Button from '../components/Button';
 
 export default class SelectingDateTime extends Component {
   static propTypes = {
-    service: PropTypes.object.isRequired
+    flowType: PropTypes.string.isRequired,
+    service: PropTypes.object,
+    reservation: PropTypes.object
+  };
+
+  static defaultProps = {
+    service: {},
+    reservation: {}
   };
 
   state = {
@@ -77,13 +85,51 @@ export default class SelectingDateTime extends Component {
       return;
     }
 
-    this.props.service.scheduledAt = moment(`${this.state.date} ${this.state.time.hours}:${this.state.time.minutes}`, 'YYYY-MM-DD H:m');
+    const scheduledAt = moment(`${this.state.date} ${this.state.time.hours}:${this.state.time.minutes}`, 'YYYY-MM-DD H:m');
 
-    Actions.pop({
-      refresh: {
-        service: this.props.service
-      }
-    });
+    if (this.props.flowType == 'from reserving') {
+      this.props.service.scheduledAt = scheduledAt;
+
+      Actions.pop({
+        refresh: {
+          service: this.props.service
+        }
+      });
+    }
+    else if (this.props.flowType == 'from reservation') {
+      Alert.alert(
+        'whatabeauty',
+        '고객과 충분히 협의 후 변경하시기 바랍니다.',
+        [
+          {
+            text: '변경',
+            onPress: () => {
+              Meteor.call('reservations.update', {
+                _id: this.props.reservation._id
+              }, {
+                $set: {
+                  'service.scheduledAt': scheduledAt.toDate()
+                }
+              });
+
+              this.props.reservation.service.scheduledAt = scheduledAt.toDate();
+
+              Actions.pop({
+                refresh: {
+                  reservation: this.props.reservation
+                }
+              });
+            }
+          },
+          {
+            text: '취소'
+          }
+        ],
+        {
+          cancelable: false
+        }
+      );
+    }
   };
 
   onChangeDate = (date) => {
@@ -120,7 +166,7 @@ export default class SelectingDateTime extends Component {
             <Calendar markedDates={this.state.markedDates} onDayPress={this.onPressDay} minDate={moment().format('YYYY-MM-DD')} />
           </View>
           <View>
-            { Platform.OS == 'android' ?
+            { Platform.OS == 'android' &&
               <View>
                 <Touchable onPress={this.onPressSelectingTime}>
                   <View style={{ height: 60, borderTopWidth: 1, borderTopColor: '#eeeeee', borderBottomWidth: 1, borderBottomColor: '#eeeeee', flexDirection: 'row', paddingHorizontal: 20, alignItems: 'center' }}>
@@ -128,7 +174,9 @@ export default class SelectingDateTime extends Component {
                     <Text style={{ color: '#3c4f5e', marginLeft: 15 }}>{ this.renderTime() }</Text>
                   </View>
                 </Touchable>
-              </View> :
+              </View>
+            }
+            { Platform.OS == 'ios' &&
               <View>
                 <DatePickerIOS date={this.state.dateForIos} mode="time" onDateChange={this.onChangeDate} />
               </View>
