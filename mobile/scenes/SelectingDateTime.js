@@ -110,14 +110,25 @@ export default class SelectingDateTime extends Component {
                 $set: {
                   'service.scheduledAt': scheduledAt.toDate()
                 }
-              });
+              }, (error) => {
+                if (error) {
+                  Alert.alert(
+                    'whatabeauty',
+                    error.reason,
+                    [{ text: '확인' }],
+                    { cancelable: false }
+                  );
 
-              this.props.reservation.service.scheduledAt = scheduledAt.toDate();
-
-              Actions.pop({
-                refresh: {
-                  reservation: this.props.reservation
+                  return;
                 }
+
+                this.props.reservation.service.scheduledAt = scheduledAt.toDate();
+
+                Actions.pop({
+                  refresh: {
+                    reservation: this.props.reservation
+                  }
+                });
               });
             }
           },

@@ -132,7 +132,7 @@ export default class Reservation extends Component {
       $set: {
         progress: 'waiting for writing review'
       }
-    }, (error, status) => {
+    }, (error) => {
       if (error) {
         Alert.alert(
           'whatabeauty',
@@ -144,9 +144,7 @@ export default class Reservation extends Component {
         return;
       }
 
-      if (status == 'success') {
-        this.props.reservation.progress = 'waiting for writing review';
-      }
+      this.props.reservation.progress = 'waiting for writing review';
     });
   };
 
@@ -316,7 +314,7 @@ export default class Reservation extends Component {
               </View>
             }
             { progress == 'waiting for writing review' &&
-              <Button buttonStyle={{ borderRadius: 0 }} onPress={() => { this.onPressPaying(totalAmount); }}>별점 | 리뷰</Button>
+              <Button buttonStyle={{ borderRadius: 0 }} onPress={() => { Actions.writingReview({ reservation: this.props.reservation }); }}>별점 | 리뷰</Button>
             }
           </View>
         }

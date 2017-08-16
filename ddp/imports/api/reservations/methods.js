@@ -34,11 +34,9 @@ Meteor.methods({
     const reservation = Reservations.findOne(selector);
 
     if (reservation.user.userId != this.userId && reservation.ssamId != this.userId) {
-      return 'fail';
+      throw new Meteor.Error('권한이 없습니다.');
     }
 
     Reservations.update(selector, modifier);
-
-    return 'success';
   }
 });

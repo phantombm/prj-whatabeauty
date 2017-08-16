@@ -46,6 +46,7 @@ export default class Paying extends Component {
           unit: this.props.service.price.unit
         },
         progress: 'not paid',
+        reviewId: '',
         createdAt: new Date()
       };
 

@@ -341,6 +341,7 @@ main
     unit: String
   },
   progress: String('not paid', 'paid', 'refunded', 'wating for approving payment', 'wating for writing review', 'completed'),
+  reviewId: String, // child reference
   createdAt: Date
 }
 ```
