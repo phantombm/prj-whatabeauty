@@ -98,17 +98,15 @@ class Ssam extends Component {
   };
 
   render() {
-    const informationForSsam = this.props.ssam.profile.informationForSsam;
-
-    const average = this.getGradesAverage(informationForSsam);
-
     if (!this.props.isReviewsReady) {
       return (
-        <Layout title={informationForSsam.name}>
-          <View />
-        </Layout>
+        <View />
       );
     }
+
+    const informationForSsam = this.props.ssam.profile.informationForSsam;
+
+    const gradesAverage = this.getGradesAverage(informationForSsam);
 
     return (
       <Layout title={informationForSsam.name} isKeyboardDismissedOnTouched={false}>
@@ -124,9 +122,9 @@ class Ssam extends Component {
                 <Text style={{ fontSize: 10, color: '#9b9b9b' }}>{ informationForSsam.comment }</Text>
                 <View style={{ marginTop: 10, flexDirection: 'row', alignItems: 'center' }}>
                   <View style={{ width: 55 }}>
-                    <StarRating disabled maxStars={5} rating={parseFloat(average)} starSize={10} starColor="#f5d56e" emptyStarColor="#f5d56e" />
+                    <StarRating disabled maxStars={5} rating={parseFloat(gradesAverage)} starSize={10} starColor="#f5d56e" emptyStarColor="#f5d56e" />
                   </View>
-                  <Text style={{ marginLeft: 10, fontSize: 10, color: global.keyColor }}>{average} ({ this.renderReviewsLength(informationForSsam) })</Text>
+                  <Text style={{ marginLeft: 10, fontSize: 10, color: global.keyColor }}>{gradesAverage} ({ this.renderReviewsLength(informationForSsam) })</Text>
                 </View>
               </View>
             </View>

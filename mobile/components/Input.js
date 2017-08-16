@@ -22,9 +22,7 @@ export default class Input extends Component {
     defaultValue: '',
     keyColor: '#000000',
     marginTop: 0,
-    validator: () => {
-      return '';
-    },
+    validator: () => {},
     keyboardType: 'default',
     maxLength: 50,
     onChangeText: () => {},
@@ -99,7 +97,7 @@ export default class Input extends Component {
   };
 
   onChangeText = (text) => {
-    const errorText = text ? this.props.validator(text) : 'blank';
+    const errorText = text ? this.props.validator(text) || '' : 'blank';
 
     this.setState({
       text: text,

@@ -73,7 +73,7 @@ export default class Accordion extends Component {
               <Text style={{ color: '#3c4f5e' }}>{ this.props.title }</Text>
             </View>
             <Animated.View style={{ width: 60, alignItems: 'center', justifyContent: 'center', transform: [{ rotateZ: this.animatedRotateZ }] }}>
-              <SimpleLineIcons name="arrow-right" size={23} color="#3c4f5e" style={{ transform: [{ rotateZ: '90deg' }] }} />
+              <SimpleLineIcons name="arrow-down" size={23} color="#3c4f5e" />
             </Animated.View>
           </View>
         </Touchable>

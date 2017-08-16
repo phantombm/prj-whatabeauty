@@ -31,7 +31,7 @@ export default class MenuForSsam extends Component {
             </View>
           </View>
         </Touchable>
-        <Touchable>
+        <Touchable onPress={Actions.balancedMoney}>
           <View style={{ height: 60, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#eeeeee' }}>
             <View style={{ flex: 1, paddingLeft: 16, justifyContent: 'center' }}>
               <Text>정산 관리</Text>

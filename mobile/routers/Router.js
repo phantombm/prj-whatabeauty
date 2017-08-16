@@ -33,6 +33,8 @@ import ChangingPassword from '../scenes/ChangingPassword';
 import Reservations from '../scenes/Reservations';
 import MenuForSsam from '../scenes/MenuForSsam';
 import Schedule from '../scenes/Schedule';
+import BalancedMoney from '../scenes/BalancedMoney';
+import UpdatingBankAccount from '../scenes/UpdatingBankAccount';
 
 export default class _Router extends Component {
   render() {
@@ -71,6 +73,8 @@ export default class _Router extends Component {
           <Scene key="reservations" component={Reservations} panHandlers={null} />
           <Scene key="menuForSsam" component={MenuForSsam} panHandlers={null} />
           <Scene key="schedule" component={Schedule} panHandlers={null} />
+          <Scene key="balancedMoney" component={BalancedMoney} panHandlers={null} />
+          <Scene key="updatingBankAccount" component={UpdatingBankAccount} panHandlers={null} />
         </Scene>
       </Router>
     );

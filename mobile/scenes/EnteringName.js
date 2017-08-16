@@ -25,6 +25,8 @@ export default class EnteringName extends Component {
       email: this.props.email,
       password: this.props.password,
       profile: {
+        signInType: 'password',
+        signInId: '',
         name: this.state.name,
         email: this.props.email,
         phoneNumber: this.props.phoneNumber

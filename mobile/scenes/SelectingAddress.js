@@ -18,7 +18,7 @@ class SelectingAddress extends Component {
     return this.props.user.profile.addresses.map((address, index) => {
       return (
         <Touchable key={index} onPress={() => { this.onPressAddress(address) }}>
-          <View style={{ height: 60, flexDirection: 'row', borderTopColor: '#eeeeee', borderTopWidth: index == 0 ? 1 : 0, borderBottomColor: '#eeeeee', borderBottomWidth: 1 }}>
+          <View style={{ height: 60, flexDirection: 'row', borderTopColor: '#eeeeee', borderTopWidth: 1 }}>
             <View style={{ width: 40, alignItems: 'center', justifyContent: 'center' }}>
               <FontAwesome name="map-marker" size={20} color={global.keyColor} />
             </View>
@@ -48,7 +48,7 @@ class SelectingAddress extends Component {
         <ScrollView>
           { this.renderAddresses() }
           <Touchable onPress={() => { Actions.enteringAddress({ flowType: 'adding' }); }}>
-            <View style={{ height: 60, flexDirection: 'row', borderBottomColor: '#eeeeee', borderBottomWidth: 1 }}>
+            <View style={{ height: 60, flexDirection: 'row', borderTopColor: '#eeeeee', borderTopWidth: 1, borderBottomColor: '#eeeeee', borderBottomWidth: 1 }}>
               <View style={{ width: 40 }} />
               <View style={{ flex: 1, justifyContent: 'center' }}>
                 <Text style={{ fontSize: 12, color: global.keyColor }}>+ 주소 추가하기</Text>

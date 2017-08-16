@@ -228,7 +228,9 @@ export default createContainer((props) => {
     reservations = Meteor.collection('reservations').find({});
   }
   else if (props.flowType == 'from menuForSsam') {
-    reservations = Meteor.collection('reservations').find({});
+    reservations = Meteor.collection('reservations').find({
+      ssamId: Meteor.userId()
+    });
   }
 
   let ssams = null;

@@ -14,6 +14,10 @@ class Service extends Component {
     relatedServices: PropType.array.isRequired
   };
 
+  state = {
+    isQuantityInitialized: false
+  };
+
   styleSheet = StyleSheet.create({
     title: {
       height: 40,
@@ -36,14 +40,12 @@ class Service extends Component {
     outputRange: [global.width * 11 / 16, 100, 100]
   });
 
-  isQuantityInitialized = false;
-
-  componentWillUpdate(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (!nextProps.isRelatedServicesReady) {
       return;
     }
 
-    if (this.isQuantityInitialized) {
+    if (this.state.isQuantityInitialized) {
       return;
     }
 
@@ -55,7 +57,9 @@ class Service extends Component {
 
     this.props.service.relatedServices = this.props.relatedServices;
 
-    this.isQuantityInitialized = true;
+    this.setState({
+      isQuantityInitialized: true
+    });
   }
 
   renderGallary = () => {
@@ -94,7 +98,7 @@ class Service extends Component {
   };
 
   render() {
-    if (!this.props.isRelatedServicesReady || !this.isQuantityInitialized) {
+    if (!this.props.isRelatedServicesReady || !this.state.isQuantityInitialized) {
       return (
         <View />
       );

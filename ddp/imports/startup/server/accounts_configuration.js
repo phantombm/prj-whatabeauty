@@ -2,7 +2,7 @@ import { Accounts } from 'meteor/accounts-base';
 import _ from 'lodash';
 
 Accounts.onCreateUser((options, user) => {
-  let profile = options.profile;
+  const profile = _.clone(options.profile);
 
   if (user.services.facebook) {
     _.extend(profile, {
@@ -10,7 +10,7 @@ Accounts.onCreateUser((options, user) => {
       signInId: user.services.facebook.id,
       email: user.services.facebook.email,
       phoneNumber: ''
-    })
+    });
   }
   else if (user.services.google) {
     _.extend(profile, {
@@ -18,13 +18,7 @@ Accounts.onCreateUser((options, user) => {
       signInId: user.services.google.id,
       email: user.services.google.email,
       phoneNumber: ''
-    })
-  }
-  else {
-    _.extend(profile, {
-      signInType: 'password',
-      signInId: ''
-    })
+    });
   }
 
   _.extend(profile, {

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Image, Text, ScrollView, TouchableWithoutFeedback, Linking } from 'react-native';
+import { View, Image, Text, ScrollView, TouchableWithoutFeedback, Linking, Alert } from 'react-native';
 import { SimpleLineIcons, EvilIcons, FontAwesome, Foundation, Entypo } from '@expo/vector-icons';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import StarRating from 'react-native-star-rating';
 import _ from 'lodash';
 import moment from 'moment';
+import Meteor from 'react-native-meteor';
 
 import Layout from '../layouts/Layout';
 import Button from '../components/Button';
@@ -121,6 +122,31 @@ export default class Reservation extends Component {
       ssam: this.props.ssam,
       reservation: this.props.reservation,
       totalAmount: totalAmount
+    });
+  };
+
+  onPressApprovingPayment = () => {
+    Meteor.call('reservations.update', {
+      _id: this.props.reservation._id
+    }, {
+      $set: {
+        progress: 'waiting for writing review'
+      }
+    }, (error, status) => {
+      if (error) {
+        Alert.alert(
+          'whatabeauty',
+          error.reason,
+          [{ text: '확인' }],
+          { cancelable: false }
+        );
+
+        return;
+      }
+
+      if (status == 'success') {
+        this.props.reservation.progress = 'waiting for writing review';
+      }
     });
   };
 
@@ -270,25 +296,39 @@ export default class Reservation extends Component {
             </View>
           }
         </ScrollView>
-        { progress == 'not paid' &&
-          <Button buttonStyle={{ borderRadius: 0 }} onPress={() => { this.onPressPaying(totalAmount); }}>결제하기</Button>
-        }
-        { progress == 'paid' &&
-          <Button buttonStyle={{ borderRadius: 0 }} onPress={() => { this.onPressPaying(totalAmount); }}>환불요청</Button>
-        }
-        { progress == 'waiting for approving payment' &&
-          <View style={{ flexDirection: 'row', paddingHorizontal: 16 }}>
-            <View style={{ flex: 2 }}>
-              <Button buttonStyle={{ borderRadius: 0 }} onPress={() => { this.onPressPaying(totalAmount); }}>결제승인</Button>
-            </View>
-            <View style={{ width: 16 }} />
-            <View style={{ flex: 1 }}>
+        { this.props.flowType != 'from menuForSsam' &&
+          <View>
+            { progress == 'not paid' &&
+              <Button buttonStyle={{ borderRadius: 0 }} onPress={() => { this.onPressPaying(totalAmount); }}>결제하기</Button>
+            }
+            { progress == 'paid' &&
               <Button buttonStyle={{ borderRadius: 0 }} onPress={() => { this.onPressPaying(totalAmount); }}>환불요청</Button>
-            </View>
+            }
+            { progress == 'waiting for approving payment' &&
+              <View style={{ flexDirection: 'row', paddingHorizontal: 16 }}>
+                <View style={{ flex: 2 }}>
+                  <Button buttonStyle={{ borderRadius: 0 }} onPress={this.onPressApprovingPayment}>결제승인</Button>
+                </View>
+                <View style={{ width: 16 }} />
+                <View style={{ flex: 1 }}>
+                  <Button buttonStyle={{ borderRadius: 0 }} onPress={() => { this.onPressPaying(totalAmount); }}>환불요청</Button>
+                </View>
+              </View>
+            }
+            { progress == 'waiting for writing review' &&
+              <Button buttonStyle={{ borderRadius: 0 }} onPress={() => { this.onPressPaying(totalAmount); }}>별점 | 리뷰</Button>
+            }
           </View>
         }
-        { progress == 'waiting for writing review' &&
-          <Button buttonStyle={{ borderRadius: 0 }} onPress={() => { this.onPressPaying(totalAmount); }}>별점 | 리뷰</Button>
+        { this.props.flowType == 'from menuForSsam' &&
+          <View>
+            { progress == 'paid' &&
+              <Button buttonStyle={{ borderRadius: 0 }} onPress={() => { this.onPressPaying(totalAmount); }}>환불</Button>
+            }
+            { progress == 'waiting for approving payment' &&
+              <Button buttonStyle={{ borderRadius: 0 }} onPress={() => { this.onPressPaying(totalAmount); }}>환불</Button>
+            }
+          </View>
         }
       </Layout>
     );

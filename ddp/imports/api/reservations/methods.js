@@ -33,10 +33,12 @@ Meteor.methods({
 
     const reservation = Reservations.findOne(selector);
 
-    if (reservation.ssamId != this.userId) {
-      return;
+    if (reservation.user.userId != this.userId && reservation.ssamId != this.userId) {
+      return 'fail';
     }
 
     Reservations.update(selector, modifier);
+
+    return 'success';
   }
 });

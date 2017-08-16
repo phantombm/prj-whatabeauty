@@ -74,7 +74,7 @@ export default class Reserving extends Component {
     }
 
     if (/\n/.test(memo)) {
-      memo = memo.replace(/\n/g, '/');
+      memo = memo.replace(/\n/g, ' / ');
     }
 
     if (memo.length > 20) {

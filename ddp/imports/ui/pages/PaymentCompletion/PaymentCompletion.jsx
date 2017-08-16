@@ -53,12 +53,7 @@ export default class PaymentCompletion extends Component {
     }
 
     return (
-      <div>
-        { this.state.status == 'success' ?
-          '결제가 완료되었습니다. 창을 닫아주세요.' :
-          '결제에 실패했습니다. 창을 닫아주세요.'
-        }
-      </div>
+      <div>{ this.state.status == 'success' ? '결제가 완료되었습니다. 창을 닫아주세요.' : '결제에 실패했습니다. 창을 닫아주세요.' }</div>
     );
   }
 }

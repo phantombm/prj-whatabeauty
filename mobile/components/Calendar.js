@@ -14,10 +14,6 @@ LocaleConfig.locales['kr'] = {
 LocaleConfig.defaultLocale = 'kr';
 
 export default class _Calendar extends Component {
-  onDayPress = (day) => {
-
-  };
-
   renderArrow = (direction) => {
     if (direction == 'left') {
       return <SimpleLineIcons name="arrow-left" size={28} color={global.keyColor} />
@@ -48,6 +44,7 @@ export default class _Calendar extends Component {
             textMonthFontSize: 18,
             textDayHeaderFontSize: 14
           }}
+          hideExtraDays
         />
         <View style={{ width: 50, height: 1, backgroundColor: global.keyColor, position: 'absolute', top: 45, left: '50%', transform: [{ translateX: -25 }] }} />
       </View>

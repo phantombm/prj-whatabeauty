@@ -57,7 +57,9 @@ class Services extends Component {
       );
     }
 
-    const services  = _.sortBy(this.props.services, ['order']);
+    const services  = _.sortBy(this.props.services, [
+      'order'
+    ]);
 
     return (
       <Layout title={this.props.serviceType.name} isKeyboardDismissedOnTouched={false}>

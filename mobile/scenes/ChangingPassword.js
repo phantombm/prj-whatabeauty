@@ -6,7 +6,6 @@ import { Accounts } from 'react-native-meteor';
 import Button from '../components/Button';
 import Layout from '../layouts/Layout';
 import Input from '../components/Input';
-import MagnetView from '../components/MagnetView';
 
 export default class ChangingPassword extends Component {
   state = {

@@ -10,8 +10,8 @@ class SignInWithExternalService extends Component {
     match: PropTypes.object.isRequired
   };
 
-  componentDidUpdate() {
-    if (!this.props.isLoginServicesConfigured) {
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.isLoginServicesConfigured) {
       return;
     }
 

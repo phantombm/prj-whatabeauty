@@ -70,7 +70,7 @@ class DrawerContent extends Component {
           <View style={{ height: 50 }}>
             <Touchable onPress={this.onPressSharing}>
               <View style={{ flex: 1, justifyContent: 'center', paddingLeft: 30 }}>
-                <Text style={{ color: '#ffffff', fontSize: 18 }}>어플 공유하기</Text>
+                <Text style={{ color: '#ffffff', fontSize: 18 }}>앱 공유하기</Text>
               </View>
             </Touchable>
           </View>
